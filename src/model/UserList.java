@@ -9,17 +9,15 @@ import javax.swing.table.AbstractTableModel;
 
 public class UserList extends AbstractTableModel {
 
-	private Connection db;
 	private PreparedStatement countStmt;
 	private PreparedStatement selectStmt;
 
 	public UserList(Connection db) {
-		this.db = db;
-
 		try {
 			countStmt = db.prepareStatement("SELECT COUNT(*) FROM user");
 			selectStmt = db
-					.prepareStatement("SELECT * FROM \"user\" LIMIT 1 OFFSET ?");
+					.prepareStatement("SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city "
+							+ "FROM \"user\" u LEFT JOIN city c ON u.postal_code=c.postal_code  LIMIT 1 OFFSET ?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +38,7 @@ public class UserList extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 7;
+		return 8;
 	}
 
 	@Override
@@ -74,6 +72,8 @@ public class UserList extends AbstractTableModel {
 			return "Hausnummer";
 		case 6:
 			return "PLZ";
+		case 7:
+			return "Stadt";
 		default:
 			return "";
 		}
