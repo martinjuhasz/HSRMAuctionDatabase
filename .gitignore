@@ -4,6 +4,9 @@
 #netbeans ignore personal stuff 
 nbproject/
 
+# eclipse
+.settings/
+
 ## generic files to ignore
 *~
 *.lock
