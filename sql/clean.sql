@@ -7,3 +7,7 @@ DROP TABLE "bank_account";
 DROP TABLE "admin";
 DROP TABLE "user";
 DROP TABLE "city";
+
+DROP DOMAIN "EMAIL";
+DROP DOMAIN "BLZ";
+DROP DOMAIN "KTNR";

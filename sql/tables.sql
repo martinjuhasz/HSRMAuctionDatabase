@@ -1,3 +1,16 @@
+-------------------------------------------------------------------------------------
+--	DOMAINS
+-------------------------------------------------------------------------------------
+
+CREATE DOMAIN "EMAIL" AS VARCHAR CHECK (VALUE ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+CREATE DOMAIN "BLZ" AS VARCHAR CHECK (VALUE ~* '^[1-8][0-9]{7}$');
+CREATE DOMAIN "KTNR" AS VARCHAR CHECK (VALUE ~* '^[0-9]{5,11}$');
+
+
+
+-------------------------------------------------------------------------------------
+--	TABLES
+-------------------------------------------------------------------------------------
 
 CREATE TABLE "city" (
 	postal_code	VARCHAR(40)		PRIMARY KEY,
@@ -8,15 +21,15 @@ CREATE TABLE "user" (
 	username 		VARCHAR(100) 	PRIMARY KEY,
 	first_name		VARCHAR(255)	NOT NULL,
 	last_name		VARCHAR(255)	NOT NULL,
-	email			VARCHAR(255)	NOT NULL, -- email validation
+	email			"EMAIL"			NOT NULL,
 	street			VARCHAR(255)	NOT NULL,
 	street_number	VARCHAR(255)	NOT NULL,
 	postal_code		VARCHAR(40)		REFERENCES "city"(postal_code) NOT NULL
 );
 
-CREATE TABLE "bank_ccount" (
-	bank_number		VARCHAR(20),	-- validation?
-	account_number	VARCHAR(20),	-- validation?
+CREATE TABLE "bank_account" (
+	bank_number		"BLZ"			NOT NULL,
+	account_number	"KTNR"			NOT NULL,
 	account_holder	VARCHAR(255)	NOT NULL,
 	username		VARCHAR(100)	REFERENCES "user"(username) NOT NULL,
 	PRIMARY KEY (bank_number, account_number)
