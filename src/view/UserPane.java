@@ -13,17 +13,22 @@ public class UserPane extends JPanel {
 	
 	private ModelManager modelManager;
 	private JTable userTable;
+	private JPanel userInputPane;
 
 	public UserPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
 		
-		setLayout(new MigLayout("fillx"));
+		setLayout(new MigLayout("fill", "", "[top]"));
+		
 		
 		userTable = new JTable();
 		userTable.setModel(modelManager.getUserList());
 		userTable.setAutoCreateRowSorter(true);
+		add(new JScrollPane(userTable), "grow, pushx");
 		
-		add(new JScrollPane(userTable));
+		userInputPane = new UserInputPane();
+		add(userInputPane, "");
+		
 	}
 
 }

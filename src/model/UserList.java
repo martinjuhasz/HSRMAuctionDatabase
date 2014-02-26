@@ -9,23 +9,26 @@ import javax.swing.table.AbstractTableModel;
 
 public class UserList extends AbstractTableModel {
 
-	private PreparedStatement countStmt;
-	private PreparedStatement selectStmt;
+	private Connection db;
+	
+	private int rowCount;
+	private ResultSet userSet;
+	
 
 	public UserList(Connection db) {
-		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM user");
-			selectStmt = db
-					.prepareStatement("SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city "
-							+ "FROM \"user\" u LEFT JOIN city c ON u.postal_code=c.postal_code  LIMIT 1 OFFSET ?");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.db = db;
+		
+		loadData();
 	}
-
-	@Override
-	public int getRowCount() {
+	
+	private void loadData() {
+		rowCount = queryRowCount();
+		userSet = queryUsers();
+	}
+	
+	private int queryRowCount() {
 		try {
+			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"user\"");
 			ResultSet res = countStmt.executeQuery();
 			if (res.next()) {
 				return res.getInt(1);
@@ -34,6 +37,21 @@ public class UserList extends AbstractTableModel {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	private ResultSet queryUsers() {
+		try {
+			PreparedStatement selectStmt = db.prepareStatement("SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city FROM \"user\" u LEFT JOIN city c ON u.postal_code=c.postal_code",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			return selectStmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int getRowCount() {
+		return rowCount;
 	}
 
 	@Override
@@ -44,10 +62,8 @@ public class UserList extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		try {
-			selectStmt.setInt(1, rowIndex);
-			ResultSet res = selectStmt.executeQuery();
-			if (res.next()) {
-				return res.getObject(columnIndex + 1);
+			if(userSet.absolute(rowIndex+1)) {
+				return userSet.getObject(columnIndex + 1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,5 +94,6 @@ public class UserList extends AbstractTableModel {
 			return "";
 		}
 	}
+	
 
 }
