@@ -8,8 +8,9 @@ import javax.swing.JTable;
 
 import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
+import model.ModelManagerListener;
 
-public class UserPane extends JPanel {
+public class UserPane extends JPanel implements ModelManagerListener {
 	
 	private ModelManager modelManager;
 	private JTable userTable;
@@ -17,6 +18,7 @@ public class UserPane extends JPanel {
 
 	public UserPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
+		this.modelManager.addModelManagerListener(this);
 		
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
@@ -26,9 +28,19 @@ public class UserPane extends JPanel {
 		userTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(userTable), "grow, pushx");
 		
-		userInputPane = new UserInputPane();
+		userInputPane = new UserInputPane(modelManager);
 		add(userInputPane, "");
 		
 	}
 
+	@Override
+	public void didUpdate(ModelManager manager) {
+		
+	}
+
+	@Override
+	public void didUpdateUser(ModelManager manager) {
+		userTable.setModel(modelManager.getUserList());
+	}
+	
 }

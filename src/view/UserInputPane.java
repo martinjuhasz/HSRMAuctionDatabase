@@ -1,13 +1,24 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import model.ModelManager;
+import model.ModelManagerException;
+import model.User;
 import net.miginfocom.swing.MigLayout;
 
-public class UserInputPane extends JPanel {
+public class UserInputPane extends JPanel implements ActionListener {
+	
+	private ModelManager modelManager;
 	
 	private JTextField userNameField;
 	private JTextField firstNameField;
@@ -17,8 +28,11 @@ public class UserInputPane extends JPanel {
 	private JTextField streetNumberField;
 	private JTextField postalField;
 	private JTextField cityField;
+	private JButton submitButton;
 	
-	public UserInputPane() {
+	public UserInputPane(ModelManager modelManager) {
+		
+		this.modelManager = modelManager;
 		
 		this.setLayout(new MigLayout("", "[][150!]",""));
 		
@@ -70,9 +84,22 @@ public class UserInputPane extends JPanel {
 		cityField = new JTextField();
 		add(cityField, "growx, wrap");
 		
-		JButton submitButton = new JButton("Benutzer hinzufügen");
+		submitButton = new JButton("Benutzer hinzufügen");
+		submitButton.addActionListener(this);
 		add(submitButton, "growx, span, wrap");
-		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == submitButton) {
+			User user = new User(userNameField.getText(), firstNameField.getText(), surNameField.getText(), emailField.getText(), streetField.getText(), streetNumberField.getText(), postalField.getText(), cityField.getText());
+			try {
+				modelManager.insertObject(user);
+			} catch (Exception e1) {
+				JFrame frame = (JFrame)SwingUtilities.getRoot(this);
+				JOptionPane.showMessageDialog(frame, e1);
+			}
+		}
 	}
 	
 }
