@@ -17,6 +17,7 @@ public class ModelManager {
     private static final String DATABASE_USER = "";
     
     private UserList userList;
+    private AuctionList auctionList;
 
     static { 
     	try {
@@ -72,6 +73,12 @@ public class ModelManager {
 		return userList;
 	}
 	
+	public AuctionList getAuctionList() {
+		if(auctionList == null) {
+			auctionList = new AuctionList(connection);
+		}
+		return auctionList;
+	}
 	
 
 	public void insertObject(Object object) throws Exception {

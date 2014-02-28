@@ -1,28 +1,44 @@
 package view;
 
-import java.awt.LayoutManager;
-
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-public class AuctionPane extends JPanel {
+import model.AuctionList;
+import model.ModelManager;
+import model.ModelManagerListener;
+import net.miginfocom.swing.MigLayout;
 
-	public AuctionPane() {
-		// TODO Auto-generated constructor stub
+public class AuctionPane extends JPanel implements ModelManagerListener {
+
+	private ModelManager modelManager;
+	private JTable auctionTable;
+	
+	
+	public AuctionPane(ModelManager manager) {
+		this.modelManager = manager;
+		setLayout(new MigLayout("fill", "", "[top]"));
+		
+		auctionTable = new JTable();
+		auctionTable.setModel(modelManager.getAuctionList());
+		auctionTable.setAutoCreateRowSorter(true);
+		add(new JScrollPane(auctionTable), "grow, pushx");
 	}
 
-	public AuctionPane(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
+
+	@Override
+	public void didUpdate(ModelManager manager) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public AuctionPane(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+
+	@Override
+	public void didUpdateUser(ModelManager manager) {
+		auctionTable.setModel(modelManager.getAuctionList());
+		
 	}
 
-	public AuctionPane(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
+
 
 }
