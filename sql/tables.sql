@@ -77,7 +77,7 @@ CREATE TABLE "bid" (
 	auction 	INT4			REFERENCES "auction"(id),
 	-- nr?
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	price 		INT 			NOT NULL	CHECK(price > (SELECT MAX(price) FROM  "bid")),
+	price 		INT 			NOT NULL, -- nur bid erstellen wenn price > maximal price der auction ist
 	PRIMARY KEY(username, auction, time)
 );
 
