@@ -39,3 +39,46 @@ INSERT INTO "user" VALUES ('blistersharp', 'Devin','Gay','dapibus.id@Nullamvitae
 INSERT INTO "user" VALUES ('bottledparrott', 'Ora','Myers','Nullam.feugiat.placerat@dictumeu.org', 'North Pegamoid Court', '87', '45127');
 INSERT INTO "user" VALUES ('arrayridge', 'Amery','Grimes','placerat.augue.Sed@faucibusidlibero.co.uk', 'Hoga Pike', '62', '80331');
 INSERT INTO "user" VALUES ('dadadvisor', 'Brittany','Dyer','iaculis.odio.Nam@nonummy.com', 'North Montevina View', '13', '60308');
+INSERT INTO "user" VALUES ('choise', 'Martin','Juhasz','info@martinjuhasz.de', 'Aarstraße', '56', '65195');
+INSERT INTO "user" VALUES ('Cookie', 'Julia','Kraft','julia.kraft88@gmail.com', 'Aarstraße', '56', '65195');
+INSERT INTO "user" VALUES ('Eldorado', 'Simon','Seyer','simon.seyer@gmail.com', 'Platter Straße', '57', '65195');
+
+
+INSERT INTO "bank_account" VALUES('20690500', '2475224', 'Sade Ware', 'batonball');
+INSERT INTO "bank_account" VALUES('38000000', '67856278', 'Colette Small', 'ovarycrimson');
+INSERT INTO "bank_account" VALUES('38010111', '67864', 'Ulric Brock', 'junglewoodbow');
+INSERT INTO "bank_account" VALUES('59393000', '7613594', 'Lana Bradford', 'oinkquean');
+INSERT INTO "bank_account" VALUES('71160000', '1275934', 'Ivy Patrick', 'kingdommess');
+INSERT INTO "bank_account" VALUES('50400000', '10249305', 'Fritz Howell', 'italianboard');
+INSERT INTO "bank_account" VALUES('80500000', '18460', 'Aristotle Pennington', 'remarkableengineer');
+INSERT INTO "bank_account" VALUES('71191000', '115499', 'Isabella Fletcher', 'facehandball');
+INSERT INTO "bank_account" VALUES('42870077', '100458', 'Alexis Randolph', 'feedpox');
+INSERT INTO "bank_account" VALUES('87070024', '70004829', 'Lesley Little', 'siegecooking');
+INSERT INTO "bank_account" VALUES('65110200', '5124398', 'Yuri Russell', 'maxwelltense');
+INSERT INTO "bank_account" VALUES('80550200', '114576', 'Macey Davenport', 'gingerclocks');
+INSERT INTO "bank_account" VALUES('50400000', '7779350', 'Basia Shelton', 'sneerignorant');
+INSERT INTO "bank_account" VALUES('59320087', '4141563', 'Quin Brewer', 'bumpypacked');
+INSERT INTO "bank_account" VALUES('87070024', '647258', 'Joel Gordon', 'cornsnow');
+INSERT INTO "bank_account" VALUES('42861608', '10057', 'Lucy Walters', 'slappergum');
+INSERT INTO "bank_account" VALUES('60200000', '5666150', 'Kaye Schwartz', 'plasticbulb');
+INSERT INTO "bank_account" VALUES('84094814', '4777592', 'Martin Marquez', 'framenibbles');
+INSERT INTO "bank_account" VALUES('54691200', '215364', 'Kelsie Vincent', 'lotssatisfied');
+INSERT INTO "bank_account" VALUES('65190110', '854471', 'Kelly Ferrell', 'bananaplum');
+INSERT INTO "bank_account" VALUES('38051290', '366540', 'Devin Gay', 'blistersharp');
+INSERT INTO "bank_account" VALUES('60270073', '335258', 'Ora Myers', 'bottledparrott');
+INSERT INTO "bank_account" VALUES('84080000', '5578124', 'Amery Grimes', 'arrayridge');
+INSERT INTO "bank_account" VALUES('54661800', '4457269', 'Brittany Dyer', 'dadadvisor');
+INSERT INTO "bank_account" VALUES('71162355', '110245', 'Kelly Ferrell', 'bananaplum');
+INSERT INTO "bank_account" VALUES('60270073', '4472405', 'Isabella Fletcher', 'facehandball');
+
+
+INSERT INTO "admin" VALUES('Choise');
+INSERT INTO "admin" VALUES('Cookie');
+INSERT INTO "admin" VALUES('Eldorado');
+
+
+
+
+
+
+
