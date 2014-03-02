@@ -72,7 +72,7 @@ INSERT INTO "bank_account" VALUES('71162355', '110245', 'Kelly Ferrell', 'banana
 INSERT INTO "bank_account" VALUES('60270073', '4472405', 'Isabella Fletcher', 'facehandball');
 
 
-INSERT INTO "admin" VALUES('Choise');
+INSERT INTO "admin" VALUES('choise');
 INSERT INTO "admin" VALUES('Cookie');
 INSERT INTO "admin" VALUES('Eldorado');
 

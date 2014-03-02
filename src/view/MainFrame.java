@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
 		
 		tabPane.addTab("Benutzer", new UserPane(modelManager));
 		tabPane.addTab("Auktionen", new AuctionPane(modelManager));
-		tabPane.addTab("Berichte", new ReportPane());
+		tabPane.addTab("Berichte", new ReportPane(modelManager));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500,500);
