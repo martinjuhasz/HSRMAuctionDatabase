@@ -76,8 +76,12 @@ INSERT INTO "admin" VALUES('choise');
 INSERT INTO "admin" VALUES('Cookie');
 INSERT INTO "admin" VALUES('Eldorado');
 
+INSERT INTO "category" VALUES(1, 'Bücher');
+INSERT INTO "category" VALUES(2, 'Spielzeug');
 
+INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 1, null, 2, 'blistersharp', 'bananaplum', null, '2013-12-08 12:13:00.00', null, null);
 
+INSERT INTO "bid" VALUES('remarkableengineer', 1, '2013-12-03 12:13:00.00', 105);
 
 
 

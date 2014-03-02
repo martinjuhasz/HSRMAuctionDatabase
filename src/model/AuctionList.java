@@ -39,7 +39,7 @@ public class AuctionList extends AbstractTableModel {
 	
 	private ResultSet queryAuctions() {
 		try {
-			PreparedStatement selectStmt = db.prepareStatement("SELECT a.title, a.category, a.end_time FROM \"auction\" a",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement selectStmt = db.prepareStatement("SELECT a.title, a.category, a.end_time, price FROM \"auction\" a, (SELECT MAX(b.price) FROM \"bid\" b, \"auction\" a  WHERE a.id = b.auction) AS price",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			return selectStmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

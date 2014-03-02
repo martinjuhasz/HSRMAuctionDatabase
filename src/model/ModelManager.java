@@ -13,9 +13,9 @@ public class ModelManager {
     private Connection connection;
     private List<ModelManagerListener> modelManagerListeners;
     
-    private static final String DATABASE_PATH = "db.intern.mi.hs-rm.de:5432/mjuha001_auction";
-    private static final String DATABASE_USER = "mjuha001";
-    private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
+    private static final String DATABASE_PATH = "127.0.0.1:5432/auction";
+    private static final String DATABASE_USER = "postgres";
+    private static final String DATABASE_PASSWORD = "0000";
     
     private UserList userList;
     private AuctionList auctionList;
