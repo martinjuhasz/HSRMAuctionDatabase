@@ -13,8 +13,9 @@ public class ModelManager {
     private Connection connection;
     private List<ModelManagerListener> modelManagerListeners;
     
-    private static final String DATABASE_PATH = "localhost:5432/auction";
-    private static final String DATABASE_USER = "";
+    private static final String DATABASE_PATH = "db.intern.mi.hs-rm.de:5432/mjuha001_auction";
+    private static final String DATABASE_USER = "mjuha001";
+    private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
     
     private UserList userList;
     private AuctionList auctionList;
@@ -45,7 +46,7 @@ public class ModelManager {
     private void initDBConnection() { 
         try {
             String url = "jdbc:postgresql://" + DATABASE_PATH;
-            connection = DriverManager.getConnection(url);
+            connection = DriverManager.getConnection(url, DATABASE_USER, DATABASE_PASSWORD);
         } catch (SQLException e) {
             System.out.println("Couldn't connect - aborting");
             System.exit(-1);
