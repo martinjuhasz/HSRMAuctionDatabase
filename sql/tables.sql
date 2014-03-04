@@ -45,51 +45,75 @@ CREATE TABLE "search_term" (
 );
 
 CREATE TABLE "category" (
-	id 		SERIAL 			PRIMARY KEY,
-	name 	VARCHAR(100)	NOT NULL -- name vielleicht auch unique oder direkt als primary key?
+	name 	VARCHAR(100)	PRIMARY KEY
 );
+
+
+-- wenn directbuy, endtime auf bidtime setzen
+-- 2 views: auction und direktauction
 
 CREATE TABLE "auction" (
 	id					SERIAL 			PRIMARY KEY,
-	start_time			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL, -- modifizieren verhindern?
+	start_time			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	end_time			TIMESTAMP 		NOT NULL, -- automatisch setzen? vllcht immer 7 tage?
 	title				VARCHAR(255)	NOT NULL,
 	description			TEXT			NOT NULL,
 	image 				BYTEA,
-	min_price			INT, -- hier muss geprpueft werden ob min price oder direct buy price
-	direct_buy_price	INT, -- hier ebenso nur eins von beiden	
-	category			INT4			REFERENCES "category"(id) NOT NULL,
-	rater				VARCHAR(100) 	REFERENCES "user"(username), -- darf erst nach beenden der auktion gesetzt werden und nur vom buyer
+	category			VARCHAR(100)	REFERENCES "category"(name) NOT NULL,
 	offerer				VARCHAR(100) 	REFERENCES "user"(username) NOT NULL,
-	buyer				VARCHAR(100) 	REFERENCES "user"(username), -- darf erst am ende der auktion gesetzt werden und wenn direct buy
-
-	-- vielleicht sollte man buyer gar nicht benutzen, sondern regeln einführen:
-	-- wenn direct buy price dann ist buyer der mit der einzigen bid
-	-- dann darf natürlich auch nur eine bid gesetzt werden
-	-- und wenn nicht, dann ist buyer der der nach beeenden die höschste bid hat
-	buy_time			TIMESTAMP 		NOT NULL, -- ist das für direct buy?
-	rating				INT 			CHECK (rating BETWEEN 0 AND 5), -- auch erst nach beeden der auktion nur vom buyer
-	rating_text			TEXT -- auch wieder erst nach beeden und nur vom buyer
+	price 				INT 			NOT NULL,
+	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
 );
 
+-- rating nur setzen wenn auction vorbei und rater == buyer
+CREATE TABLE "rating" (
+	rater			VARCHAR(100) 	REFERENCES "user"(username),
+	auction			INT4			PRIMARY KEY REFERENCES "auction"(id),
+	score			INT 			CHECK (score BETWEEN 0 AND 5),
+	comment			TEXT
+);
+
+-- bid prüfen ob endtime schon abgelaufen
+-- bid nur wenn nicht schon höchstbietender
 CREATE TABLE "bid" (
 	username	VARCHAR(100)	REFERENCES "user"(username),
 	auction 	INT4			REFERENCES "auction"(id),
-	-- nr?
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	price 		INT 			NOT NULL, -- nur bid erstellen wenn price > maximal price der auction ist
+	price 		INT, -- nur bid erstellen wenn price > maximal price der auction ist
 	PRIMARY KEY(username, auction, time)
 );
 
 CREATE TABLE "comment" (
 	username	VARCHAR(100)	REFERENCES "user"(username),
 	auction 	INT4			REFERENCES "auction"(id),
-	-- nr? comment geht immer oder? vllcht ne funktion dass nur comment wenn mind 1 bid?
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	content		TEXT 			NOT NULL,
 	PRIMARY KEY (username, auction, time) 		
 );
 
+
+-------------------------------------------------------------------------------------
+--	VIEWS AND RULES
+-------------------------------------------------------------------------------------
+
+CREATE VIEW "user_view" AS
+	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code;
+
+CREATE RULE "user_insert" AS ON INSERT TO "user_view" DO INSTEAD (
+       --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
+       INSERT INTO  "city" SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
+       INSERT INTO  "user" VALUES(NEW.username, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
+);
+
+
+-- max_bid sollte nicht höchster sein, sondern 2t höchster + 1
+CREATE VIEW "auction_view" (title, category, end_time, max_bid) AS
+	--SELECT a.title, a.category, a.end_time, bids.bid FROM "auction" a, (SELECT MAX(b.price) AS bid FROM "bid" b WHERE a.id = b.auction) AS bids
+	SELECT a.title, 
+			a.category, 
+			a.end_time, 
+			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid 
+		FROM "auction" a
 
 
 

@@ -88,30 +88,11 @@ public class ModelManager {
 		}
 	}
 	
+	// private void insertUser(String username, String firstname, String lastname, String email, String street, String houseNumber, String postalCode, String city)
 	private void insertUser(User user) throws Exception {
-		// fist check if a city already exists
-		PreparedStatement hasCityStmt = connection.prepareStatement("SELECT postal_code FROM \"city\" WHERE postal_code = ?");
-		hasCityStmt.setString(1, user.getPostalCode());
-		ResultSet hasCityResult = hasCityStmt.executeQuery();
-		
-		// insert city if it doesn't exist
-		if(!hasCityResult.isBeforeFirst()) {
-			PreparedStatement insertCityStmt = connection.prepareStatement("INSERT INTO \"city\" VALUES(?,?)");
-			insertCityStmt.setString(1, user.getPostalCode());
-			insertCityStmt.setString(2, user.getCity());
-			int cityWasInserted = insertCityStmt.executeUpdate();
-			if(cityWasInserted <= 0) {
-				throw new ModelManagerException("unable to insert city. bad arguments?");
-			}
-			
-			for (ModelManagerListener listener : modelManagerListeners) {
-				listener.didUpdate(this);
-			}
-			
-		}
 		
 		// insert user
-		PreparedStatement insertUserStmt = connection.prepareStatement("INSERT INTO \"user\" VALUES(?,?,?,?,?,?,?)");
+		PreparedStatement insertUserStmt = connection.prepareStatement("INSERT INTO \"user_view\" VALUES(?,?,?,?,?,?,?, ?)");
 		insertUserStmt.setString(1, user.getUsername());
 		insertUserStmt.setString(2, user.getFirstName());
 		insertUserStmt.setString(3, user.getSurName());
@@ -119,6 +100,7 @@ public class ModelManager {
 		insertUserStmt.setString(5, user.getStreet());
 		insertUserStmt.setString(6, user.getHouseNumber());
 		insertUserStmt.setString(7, user.getPostalCode());
+		insertUserStmt.setString(8, user.getCity());
 		
 		int userWasInserted = insertUserStmt.executeUpdate();
 		if(userWasInserted <= 0) {

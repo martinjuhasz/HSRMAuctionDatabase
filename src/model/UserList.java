@@ -28,7 +28,7 @@ public class UserList extends AbstractTableModel {
 	
 	private int queryRowCount() {
 		try {
-			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"user\"");
+			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"user_view\"");
 			ResultSet res = countStmt.executeQuery();
 			if (res.next()) {
 				return res.getInt(1);
@@ -41,7 +41,7 @@ public class UserList extends AbstractTableModel {
 	
 	private ResultSet queryUsers() {
 		try {
-			PreparedStatement selectStmt = db.prepareStatement("SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city FROM \"user\" u LEFT JOIN city c ON u.postal_code=c.postal_code",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement selectStmt = db.prepareStatement("SELECT * FROM \"user_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			return selectStmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();

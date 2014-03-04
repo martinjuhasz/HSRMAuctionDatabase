@@ -5,6 +5,8 @@ import java.awt.LayoutManager;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 
 import net.miginfocom.swing.MigLayout;
 import model.ModelManager;

@@ -26,7 +26,7 @@ public class AuctionList extends AbstractTableModel {
 	
 	private int queryRowCount() {
 		try {
-			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction\"");
+			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
 			ResultSet res = countStmt.executeQuery();
 			if (res.next()) {
 				return res.getInt(1);
@@ -39,7 +39,7 @@ public class AuctionList extends AbstractTableModel {
 	
 	private ResultSet queryAuctions() {
 		try {
-			PreparedStatement selectStmt = db.prepareStatement("SELECT a.title, a.category, a.end_time, price FROM \"auction\" a, (SELECT MAX(b.price) FROM \"bid\" b, \"auction\" a  WHERE a.id = b.auction) AS price",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			return selectStmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class AuctionList extends AbstractTableModel {
 		case 2:
 			return "Enddatum";
 		case 3:
-			return "Höchstgebot";
+			return "HÃ¶chstgebot / Kaufpreis";
 		default:
 			return "";
 		}

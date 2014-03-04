@@ -76,13 +76,14 @@ INSERT INTO "admin" VALUES('choise');
 INSERT INTO "admin" VALUES('Cookie');
 INSERT INTO "admin" VALUES('Eldorado');
 
-INSERT INTO "category" VALUES(1, 'Bücher');
-INSERT INTO "category" VALUES(2, 'Spielzeug');
+INSERT INTO "category" VALUES('Bücher');
+INSERT INTO "category" VALUES('Spielzeug');
 
-INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 1, null, 2, 'blistersharp', 'bananaplum', null, '2013-12-08 12:13:00.00', null, null);
+INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 'Spielzeug', 'blistersharp', 150, false);
+INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn1', 'neuwertige Legoeisenbahn1', null, 'Spielzeug', 'blistersharp', 150, false);
+INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 'Spielzeug', 'blistersharp', 3000, true);
 
-INSERT INTO "bid" VALUES('remarkableengineer', 1, '2013-12-03 12:13:00.00', 105);
-
-
-
+INSERT INTO "bid" VALUES('remarkableengineer', 1, '2013-12-03 12:13:00.00', 200);
+INSERT INTO "bid" VALUES('remarkableengineer', 3, '2013-12-03 12:13:00.00', 200);
+INSERT INTO "bid" VALUES('remarkableengineer', 3, '2013-12-03 12:15:00.00', 300);
 
