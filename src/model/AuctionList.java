@@ -7,71 +7,28 @@ import java.sql.SQLException;
 
 import javax.swing.table.AbstractTableModel;
 
-public class AuctionList extends AbstractTableModel {
-
-	private Connection db;
-	private int rowCount;
-	private ResultSet auctionSet;
+public class AuctionList extends DatabaseTableModel {
 	
 	public AuctionList(Connection db){
-		this.db = db;
+		super(db);
+		
+		try {
+			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		loadData();
 	}
 	
-	private void loadData() {
-		rowCount = queryRowCount();
-		auctionSet = queryAuctions();
-	}
-	
-	private int queryRowCount() {
-		try {
-			PreparedStatement countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
-			ResultSet res = countStmt.executeQuery();
-			if (res.next()) {
-				return res.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	private ResultSet queryAuctions() {
-		try {
-			PreparedStatement selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			return selectStmt.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return rowCount;
-	}
-
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
 		return 4;
 	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		try {
-			if(auctionSet.absolute(rowIndex+1)) {
-				return auctionSet.getObject(columnIndex + 1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
+	@Override
 	public String getColumnName(int column) {
 		switch (column) {
 		case 0:

@@ -80,7 +80,7 @@ INSERT INTO "category" VALUES('Bücher');
 INSERT INTO "category" VALUES('Spielzeug');
 
 INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 'Spielzeug', 'blistersharp', 150, false);
-INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn1', 'neuwertige Legoeisenbahn1', null, 'Spielzeug', 'blistersharp', 150, false);
+INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'neuwertige Legoeisenbahn1', null, 'Spielzeug', 'blistersharp', 150, false);
 INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 'Spielzeug', 'blistersharp', 3000, true);
 
 INSERT INTO "bid" VALUES('remarkableengineer', 1, '2013-12-03 12:13:00.00', 200);

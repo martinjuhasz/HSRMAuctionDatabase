@@ -19,6 +19,8 @@ public class ModelManager {
     
     private UserList userList;
     private AuctionList auctionList;
+    private CategoryList categoryForOpenAuctionsList;
+    private ActiveAuctionsList acticeAuctionsList;
 
     static { 
     	try {
@@ -79,6 +81,20 @@ public class ModelManager {
 			auctionList = new AuctionList(connection);
 		}
 		return auctionList;
+	}
+	public CategoryList getCategoryForOpenAuctionsList() {
+		if(categoryForOpenAuctionsList == null) {
+			categoryForOpenAuctionsList = new CategoryList(connection);
+		}
+		return categoryForOpenAuctionsList;
+	}
+	
+	public ActiveAuctionsList getActiveAuctionsList(String category) {
+		if(acticeAuctionsList == null) {
+			acticeAuctionsList = new ActiveAuctionsList(connection);
+		}
+		acticeAuctionsList.setCategory(category);
+		return acticeAuctionsList;
 	}
 	
 
