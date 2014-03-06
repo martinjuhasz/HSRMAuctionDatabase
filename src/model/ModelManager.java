@@ -1,9 +1,11 @@
 package model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,31 +107,32 @@ public class ModelManager {
 		}
 		return closedAuctionsList;
 	}
-	
 
-	public void insertObject(Object object) throws Exception {
-		if(object instanceof User) {
-			insertUser((User)object);
-		}
-	}
-	
-	// private void insertUser(String username, String firstname, String lastname, String email, String street, String houseNumber, String postalCode, String city)
-	private void insertUser(User user) throws Exception {
+	public void updateUser(String userName, String password, String firstName, String surName, String email, 
+			String street, String streetNumber, String postalCode, String city, boolean newUser) throws Exception {
 		
 		// insert user
-		PreparedStatement insertUserStmt = connection.prepareStatement("INSERT INTO \"user_view\" VALUES(?,?,?,?,?,?,?, ?)");
-		insertUserStmt.setString(1, user.getUsername());
-		insertUserStmt.setString(2, user.getFirstName());
-		insertUserStmt.setString(3, user.getSurName());
-		insertUserStmt.setString(4, user.getEmail());
-		insertUserStmt.setString(5, user.getStreet());
-		insertUserStmt.setString(6, user.getHouseNumber());
-		insertUserStmt.setString(7, user.getPostalCode());
-		insertUserStmt.setString(8, user.getCity());
+		PreparedStatement insertUserStmt;
+		if (newUser) {
+			insertUserStmt = connection.prepareStatement("INSERT INTO \"user_view\" VALUES(?,?,?,?,?,?,?,?,?)");
+		} else {
+			insertUserStmt = connection.prepareStatement("UPDATE \"user_view\" SET username=?,"
+					+ "first_name=?, last_name=?, email=?, street=?, street_number=?, postal_code=?, city=?, password=?");
+		}
+		
+		insertUserStmt.setString(1, userName);
+		insertUserStmt.setString(2, firstName);
+		insertUserStmt.setString(3, surName);
+		insertUserStmt.setString(4, email);
+		insertUserStmt.setString(5, street);
+		insertUserStmt.setString(6, streetNumber);
+		insertUserStmt.setString(7, postalCode);
+		insertUserStmt.setString(8, city);
+		insertUserStmt.setString(9, md5(password));
 		
 		int userWasInserted = insertUserStmt.executeUpdate();
 		if(userWasInserted <= 0) {
-			throw new ModelManagerException("unable to insert user. bad arguments?");
+			throw new ModelManagerException("unable to insert or update user. bad arguments?");
 		}
 		
 		userList = null;
@@ -139,6 +142,21 @@ public class ModelManager {
 			listener.didUpdateUser(this);
 		}
 		
+	}
+	
+	private String md5(String toHash) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] hash = md.digest(toHash.getBytes("UTF-8"));
+			StringBuilder sb = new StringBuilder(2*hash.length); 
+			for(byte b : hash){ 
+				sb.append(String.format("%02x", b&0xff)); 
+			}
+			return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+		} catch (UnsupportedEncodingException e) {
+		}
+		return "";
 	}
 	
 }

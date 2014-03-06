@@ -8,6 +8,15 @@ import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
 
 public class UserList extends DatabaseTableModel {
+	
+	public static final int COLUMN_USER_NAME = 0;
+	public static final int COLUMN_FIRST_NAME = 1;
+	public static final int COLUMN_SUR_NAME = 2;
+	public static final int COLUMN_EMAIL = 3;
+	public static final int COLUMN_STREET = 4;
+	public static final int COLUMN_STREET_NUMBER = 5;
+	public static final int COLUMN_POSTAL_CODE = 6;
+	public static final int COLUMN_CITY = 7;
 
 	public UserList(Connection db) {
 		super(db);
