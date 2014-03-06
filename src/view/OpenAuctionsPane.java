@@ -54,7 +54,8 @@ public class OpenAuctionsPane extends JPanel implements ModelManagerListener, Li
 		
 		// only fire on mouse released
 		if(e.getValueIsAdjusting()) return;
-			String category = (String)categoryTable.getValueAt(categoryTable.getSelectedRow(), 0);
-			currentAuctionTable.setModel(modelManager.getActiveAuctionsList(category));
+		
+		String category = (String)categoryTable.getValueAt(categoryTable.getSelectedRow(), 0);
+		currentAuctionTable.setModel(modelManager.getActiveAuctionsList(category));
 	}
 }

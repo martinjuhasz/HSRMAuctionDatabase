@@ -120,13 +120,13 @@ CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
 );
 
 -- max_bid sollte nicht höchster sein, sondern 2t höchster + 1
-CREATE VIEW "auction_view" (title, category, end_time, max_bid) AS
+CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 	--SELECT a.title, a.category, a.end_time, bids.bid FROM "auction" a, (SELECT MAX(b.price) AS bid FROM "bid" b WHERE a.id = b.auction) AS bids
 	SELECT	a.title, 
-			a.category, 
 			a.end_time, 
-			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid 
-	FROM "auction" a
+			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid,
+			a.category
+	FROM "auction" a;
 
 
 CREATE VIEW "closed_auctions_view" AS

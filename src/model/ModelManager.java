@@ -16,12 +16,7 @@ public class ModelManager {
     private static final String DATABASE_PATH = "db.intern.mi.hs-rm.de:5432/mjuha001_auction";
     private static final String DATABASE_USER = "mjuha001";
     private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
-    
-    private UserList userList;
-    private AuctionList auctionList;
-    private CategoryList categoriesList;
-    private ActiveAuctionsList acticeAuctionsList;
-
+   
     static { 
     	try {
             Class.forName("org.postgresql.Driver");
@@ -70,29 +65,20 @@ public class ModelManager {
     } 
 
 	public UserList getUserList() {
-		if(userList == null) {
-			userList = new UserList(connection);
-		}
-		return userList;
+		return new UserList(connection);
 	}
 	
-	public AuctionList getAuctionList() {
-		if(auctionList == null) {
-			auctionList = new AuctionList(connection);
-		}
+	public AuctionList getAuctionList(String category) {
+		AuctionList auctionList = new AuctionList(connection);
+		auctionList.setCategory(category);
 		return auctionList;
 	}
 	public CategoryList getCategoriesList() {
-		if(categoriesList == null) {
-			categoriesList = new CategoryList(connection);
-		}
-		return categoriesList;
+		return new CategoryList(connection);
 	}
 	
 	public ActiveAuctionsList getActiveAuctionsList(String category) {
-		if(acticeAuctionsList == null) {
-			acticeAuctionsList = new ActiveAuctionsList(connection);
-		}
+		ActiveAuctionsList acticeAuctionsList = new ActiveAuctionsList(connection);
 		acticeAuctionsList.setCategory(category);
 		return acticeAuctionsList;
 	}
@@ -122,8 +108,6 @@ public class ModelManager {
 		if(userWasInserted <= 0) {
 			throw new ModelManagerException("unable to insert user. bad arguments?");
 		}
-		
-		userList = null;
 		
 		for (ModelManagerListener listener : modelManagerListeners) {
 			listener.didUpdate(this);

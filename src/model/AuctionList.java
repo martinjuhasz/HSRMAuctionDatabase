@@ -11,21 +11,23 @@ public class AuctionList extends DatabaseTableModel {
 	
 	public AuctionList(Connection db){
 		super(db);
-		
+	}
+	
+	public void setCategory(String category) {
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
-			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\" WHERE category=?");
+			countStmt.setString(1, category);
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt.setString(1, category);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		loadData();
 	}
 	
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 4;
+		return 3;
 	}
 	
 	@Override
@@ -34,10 +36,8 @@ public class AuctionList extends DatabaseTableModel {
 		case 0:
 			return "Titel";
 		case 1:
-			return "Kategorie";
-		case 2:
 			return "Enddatum";
-		case 3:
+		case 2:
 			return "Höchstgebot / Kaufpreis";
 		default:
 			return "";
