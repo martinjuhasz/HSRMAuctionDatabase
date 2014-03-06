@@ -1,20 +1,16 @@
 package view;
 
-import java.awt.LayoutManager;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
 
-import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
 import model.ModelManagerAdapter;
-import model.ModelManagerListener;
 import model.UserList;
+import net.miginfocom.swing.MigLayout;
 
 public class UserPane extends JPanel {
 	
@@ -37,6 +33,7 @@ public class UserPane extends JPanel {
 		userTable = new JTable();
 		userTable.setModel(modelManager.getUserList());
 		userTable.setAutoCreateRowSorter(true);
+		userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		userTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override

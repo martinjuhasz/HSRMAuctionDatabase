@@ -3,12 +3,12 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
-import model.ModelManagerListener;
+import net.miginfocom.swing.MigLayout;
 
 public class OpenAuctionsPane extends JPanel implements ListSelectionListener {
 	
@@ -27,11 +27,13 @@ public class OpenAuctionsPane extends JPanel implements ListSelectionListener {
 		categoryTable.setModel(modelManager.getCategoriesList());
 		categoryTable.getSelectionModel().addListSelectionListener(this);
 		categoryTable.setAutoCreateRowSorter(true);
-		add(new JScrollPane(categoryTable), "grow");
+		categoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(categoryTable), "growy, w 150!");
 		
 		currentAuctionTable = new JTable();
 		currentAuctionTable.setAutoCreateRowSorter(true);
-		add(new JScrollPane(currentAuctionTable), "grow");
+		currentAuctionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(currentAuctionTable), "grow, pushx");
 
 	}
 

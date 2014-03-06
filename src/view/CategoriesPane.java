@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -18,8 +19,6 @@ import javax.swing.event.ListSelectionListener;
 import model.CategoryList;
 import model.ModelManager;
 import model.ModelManagerAdapter;
-import model.ModelManagerListener;
-import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoriesPane extends JPanel implements ActionListener, ListSelectionListener {
@@ -48,6 +47,7 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		categoriesTable.setModel(modelManager.getCategoriesList());
 		categoriesTable.setAutoCreateRowSorter(true);
 		categoriesTable.getSelectionModel().addListSelectionListener(this);
+		categoriesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(categoriesTable), "grow, pushx");
 		
 		JPanel inputPanel = new JPanel(new MigLayout("", "[][150!]",""));
