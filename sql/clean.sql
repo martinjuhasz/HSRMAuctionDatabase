@@ -3,6 +3,7 @@ DROP RULE "user_update" ON "user_view";
 DROP RULE "user_delete" ON "user_view";
 DROP VIEW "user_view";
 DROP VIEW "auction_view";
+DROP VIEW "closed_auctions_view";
 
 DROP TABLE "bid";
 DROP TABLE "comment";

@@ -126,7 +126,7 @@ CREATE VIEW "auction_view" (title, category, end_time, max_bid) AS
 			a.category, 
 			a.end_time, 
 			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid 
-	FROM "auction" a
+	FROM "auction" a;
 
 
 CREATE VIEW "closed_auctions_view" AS
