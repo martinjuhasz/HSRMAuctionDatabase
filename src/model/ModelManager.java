@@ -16,6 +16,7 @@ public class ModelManager {
     private static final String DATABASE_PATH = "db.intern.mi.hs-rm.de:5432/mjuha001_auction";
     private static final String DATABASE_USER = "mjuha001";
     private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
+
     
     private UserList userList;
     private AuctionList auctionList;
