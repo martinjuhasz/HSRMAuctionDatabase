@@ -1,5 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -13,7 +17,7 @@ public class MainFrame extends JFrame {
 	private ModelManager modelManager;
 	private LoginStatusPane loginStatusPane;
 	private JTabbedPane tabPane;
-	
+	private List<Tab> tabs;
 
 	public MainFrame(final ModelManager modelManager) {
 		this.modelManager = modelManager;
@@ -26,6 +30,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void userDidLogin(ModelManager manager) {
+				updateTabs();
 				tabPane.setVisible(true);
 			}
 		});
@@ -39,15 +44,31 @@ public class MainFrame extends JFrame {
 		tabPane.setVisible(false);
 		add(tabPane);
 		
-		tabPane.addTab("Benutzer", new UserPane(modelManager));
-		tabPane.addTab("Kategorien", new CategoriesPane(modelManager));
-		tabPane.addTab("Auktionen", new AuctionPane(modelManager));
-		tabPane.addTab("Berichte", new ReportPane(modelManager));
-		
+		tabs = new ArrayList<>();
+		tabs.add(new Tab("Benutzer", new UserPane(modelManager), true));
+		tabs.add(new Tab("Kategorien", new CategoriesPane(modelManager), true));
+		tabs.add(new Tab("Auktionen", new AuctionPane(modelManager), false));
+		tabs.add(new Tab("Berichte", new ReportPane(modelManager), true));
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500,500);
 		
 		showLogin();
+	}
+	
+	private void updateTabs() {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				tabPane.removeAll();
+				for(Tab tab : tabs) {
+					if (!tab.isRequireAdmin() || modelManager.isAdmin()) {
+						tabPane.addTab(tab.getTitle(), tab.getPanel());
+					}
+				}
+			}
+		});
 	}
 	
 	private void showLogin() {

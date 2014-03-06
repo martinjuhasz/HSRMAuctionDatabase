@@ -21,6 +21,7 @@ public class ModelManager {
     private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
     
     private String loginUserName;
+    private boolean admin;
 
     static { 
     	try {
@@ -127,13 +128,15 @@ public class ModelManager {
 	}
 	
 	public boolean login(String username, String password) throws SQLException {
-		PreparedStatement loginStmt = connection.prepareStatement("SELECT username FROM \"user\" "
-				+ "WHERE username=? AND password=?");
+		PreparedStatement loginStmt = connection.prepareStatement("SELECT u.username, "
+				+ "coalesce((SELECT TRUE FROM \"admin\" a WHERE a.username = u.username ), FALSE) AS admin "
+				+ "FROM \"user\" u WHERE u.username=? AND u.password=?");
 		loginStmt.setString(1, username);
 		loginStmt.setString(2, md5(password));
 		ResultSet res = loginStmt.executeQuery();
 		if (res.next()) {
 			loginUserName = res.getString(1);
+			admin = res.getBoolean(2);
 			
 			for (ModelManagerListener listener : modelManagerListeners) {
 				listener.userDidLogin(this);
@@ -157,6 +160,10 @@ public class ModelManager {
 	
 	public String getLoginUserName() {
 		return loginUserName;
+	}
+	
+	public boolean isAdmin() {
+		return admin;
 	}
 	
 	private String md5(String toHash) {
