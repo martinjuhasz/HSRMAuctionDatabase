@@ -80,13 +80,55 @@ INSERT INTO "admin" VALUES(27);
 
 INSERT INTO "category" VALUES(1, 'Bücher');
 INSERT INTO "category" VALUES(2, 'Spielzeug');
-SELECT SETVAL((SELECT pg_get_serial_sequence('category', 'id')), 3, false);
+INSERT INTO "category" VALUES(3, 'Haushalt');
+INSERT INTO "category" VALUES(4, 'Damenbekleidung');
+INSERT INTO "category" VALUES(5, 'Herrenbekleidung');
+INSERT INTO "category" VALUES(6, 'Möbel&Wohnen');
+INSERT INTO "category" VALUES(7, 'Rund ums Baby');
+INSERT INTO "category" VALUES(8, 'Computer&Zubehör');
+INSERT INTO "category" VALUES(9, 'Filme&DVDs');
+INSERT INTO "category" VALUES(10, 'Haustierbedarf');
+INSERT INTO "category" VALUES(11, 'PC- & Videospiele');
+SELECT SETVAL((SELECT pg_get_serial_sequence('category', 'id')), 12, false);
 
-INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 2, 1, 150, false);
-INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'neuwertige Legoeisenbahn1', null, 2, 1, 150, false);
-INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 2, 3, 3000, true);
+INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 2, 1, 50, false);
+INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'tolle Legolokomotive mit Lokführer', null, 2, 1, 60, false);
+INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 2, 3, 30, true);
 
-INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 200);
-INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 200);
-INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:15:00.00', 300);
+INSERT INTO "auction" VALUES(4, '2014-03-05 19:22:00.00', '2014-03-12 19:22:00.00', 'Devil Staubsauger', 'roter Devilstaubsauger mit verschiedenen Aufsätzen', null, 3, 19, 1, false);
+INSERT INTO "auction" VALUES(5, '2014-03-05 14:50:00.00', '2014-03-12 14:50:00.00', 'Bosch Mixer Neu OVP', 'Mixer ist unbenutzt und in original Verpackung', null, 3, 15, 30, true);
+INSERT INTO "auction" VALUES(6, '2014-03-04 20:13:00.00', '2014-03-11 20:13:00.00', 'Vorwerk Thermo Mix', 'gut erhaltener Thermomix', null, 3, 5, 500, false);
 
+INSERT INTO "auction" VALUES(7, '2014-03-04 17:33:00.00', '2014-03-11 17:33:00.00', 'gebrauchte Gucci Pumps', 'gebrauchte Gucci Pumps in lila Größe 39', null, 4, 6, 220, true);
+INSERT INTO "auction" VALUES(8, '2014-03-03 10:15:00.00', '2014-03-10 10:15:00.00', 'H&M Jeans Größe 36', 'H&M Jeans Größe 36 in blau, guter Zustand', null, 4, 10, 1, false);
+INSERT INTO "auction" VALUES(9, '2013-11-01 12:13:00.00', '2013-11-08 12:13:00.00', 'Süßes Spaghettiträger-Top', 'Süßes Spaghettiträger-Top Größe 34', null, 4, 22, 3000, false);
+
+INSERT INTO "auction" VALUES(10, '2014-03-03 15:13:00.00', '2014-03-10 15:13:00.00', 'Big Bang Theory Shirt', 'Big Bang Theory Shirt XXL', null, 5, 17, 1, false);
+INSERT INTO "auction" VALUES(11, '2014-03-02 22:13:00.00', '2014-03-09 22:13:00.00', 'Jogging Hose von Esprit', 'Jogging Hose von Esprit NEU', null, 5, 24, 50, true);
+INSERT INTO "auction" VALUES(12, '2014-02-22 11:55:00.00', '2014-03-01 11:55:00.00', 'Gürtel von Armani', 'Gürtel von Armani mit Silberschnalle', null, 5, 12, 1, false);
+
+INSERT INTO "auction" VALUES(13, '2014-02-23 16:55:00.00', '2014-03-02 16:55:00.00', 'Stehlampe', 'Stehlampe aus Metall', null, 6, 1, 1, false);
+INSERT INTO "auction" VALUES(14, '2014-02-24 12:55:00.00', '2014-03-03 12:55:00.00', 'Schreibtisch aus Nussbaumholz', 'Schreibtisch aus Nussbaumholz', null, 6, 6, 200, true);
+INSERT INTO "auction" VALUES(15, '2014-03-05 11:55:00.00', '2014-03-05 12:13:00.00', 'Schlafcouch', 'schwarze Schlafcouch aus Leder', null, 6, 8, 500, true);
+
+INSERT INTO "auction" VALUES(16, '2014-03-04 15:13:00.00', '2014-03-11 15:13:00.00', 'Riesen Windel Packet', 'Riesen Windel Packet 500 Stück', null, 7, 18, 150, true);
+INSERT INTO "auction" VALUES(17, '2014-03-05 15:13:00.00', '2014-03-12 15:13:00.00', 'Fahrradsitz', 'Fahrradsitz grün', null, 7, 15, 20, false);
+INSERT INTO "auction" VALUES(18, '2014-03-06 15:13:00.00', '2014-03-13 15:13:00.00', 'Milchpumpe', 'Milchpumpe unbenutzt', null, 7, 17, 1, false);
+
+INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 55);
+INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 65);
+INSERT INTO "bid" VALUES(8, 3, '2013-12-03 12:15:00.00', 66);
+
+
+--CREATE TABLE "auction" (
+--	id					SERIAL 			PRIMARY KEY,
+--	start_time			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
+--	end_time			TIMESTAMP 		NOT NULL, -- automatisch setzen? vllcht immer 7 tage?
+--	title				VARCHAR(255)	NOT NULL,
+--	description			TEXT			NOT NULL,
+--	image 				BYTEA,
+--	category			INT4			REFERENCES "category"(id) NOT NULL,
+--	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
+--	price 				INT 			NOT NULL,
+--	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
+--);
