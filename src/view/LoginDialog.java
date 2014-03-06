@@ -79,8 +79,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 		try {
 			success = modelManager.login(userNameField.getText(), passwordField.getText());
 		} catch (Exception e1) {
-			JFrame frame = (JFrame)SwingUtilities.getRoot(this);
-			JOptionPane.showMessageDialog(frame, e1);
+			JOptionPane.showMessageDialog(this, e1);
 		}
 		
 		if (success) {
