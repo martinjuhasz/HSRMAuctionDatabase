@@ -21,6 +21,7 @@ public class ClosedAuctionsPane extends JPanel implements ModelManagerListener {
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
 		closedAuctionTable = new JTable();
+		closedAuctionTable.setModel(modelManager.getClosedAuctionsList());
 		closedAuctionTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(closedAuctionTable), "grow, pushx");
 		

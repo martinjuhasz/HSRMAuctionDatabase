@@ -35,7 +35,6 @@ public class AuctionPane extends JPanel implements ModelManagerListener {
 
 	@Override
 	public void didUpdateUser(ModelManager manager) {
-		auctionTable.setModel(modelManager.getAuctionList());
 	}
 
 
