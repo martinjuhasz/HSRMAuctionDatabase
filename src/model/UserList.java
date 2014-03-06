@@ -29,7 +29,7 @@ public class UserList extends DatabaseModel {
 	}
 	
 	public DatabaseTableModel getTableModel() {
-		return new DatabaseTableModel(this, new String[]{"Benutzername","Vorname",
+		return super.getTableModel(new String[]{"Benutzername","Vorname",
 				"Nachname","E-Mail","Strasse","Hausnummer", "PLZ", "Stadt"});
 	}
 

@@ -5,24 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DatabaseModel {
 
 	protected Connection db;
 	protected List<Object[]> resultSet;
+	private List<DatabaseTableModel> tableModels;
 	
 	protected PreparedStatement selectStmt;
 	
 	public DatabaseModel(Connection db) {
 		this.db = db;
-		loadData();
+		this.tableModels = new LinkedList<>();
 	}
 	
 	protected void loadData() {
 		resultSet = queryResults();
-
-		//fireTableDataChanged();TODO!!!!!!!!!!!!
+		for(DatabaseTableModel tableModel : tableModels) {
+			tableModel.fireTableDataChanged();
+		}
 	}
 	
 	private List<Object[]> queryResults() {
@@ -57,5 +60,15 @@ public class DatabaseModel {
 	
 	public int size() {
 		return resultSet.size();
+	}
+	
+	protected DatabaseTableModel getTableModel(String []columns) {
+		DatabaseTableModel tableModel = new DatabaseTableModel(this, columns);
+		tableModels.add(tableModel);
+		return tableModel;
+	}
+	
+	public DatabaseTableModel getTableModel() {
+		return new DatabaseTableModel(this, new String[]{});
 	}
 }

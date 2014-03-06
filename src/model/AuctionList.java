@@ -37,7 +37,7 @@ public class AuctionList extends DatabaseModel {
 	}
 	
 	public DatabaseTableModel getTableModel() {
-		return new DatabaseTableModel(this, new String[]{"Titel","Enddatum","Höchstgebot / Kaufpreis"});
+		return super.getTableModel(new String[]{"Titel","Enddatum","Höchstgebot / Kaufpreis"});
 	}
 
 }

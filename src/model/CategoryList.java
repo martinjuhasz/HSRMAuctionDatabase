@@ -21,6 +21,6 @@ public class CategoryList extends DatabaseModel {
 	}
 	
 	public DatabaseTableModel getTableModel() {
-		return new DatabaseTableModel(this, new String[]{"Kategorie"});
+		return super.getTableModel(new String[]{"Kategorie"});
 	}
 }

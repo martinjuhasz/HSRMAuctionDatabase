@@ -19,6 +19,6 @@ public class ClosedAuctionsList extends DatabaseModel {
 	}
 	
 	public DatabaseTableModel getTableModel() {
-		return new DatabaseTableModel(this, new String[]{"Kategorie","Anzahl der Auktionen","Summe"});
+		return super.getTableModel(new String[]{"Kategorie","Anzahl der Auktionen","Summe"});
 	}
 }

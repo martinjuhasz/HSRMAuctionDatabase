@@ -20,6 +20,6 @@ public class ActiveAuctionsList extends DatabaseModel {
 	}
 	
 	public DatabaseTableModel getTableModel() {
-		return new DatabaseTableModel(this, new String[]{"Auktionen"});
+		return super.getTableModel(new String[]{"Auktionen"});
 	}
 }
