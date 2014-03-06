@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -10,6 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import model.ActiveAuctionsList;
+import model.AuctionList;
+import model.CategoryComboModel;
+import model.CategoryList;
+import model.ClosedAuctionsList;
+import model.UserList;
 
 public class ModelManager {
 
@@ -98,6 +105,10 @@ public class ModelManager {
 
 	public ClosedAuctionsList getClosedAuctionsList() {
 		return new ClosedAuctionsList(connection);
+	}
+	
+	public CategoryComboModel getCategoryComboModel() {
+		return new CategoryComboModel(getCategoriesList());
 	}
 
 	public void updateUser(String userName, String password, String firstName,

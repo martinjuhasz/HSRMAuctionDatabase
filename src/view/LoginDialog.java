@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import model.ModelManager;
+import controller.ModelManager;
 import net.miginfocom.swing.MigLayout;
 
 public class LoginDialog extends JDialog implements ActionListener {

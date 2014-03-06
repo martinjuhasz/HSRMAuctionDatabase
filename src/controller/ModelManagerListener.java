@@ -1,4 +1,5 @@
-package model;
+package controller;
+
 
 public interface ModelManagerListener {
 	

@@ -7,8 +7,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import model.ModelManager;
-import model.ModelManagerAdapter;
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 

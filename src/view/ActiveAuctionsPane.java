@@ -7,22 +7,30 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 import model.CategoryList;
-import model.ModelManager;
 import net.miginfocom.swing.MigLayout;
 
-public class OpenAuctionsPane extends JPanel implements ListSelectionListener {
+public class ActiveAuctionsPane extends JPanel implements ListSelectionListener {
 	
 	private ModelManager modelManager;
 	private JTable categoryTable;
 	private JTable currentAuctionTable;
 	
 	
-	public OpenAuctionsPane(ModelManager modelManager) {
+	public ActiveAuctionsPane(ModelManager manager) {
 		
-		this.modelManager = modelManager;
+		this.modelManager = manager;
 		
 		setLayout(new MigLayout("fill"));
+		
+		manager.addModelManagerListener(new ModelManagerAdapter() {
+			@Override
+			public void didUpdateCategory(ModelManager manager) {
+				categoryTable.setModel(manager.getCategoriesList());
+			}
+		});
 		
 		categoryTable = new JTable();
 		categoryTable.setModel(modelManager.getCategoriesList());
@@ -42,7 +50,7 @@ public class OpenAuctionsPane extends JPanel implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e) {
 		
 		// only fire on mouse released
-		if(e.getValueIsAdjusting()) return;
+		if(e.getValueIsAdjusting() || currentAuctionTable.getSelectedRow() < 0) return;
 		
 		int category = (int)categoryTable.getModel().getValueAt(categoryTable.getSelectedRow(), CategoryList.COLUMN_CATEGORY_ID);
 		currentAuctionTable.setModel(modelManager.getAuctionList(category));
