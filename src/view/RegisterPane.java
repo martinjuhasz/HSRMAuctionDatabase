@@ -16,9 +16,10 @@ import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
 import model.ModelManagerException;
+import model.UserList;
 
 public class RegisterPane extends JPanel implements ActionListener {
-	
+
 	protected ModelManager modelManager;
 
 	protected JTextField userNameField;
@@ -31,12 +32,15 @@ public class RegisterPane extends JPanel implements ActionListener {
 	protected JTextField postalField;
 	protected JTextField cityField;
 	protected JButton submitButton;
+	protected int uid;
 	private Callback registerCallback;
 
 	public RegisterPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
+		uid = -1;
+
 		this.setLayout(new MigLayout("", "[][150!]", ""));
-		
+
 		JLabel userNameTitle = new JLabel("Benutzername:");
 		add(userNameTitle);
 
@@ -95,7 +99,7 @@ public class RegisterPane extends JPanel implements ActionListener {
 		submitButton.addActionListener(this);
 		add(submitButton, "growx, span, wrap");
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
@@ -104,7 +108,7 @@ public class RegisterPane extends JPanel implements ActionListener {
 						passwordField.getText(), firstNameField.getText(),
 						surNameField.getText(), emailField.getText(),
 						streetField.getText(), streetNumberField.getText(),
-						postalField.getText(), cityField.getText(), -1);
+						postalField.getText(), cityField.getText(), uid);
 				if (registerCallback != null) {
 					registerCallback.callback(0);
 				}
@@ -114,7 +118,33 @@ public class RegisterPane extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(frame, e1);
 		}
 	}
-	
+
+	public void setUser(Object[] userData) {
+		uid = (int) userData[UserList.COLUMN_UID];
+		userNameField.setText((String) userData[UserList.COLUMN_USER_NAME]);
+		firstNameField.setText((String) userData[UserList.COLUMN_FIRST_NAME]);
+		surNameField.setText((String) userData[UserList.COLUMN_SUR_NAME]);
+		emailField.setText((String) userData[UserList.COLUMN_EMAIL]);
+		streetField.setText((String) userData[UserList.COLUMN_STREET]);
+		streetNumberField
+				.setText((String) userData[UserList.COLUMN_STREET_NUMBER]);
+		postalField.setText((String) userData[UserList.COLUMN_POSTAL_CODE]);
+		cityField.setText((String) userData[UserList.COLUMN_CITY]);
+	}
+
+	public void cleanUser() {
+		uid = -1;
+		userNameField.setText("");
+		passwordField.setText("");
+		firstNameField.setText("");
+		surNameField.setText("");
+		emailField.setText("");
+		streetField.setText("");
+		streetNumberField.setText("");
+		postalField.setText("");
+		cityField.setText("");
+	}
+
 	public void setRegisterCallback(Callback registerCallback) {
 		this.registerCallback = registerCallback;
 	}

@@ -11,7 +11,7 @@ public class DatabaseTableModel extends AbstractTableModel {
 
 	protected Connection db;
 	protected int rowCount;
-	protected ResultSet resultSet;
+	protected Object resultSet[][];
 	
 	protected PreparedStatement countStmt;
 	protected PreparedStatement selectStmt;
@@ -43,16 +43,23 @@ public class DatabaseTableModel extends AbstractTableModel {
 		return 0;
 	}
 	
-	private ResultSet queryResults() {
-		
+	private Object[][] queryResults() {
 		if(selectStmt == null) return null;
 		
+		Object result[][] = null;
 		try {
-			return selectStmt.executeQuery();
+			ResultSet resultSet = selectStmt.executeQuery();
+			result = new Object[getRowCount()][resultSet.getMetaData().getColumnCount()];
+			for (int i = 0; i < result.length; i++) {
+				for (int j = 0; j < result[i].length; j++) {
+					resultSet.absolute(i + 1);
+					result[i][j] = resultSet.getObject(j + 1);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 	
 	@Override
@@ -67,14 +74,11 @@ public class DatabaseTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		try {
-			if(resultSet.absolute(rowIndex+1)) {
-				return resultSet.getObject(columnIndex + 1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return resultSet[rowIndex][columnIndex];
+	}
+	
+	public Object[] getRow(int rowIndex) {
+		return resultSet[rowIndex];
 	}
 	
 	public String getColumnName(int column) {
