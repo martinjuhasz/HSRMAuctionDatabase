@@ -81,15 +81,38 @@ public class MainFrame extends JFrame {
 				loginD.setLoginCallback(new Callback() {
 					
 					@Override
-					public void callback() {
-						if (!modelManager.isLoggedIn()) {
-							System.exit(0);
+					public void callback(int status) {
+						if (status == LoginDialog.CALLBACK_STATUS_LOGIN) {
+							if (!modelManager.isLoggedIn()) {
+								System.exit(0);
+							} else {
+								loginD.dispose();
+							}
 						} else {
-							loginD.dispose();
+							showRegister();
 						}
 					}
 				});
 				loginD.setVisible(true);
+			}
+		});
+	}
+	
+	public void showRegister() {
+		final MainFrame frame = this;
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				final RegisterDialog registerD = new RegisterDialog(frame, modelManager);
+				registerD.setRegisterCallback(new Callback() {
+					
+					@Override
+					public void callback(int status) {
+						registerD.dispose();
+					}
+				});
+				registerD.setVisible(true);
 			}
 		});
 	}

@@ -18,93 +18,20 @@ import model.ModelManagerException;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
-public class UserInputPane extends JPanel implements ActionListener {
+public class UserInputPane extends RegisterPane implements ActionListener {
 
-	private ModelManager modelManager;
-
-	private JTextField userNameField;
-	private JPasswordField passwordField;
-	private JTextField firstNameField;
-	private JTextField surNameField;
-	private JTextField emailField;
-	private JTextField streetField;
-	private JTextField streetNumberField;
-	private JTextField postalField;
-	private JTextField cityField;
-	private JButton submitButton;
 	private JButton newButton;
 	private JButton deleteButton;
 	private int uid;
 	private Callback resetCallback;
 
 	public UserInputPane(ModelManager modelManager) {
-
-		this.modelManager = modelManager;
+		super(modelManager);
 		uid = -1;
-
-		this.setLayout(new MigLayout("", "[][150!]", ""));
 
 		newButton = new JButton("Neu");
 		newButton.addActionListener(this);
 		add(newButton, "growx, span, wrap");
-
-		JLabel userNameTitle = new JLabel("Benutzername:");
-		add(userNameTitle);
-
-		userNameField = new JTextField();
-		add(userNameField, "growx, wrap");
-
-		JLabel passwordTitle = new JLabel("Passwort:");
-		add(passwordTitle);
-
-		passwordField = new JPasswordField();
-		add(passwordField, "growx, wrap");
-
-		JLabel firstNameTitle = new JLabel("Vorname:");
-		add(firstNameTitle);
-
-		firstNameField = new JTextField();
-		add(firstNameField, "growx, wrap");
-
-		JLabel surNameTitle = new JLabel("Nachname:");
-		add(surNameTitle);
-
-		surNameField = new JTextField();
-		add(surNameField, "growx, wrap");
-
-		JLabel emailTitle = new JLabel("E-Mail:");
-		add(emailTitle);
-
-		emailField = new JTextField();
-		add(emailField, "growx, wrap");
-
-		JLabel streetTitle = new JLabel("Straße:");
-		add(streetTitle);
-
-		streetField = new JTextField();
-		add(streetField, "growx, wrap");
-
-		JLabel streetNumberTitle = new JLabel("Nr.:");
-		add(streetNumberTitle);
-
-		streetNumberField = new JTextField();
-		add(streetNumberField, "growx, wrap");
-
-		JLabel postalTitle = new JLabel("PLZ:");
-		add(postalTitle);
-
-		postalField = new JTextField();
-		add(postalField, "growx, wrap");
-
-		JLabel cityTitle = new JLabel("Stadt:");
-		add(cityTitle);
-
-		cityField = new JTextField();
-		add(cityField, "growx, wrap");
-
-		submitButton = new JButton("Speichern");
-		submitButton.addActionListener(this);
-		add(submitButton, "growx, span, wrap");
 
 		deleteButton = new JButton("Löschen");
 		deleteButton.addActionListener(this);
@@ -123,7 +50,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 				cleanUser();
 			} else if (e.getSource() == newButton) {
 				if (resetCallback != null) {
-					resetCallback.callback();
+					resetCallback.callback(0);
 				}
 				cleanUser();
 			} else if (e.getSource() == deleteButton) {
