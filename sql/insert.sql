@@ -118,17 +118,3 @@ INSERT INTO "auction" VALUES(18, '2014-03-06 15:13:00.00', '2014-03-13 15:13:00.
 INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 55);
 INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 65);
 INSERT INTO "bid" VALUES(8, 3, '2013-12-03 12:15:00.00', 66);
-
-
---CREATE TABLE "auction" (
---	id					SERIAL 			PRIMARY KEY,
---	start_time			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
---	end_time			TIMESTAMP 		NOT NULL, -- automatisch setzen? vllcht immer 7 tage?
---	title				VARCHAR(255)	NOT NULL,
---	description			TEXT			NOT NULL,
---	image 				BYTEA,
---	category			INT4			REFERENCES "category"(id) NOT NULL,
---	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
---	price 				INT 			NOT NULL,
---	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
---);
