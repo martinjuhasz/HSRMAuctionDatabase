@@ -20,7 +20,13 @@ public class MainFrame extends JFrame {
 		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void userDidLogout(ModelManager manager) {
+				tabPane.setVisible(false);
 				showLogin();
+			}
+			
+			@Override
+			public void userDidLogin(ModelManager manager) {
+				tabPane.setVisible(true);
 			}
 		});
 		
@@ -30,6 +36,7 @@ public class MainFrame extends JFrame {
 		add(loginStatusPane, "wrap");
 		
 		tabPane = new JTabbedPane();
+		tabPane.setVisible(false);
 		add(tabPane);
 		
 		tabPane.addTab("Benutzer", new UserPane(modelManager));
