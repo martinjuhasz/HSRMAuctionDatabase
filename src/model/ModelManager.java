@@ -132,11 +132,22 @@ public class ModelManager {
 					"unable to insert or update user. bad arguments?");
 		}
 
+		notifyUserUpdate();
+	}
+	
+	public void deleteUser(int uid) throws SQLException{
+		PreparedStatement deleteUserStmt = connection.prepareStatement("DELETE FROM \"user_view\" WHERE id=?");
+		deleteUserStmt.setInt(1, uid);
+		deleteUserStmt.executeUpdate();
+		
+		notifyUserUpdate();
+	}
+	
+	private void notifyUserUpdate() {
 		for (ModelManagerListener listener : modelManagerListeners) {
 			listener.didUpdate(this);
 			listener.didUpdateUser(this);
 		}
-
 	}
 
 	public void updateCategory(String newCategory, String oldCategory,
