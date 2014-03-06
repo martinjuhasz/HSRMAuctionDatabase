@@ -17,10 +17,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
+import controller.ModelManagerException;
 import model.CategoryList;
-import model.ModelManager;
-import model.ModelManagerAdapter;
-import model.ModelManagerException;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 

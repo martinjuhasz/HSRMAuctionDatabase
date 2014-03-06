@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 
-import model.ModelManager;
+import controller.ModelManager;
 
 public class RegisterDialog extends JDialog {
 

@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import controller.ModelManager;
+import controller.ModelManagerException;
 import net.miginfocom.swing.MigLayout;
-import model.ModelManager;
-import model.ModelManagerException;
 import model.UserList;
 
 public class RegisterPane extends JPanel implements ActionListener {

@@ -8,9 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 import net.miginfocom.swing.MigLayout;
-import model.ModelManager;
-import model.ModelManagerAdapter;
 
 public class LoginStatusPane extends JPanel {
 

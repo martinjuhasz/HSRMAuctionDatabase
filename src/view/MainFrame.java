@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import model.ModelManager;
-import model.ModelManagerAdapter;
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 import net.miginfocom.swing.MigLayout;
 
 public class MainFrame extends JFrame {
@@ -37,8 +37,11 @@ public class MainFrame extends JFrame {
 		
 		setLayout(new MigLayout("fill", "", "[55!][]"));
 		
-		loginStatusPane = new LoginStatusPane(modelManager);
-		add(loginStatusPane, "growx, wrap");
+		CreateAuctionDialog auctionDialog = new CreateAuctionDialog(this, modelManager);
+		auctionDialog.setVisible(true);
+		
+		//loginStatusPane = new LoginStatusPane(modelManager);
+		//add(loginStatusPane, "growx, wrap");
 		
 		tabPane = new JTabbedPane();
 		tabPane.setVisible(false);

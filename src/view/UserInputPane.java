@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import model.ModelManager;
+import controller.ModelManager;
 
 public class UserInputPane extends RegisterPane implements ActionListener {
 
