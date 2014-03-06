@@ -7,6 +7,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.CategoryList;
 import model.ModelManager;
 import net.miginfocom.swing.MigLayout;
 
@@ -39,8 +40,8 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e) {
 		// only fire on mouse released
 		if(e.getValueIsAdjusting()) return;
-				
-		String category = (String)categoryTable.getValueAt(categoryTable.getSelectedRow(), 0);
+		
+		int category = (int)categoryTable.getModel().getValueAt(categoryTable.getSelectedRow(), CategoryList.COLUMN_CATEGORY_ID);
 		auctionTable.setModel(modelManager.getAuctionList(category));
 	}
 }

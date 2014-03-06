@@ -9,14 +9,15 @@ import javax.swing.table.AbstractTableModel;
 
 public class CategoryList extends DatabaseTableModel {
 	
-	public static final int COLUMN_CATEGORY = 0;
+	public static final int COLUMN_CATEGORY_NAME = 0;
+	public static final int COLUMN_CATEGORY_ID = 1;
 	
 	public CategoryList(Connection db) {
 		super(db);
 		
 		try {
 			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"category\"");
-			selectStmt = db.prepareStatement("SELECT * FROM \"category\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -31,7 +32,7 @@ public class CategoryList extends DatabaseTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		if(column == COLUMN_CATEGORY) return "Kategorie";
+		if(column == COLUMN_CATEGORY_NAME) return "Kategorie";
 		return "";
 	}
 

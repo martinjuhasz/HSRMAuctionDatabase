@@ -20,12 +20,12 @@ public class AuctionList extends DatabaseTableModel {
 		loadData();
 	}
 	
-	public void setCategory(String category) {
+	public void setCategory(int category) {
 		try {
 			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\" WHERE category=?");
-			countStmt.setString(1, category);
+			countStmt.setInt(1, category);
 			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			selectStmt.setString(1, category);
+			selectStmt.setInt(1, category);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -48,7 +48,8 @@ CREATE TABLE "search_term" (
 );
 
 CREATE TABLE "category" (
-	name 	VARCHAR(100)	PRIMARY KEY
+	id		SERIAL 			PRIMARY KEY,
+	name 	VARCHAR(100)	UNIQUE NOT NULL
 );
 
 
@@ -62,7 +63,7 @@ CREATE TABLE "auction" (
 	title				VARCHAR(255)	NOT NULL,
 	description			TEXT			NOT NULL,
 	image 				BYTEA,
-	category			VARCHAR(100)	REFERENCES "category"(name) NOT NULL,
+	category			INT4			REFERENCES "category"(id) NOT NULL,
 	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
 	price 				INT 			NOT NULL,
 	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
@@ -103,17 +104,14 @@ CREATE VIEW "user_view" AS
 	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city, u.password, u.id FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code WHERE u.deleted=FALSE;
 
 CREATE RULE "user_insert" AS ON INSERT TO "user_view" DO INSTEAD (
-       --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
        INSERT INTO  "city"(postal_code, city) SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
        INSERT INTO  "user"(username, password, first_name, last_name,email,street,street_number,postal_code) VALUES(NEW.username, NEW.password, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
 );
 CREATE RULE "user_update" AS ON UPDATE TO "user_view" DO INSTEAD (
-       --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
        INSERT INTO  "city"(postal_code, city) SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
        UPDATE "user" SET username=NEW.username, first_name=NEW.first_name, last_name=NEW.last_name, email=NEW.email, street=NEW.street,  street_number=NEW.street_number, postal_code=NEW.postal_code, password=NEW.password WHERE id=NEW.id;
 );
 CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
-       --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
   	DELETE FROM "bank_account" WHERE uid=OLD.id;
   	DELETE FROM "search_term" WHERE uid=OLD.id;
   	DELETE FROM "admin" WHERE uid=OLD.id;
@@ -122,7 +120,6 @@ CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
 
 -- max_bid sollte nicht höchster sein, sondern 2t höchster + 1
 CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
-	--SELECT a.title, a.category, a.end_time, bids.bid FROM "auction" a, (SELECT MAX(b.price) AS bid FROM "bid" b WHERE a.id = b.auction) AS bids
 	SELECT	a.title,
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
 			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid,
@@ -132,8 +129,8 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 
 CREATE VIEW "closed_auctions_view" AS
 	SELECT	cat.name, 
-		(SELECT COUNT(*) FROM auction a WHERE a.category=cat.name AND a.end_time < now()) AS count,
-		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.name AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
+		(SELECT COUNT(*) FROM auction a WHERE a.category=cat.id AND a.end_time < now()) AS count,
+		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
 	FROM category cat;
 
 

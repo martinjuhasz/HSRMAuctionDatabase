@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +20,8 @@ import javax.swing.event.ListSelectionListener;
 import model.CategoryList;
 import model.ModelManager;
 import model.ModelManagerAdapter;
+import model.ModelManagerException;
+import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
 public class CategoriesPane extends JPanel implements ActionListener, ListSelectionListener {
@@ -27,12 +30,13 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 	private JTable categoriesTable;
 	private JTextField categoryField;
 	private JButton submitButton;
+	private JButton deleteButton;
 	private JButton newButton;
-	private int categoryRow;
+	private int cid;
 
 	public CategoriesPane(ModelManager manager) {
 		this.modelManager = manager;
-		categoryRow = -1;
+		cid = -1;
 		
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
@@ -66,6 +70,10 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		submitButton.addActionListener(this);
 		inputPanel.add(submitButton, "growx, span, wrap");
 		
+		deleteButton = new JButton("Löschen");
+		deleteButton.addActionListener(this);
+		inputPanel.add(deleteButton, "growx, span, wrap");
+		
 		add(inputPanel);
 		
 	}
@@ -74,36 +82,34 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == submitButton) {
 			try {
-				
-				CategoryList categoryList = (CategoryList)categoriesTable.getModel();
-				String oldCategory = (String)categoryList.getValueAt(categoriesTable.getSelectedRow(), CategoryList.COLUMN_CATEGORY);
-				
-				modelManager.updateCategory(categoryField.getText(), oldCategory, categoryRow < 0);
+				modelManager.updateCategory(categoryField.getText(), cid);
 				cleanCategory();
-			} catch (Exception e1) {
-				JFrame frame = (JFrame)SwingUtilities.getRoot(this);
+			} catch (SQLException | ModelManagerException e1) {
+				JFrame frame = (JFrame) SwingUtilities.getRoot(this);
 				JOptionPane.showMessageDialog(frame, e1);
 			}
 		} else if(e.getSource() == newButton) {
 			cleanCategory();
+		} else if (e.getSource() == deleteButton) {
+			
 		}
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		if(e.getValueIsAdjusting()) return;
+		if(e.getValueIsAdjusting() || categoriesTable.getSelectedRow() < 0) return;
 		setCategory(categoriesTable.getSelectedRow());
 		
 	}
 	
 	private void setCategory(int row) {
-		categoryRow = row;
 		CategoryList categoryList = (CategoryList)categoriesTable.getModel();
-		categoryField.setText((String)categoryList.getValueAt(row, CategoryList.COLUMN_CATEGORY));
+		cid = (int)categoryList.getValueAt(row, CategoryList.COLUMN_CATEGORY_ID);
+		categoryField.setText((String)categoryList.getValueAt(row, CategoryList.COLUMN_CATEGORY_NAME));
 	}
 	
 	public void cleanCategory() {
-		categoryRow = -1;
+		cid = -1;
 		categoryField.setText("");
 		categoriesTable.clearSelection();
 	}

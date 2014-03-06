@@ -78,12 +78,13 @@ INSERT INTO "admin" VALUES(25);
 INSERT INTO "admin" VALUES(26);
 INSERT INTO "admin" VALUES(27);
 
-INSERT INTO "category" VALUES('Bücher');
-INSERT INTO "category" VALUES('Spielzeug');
+INSERT INTO "category" VALUES(1, 'Bücher');
+INSERT INTO "category" VALUES(2, 'Spielzeug');
+SELECT SETVAL((SELECT pg_get_serial_sequence('category', 'id')), 3, false);
 
-INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 'Spielzeug', 1, 150, false);
-INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'neuwertige Legoeisenbahn1', null, 'Spielzeug', 1, 150, false);
-INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 'Spielzeug', 3, 3000, true);
+INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 2, 1, 150, false);
+INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'neuwertige Legoeisenbahn1', null, 2, 1, 150, false);
+INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 2, 3, 3000, true);
 
 INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 200);
 INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 200);

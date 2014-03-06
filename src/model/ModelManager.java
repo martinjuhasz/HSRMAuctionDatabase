@@ -79,7 +79,7 @@ public class ModelManager {
 		return new AuctionList(connection);
 	}
 
-	public AuctionList getAuctionList(String category) {
+	public AuctionList getAuctionList(int category) {
 		AuctionList auctionList = new AuctionList(connection);
 		auctionList.setCategory(category);
 		return auctionList;
@@ -150,25 +150,21 @@ public class ModelManager {
 		}
 	}
 
-	public void updateCategory(String newCategory, String oldCategory,
-			boolean isNew) throws Exception {
+	public void updateCategory(String newCategory, int cid) throws ModelManagerException,SQLException {
 
 		PreparedStatement insertCategoryStmt;
-		if (isNew) {
-			insertCategoryStmt = connection
-					.prepareStatement("INSERT INTO \"category\" VALUES(?)");
+		if (cid < 0) {
+			insertCategoryStmt = connection.prepareStatement("INSERT INTO \"category\" VALUES(?)");
 		} else {
-			insertCategoryStmt = connection
-					.prepareStatement("UPDATE \"category\" SET name=? WHERE name=?");
-			insertCategoryStmt.setString(2, oldCategory);
+			insertCategoryStmt = connection.prepareStatement("UPDATE \"category\" SET name=? WHERE id=?");
+			insertCategoryStmt.setInt(2, cid);
 		}
 
 		insertCategoryStmt.setString(1, newCategory);
 
 		int categoryWasInserted = insertCategoryStmt.executeUpdate();
 		if (categoryWasInserted <= 0) {
-			throw new ModelManagerException(
-					"unable to insert or update category. bad arguments?");
+			throw new ModelManagerException("unable to insert or update category. bad arguments?");
 		}
 
 		for (ModelManagerListener listener : modelManagerListeners) {
