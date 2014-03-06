@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import model.ModelManager;
 import model.ModelManagerException;
 import model.User;
+import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
 public class UserInputPane extends JPanel implements ActionListener {
@@ -21,6 +22,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 	private ModelManager modelManager;
 	
 	private JTextField userNameField;
+	private JTextField passwordField;
 	private JTextField firstNameField;
 	private JTextField surNameField;
 	private JTextField emailField;
@@ -29,18 +31,32 @@ public class UserInputPane extends JPanel implements ActionListener {
 	private JTextField postalField;
 	private JTextField cityField;
 	private JButton submitButton;
+	private JButton newButton;
+	private int userRow;
+	private Callback resetCallback;
 	
 	public UserInputPane(ModelManager modelManager) {
 		
 		this.modelManager = modelManager;
+		userRow = -1;
 		
 		this.setLayout(new MigLayout("", "[][150!]",""));
+	
+		newButton = new JButton("Neu");
+		newButton.addActionListener(this);
+		add(newButton, "growx, span, wrap");
 		
 		JLabel userNameTitle = new JLabel("Benutzername:");
 		add(userNameTitle);
 		
 		userNameField = new JTextField();
 		add(userNameField, "growx, wrap");
+		
+		JLabel passwordTitle = new JLabel("Passwort:");
+		add(passwordTitle);
+		
+		passwordField = new JTextField();
+		add(passwordField, "growx, wrap");
 		
 		JLabel firstNameTitle = new JLabel("Vorname:");
 		add(firstNameTitle);
@@ -84,7 +100,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 		cityField = new JTextField();
 		add(cityField, "growx, wrap");
 		
-		submitButton = new JButton("Benutzer hinzufügen");
+		submitButton = new JButton("Speichern");
 		submitButton.addActionListener(this);
 		add(submitButton, "growx, span, wrap");
 	}
@@ -92,14 +108,51 @@ public class UserInputPane extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == submitButton) {
-			User user = new User(userNameField.getText(), firstNameField.getText(), surNameField.getText(), emailField.getText(), streetField.getText(), streetNumberField.getText(), postalField.getText(), cityField.getText());
 			try {
-				modelManager.insertObject(user);
+				modelManager.updateUser(userNameField.getText(), passwordField.getText(), firstNameField.getText(), 
+						surNameField.getText(), emailField.getText(), streetField.getText(), 
+						streetNumberField.getText(), postalField.getText(), cityField.getText(), userRow < 0);
+				cleanUser();
 			} catch (Exception e1) {
 				JFrame frame = (JFrame)SwingUtilities.getRoot(this);
 				JOptionPane.showMessageDialog(frame, e1);
 			}
+		} else if(e.getSource() == newButton) {
+			if (resetCallback != null) {
+				resetCallback.callback();
+			}
+			cleanUser();
 		}
 	}
 	
+	public void setUser(int row) {
+		userRow = row;
+		
+		UserList userList = modelManager.getUserList();
+		userNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_USER_NAME));
+		firstNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_FIRST_NAME));
+		surNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_SUR_NAME));
+		emailField.setText((String)userList.getValueAt(row, UserList.COLUMN_EMAIL));
+		streetField.setText((String)userList.getValueAt(row, UserList.COLUMN_STREET));
+		streetNumberField.setText((String)userList.getValueAt(row, UserList.COLUMN_STREET_NUMBER));
+		postalField.setText((String)userList.getValueAt(row, UserList.COLUMN_POSTAL_CODE));
+		cityField.setText((String)userList.getValueAt(row, UserList.COLUMN_CITY));
+	}
+	
+	public void cleanUser() {
+		userRow = -1;
+		userNameField.setText("");
+		passwordField.setText("");
+		firstNameField.setText("");
+		surNameField.setText("");
+		emailField.setText("");
+		streetField.setText("");
+		streetNumberField.setText("");
+		postalField.setText("");
+		cityField.setText("");
+	}
+	
+	public void setResetCallback(Callback resetCallback) {
+		this.resetCallback = resetCallback;
+	}
 }

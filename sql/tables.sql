@@ -99,17 +99,17 @@ CREATE TABLE "comment" (
 -------------------------------------------------------------------------------------
 
 CREATE VIEW "user_view" AS
-	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code WHERE u.deleted=FALSE;
+	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city, u.password FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code WHERE u.deleted=FALSE;
 
 CREATE RULE "user_insert" AS ON INSERT TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
        INSERT INTO  "city" SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
-       INSERT INTO  "user" VALUES(NEW.username, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
+       INSERT INTO  "user" VALUES(NEW.username, NEW.password, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
 );
 CREATE RULE "user_update" AS ON UPDATE TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
        INSERT INTO  "city" SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
-       UPDATE "user" SET username=NEW.username, first_name=NEW.first_name, last_name=NEW.last_name, email=NEW.email, street=NEW.street,  street_number=NEW.street_number, postal_code=NEW.postal_code;
+       UPDATE "user" SET username=NEW.username, first_name=NEW.first_name, last_name=NEW.last_name, email=NEW.email, street=NEW.street,  street_number=NEW.street_number, postal_code=NEW.postal_code, password=NEW.password;
 );
 CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
