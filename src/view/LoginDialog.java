@@ -26,7 +26,12 @@ public class LoginDialog extends JDialog implements ActionListener {
 	private JTextField userNameField;
 	private JPasswordField passwordField;
 	private JLabel errorLabel;
+	private JButton loginButton;
+	private JButton registerButton;
 	private Callback loginCallback;
+	
+	public static final int CALLBACK_STATUS_LOGIN = 0;
+	public static final int CALLBACK_STATUS_REGISTER = 1;
 
 	public LoginDialog(Frame parent, ModelManager modelManager) {
 		super(parent, "Login", ModalityType.APPLICATION_MODAL);
@@ -54,9 +59,13 @@ public class LoginDialog extends JDialog implements ActionListener {
 		errorLabel.setHorizontalAlignment(JLabel.CENTER);
 		getContentPane().add(errorLabel, "growx, span, wrap");
 		
-		JButton loginButton = new JButton("Einloggen");
+		loginButton = new JButton("Einloggen");
 		loginButton.addActionListener(this);
 		getContentPane().add(loginButton, "growx, span, wrap");
+		
+		registerButton = new JButton("Registrieren");
+		registerButton.addActionListener(this);
+		getContentPane().add(registerButton, "growx, span, wrap");
 
 		pack();
 		setResizable(false);
@@ -66,7 +75,7 @@ public class LoginDialog extends JDialog implements ActionListener {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if (loginCallback != null) {
-					loginCallback.callback();
+					loginCallback.callback(CALLBACK_STATUS_LOGIN);
 				}
 			}
 		});
@@ -75,20 +84,24 @@ public class LoginDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean success = false;
-		try {
-			success = modelManager.login(userNameField.getText(), passwordField.getText());
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(this, e1);
-		}
-		
-		if (success) {
-			if (loginCallback != null) {
-				loginCallback.callback();
-			}
+		if(e.getSource() == registerButton) {
+			loginCallback.callback(CALLBACK_STATUS_REGISTER);
 		} else {
-			errorLabel.setText("Benutzername oder Passwort falsch");
-		}	
+			boolean success = false;
+			try {
+				success = modelManager.login(userNameField.getText(), passwordField.getText());
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, e1);
+			}
+			
+			if (success) {
+				if (loginCallback != null) {
+					loginCallback.callback(CALLBACK_STATUS_LOGIN);
+				}
+			} else {
+				errorLabel.setText("Benutzername oder Passwort falsch");
+			}	
+		}
 	}
 	
 	public void setLoginCallback(Callback loginCallback) {

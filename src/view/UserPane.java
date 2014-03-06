@@ -48,7 +48,7 @@ public class UserPane extends JPanel {
 		userInputPane.setResetCallback(new Callback() {
 			
 			@Override
-			public void callback() {
+			public void callback(int status) {
 				userTable.clearSelection();
 			}
 		});
