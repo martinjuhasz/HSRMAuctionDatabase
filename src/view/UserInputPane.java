@@ -125,6 +125,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 	}
 	
 	public void setUser(UserList userList, int row) {
+		System.out.println("old row: " + userRow + " ; new Row: " + row);
 		userRow = row;
 		
 		userNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_USER_NAME));

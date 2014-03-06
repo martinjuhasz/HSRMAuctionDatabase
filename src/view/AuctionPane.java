@@ -29,6 +29,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		add(new JScrollPane(categoryTable), "grow");
 		
 		auctionTable = new JTable();
+		auctionTable.setModel(modelManager.getAuctionList());
 		auctionTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(auctionTable), "grow, pushx");
 	}

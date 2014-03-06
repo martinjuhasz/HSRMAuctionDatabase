@@ -9,6 +9,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class CategoryList extends DatabaseTableModel {
 	
+	public static final int COLUMN_CATEGORY = 0;
+	
 	public CategoryList(Connection db) {
 		super(db);
 		
@@ -29,7 +31,7 @@ public class CategoryList extends DatabaseTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		if(column == 0) return "Kategorie";
+		if(column == COLUMN_CATEGORY) return "Kategorie";
 		return "";
 	}
 

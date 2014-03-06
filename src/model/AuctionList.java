@@ -11,6 +11,13 @@ public class AuctionList extends DatabaseTableModel {
 	
 	public AuctionList(Connection db){
 		super(db);
+		try {
+			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		loadData();
 	}
 	
 	public void setCategory(String category) {

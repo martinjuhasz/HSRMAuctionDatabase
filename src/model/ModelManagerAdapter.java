@@ -7,6 +7,9 @@ public abstract class ModelManagerAdapter implements ModelManagerListener {
 
 	@Override
 	public void didUpdateUser(ModelManager manager) {}
+	
+	@Override
+	public void didUpdateCategory(ModelManager manager) {}
 
 	@Override
 	public void userDidLogin(ModelManager manager) {}

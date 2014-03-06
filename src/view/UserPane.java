@@ -42,7 +42,7 @@ public class UserPane extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting()) return;
-				userInputPane.setUser((UserList)userTable.getModel(), e.getFirstIndex());
+				userInputPane.setUser((UserList)userTable.getModel(), userTable.getSelectedRow());
 			}
 		});
 		add(new JScrollPane(userTable), "grow, pushx");
