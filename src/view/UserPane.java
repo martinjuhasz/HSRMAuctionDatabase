@@ -12,9 +12,11 @@ import javax.swing.event.RowSorterListener;
 
 import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
+import model.ModelManagerAdapter;
 import model.ModelManagerListener;
+import model.UserList;
 
-public class UserPane extends JPanel implements ModelManagerListener {
+public class UserPane extends JPanel {
 	
 	private ModelManager modelManager;
 	private JTable userTable;
@@ -22,7 +24,12 @@ public class UserPane extends JPanel implements ModelManagerListener {
 
 	public UserPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
-		this.modelManager.addModelManagerListener(this);
+		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {
+			@Override
+			public void didUpdateUser(ModelManager manager) {
+				userTable.setModel(manager.getUserList());
+			}
+		});
 		
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
@@ -35,7 +42,7 @@ public class UserPane extends JPanel implements ModelManagerListener {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting()) return;
-				userInputPane.setUser(e.getFirstIndex());
+				userInputPane.setUser((UserList)userTable.getModel(), e.getFirstIndex());
 			}
 		});
 		add(new JScrollPane(userTable), "grow, pushx");
@@ -51,15 +58,4 @@ public class UserPane extends JPanel implements ModelManagerListener {
 		add(userInputPane, "");
 		
 	}
-
-	@Override
-	public void didUpdate(ModelManager manager) {
-		
-	}
-
-	@Override
-	public void didUpdateUser(ModelManager manager) {
-		userTable.setModel(modelManager.getUserList());
-	}
-	
 }

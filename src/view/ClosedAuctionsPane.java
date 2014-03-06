@@ -8,7 +8,7 @@ import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
 import model.ModelManagerListener;
 
-public class ClosedAuctionsPane extends JPanel implements ModelManagerListener {
+public class ClosedAuctionsPane extends JPanel {
 
 	private ModelManager modelManager;
 	private JTable closedAuctionTable;
@@ -16,7 +16,6 @@ public class ClosedAuctionsPane extends JPanel implements ModelManagerListener {
 	public ClosedAuctionsPane(ModelManager modelManager) {
 		
 		this.modelManager = modelManager;
-		this.modelManager.addModelManagerListener(this);
 		
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
@@ -24,20 +23,6 @@ public class ClosedAuctionsPane extends JPanel implements ModelManagerListener {
 		closedAuctionTable.setModel(modelManager.getClosedAuctionsList());
 		closedAuctionTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(closedAuctionTable), "grow, pushx");
-		
-	}
-
-	
-	
-	@Override
-	public void didUpdate(ModelManager manager) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void didUpdateUser(ModelManager manager) {
-		// TODO Auto-generated method stub
 		
 	}
 }

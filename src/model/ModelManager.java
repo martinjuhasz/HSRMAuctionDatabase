@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,9 @@ public class ModelManager {
     private static final String DATABASE_PATH = "db.intern.mi.hs-rm.de:5432/mjuha001_auction";
     private static final String DATABASE_USER = "mjuha001";
     private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
-   
+    
+    private String loginUserName;
+
     static { 
     	try {
             Class.forName("org.postgresql.Driver");
@@ -121,6 +124,39 @@ public class ModelManager {
 			listener.didUpdateUser(this);
 		}
 		
+	}
+	
+	public boolean login(String username, String password) throws SQLException {
+		PreparedStatement loginStmt = connection.prepareStatement("SELECT username FROM \"user\" "
+				+ "WHERE username=? AND password=?");
+		loginStmt.setString(1, username);
+		loginStmt.setString(2, md5(password));
+		ResultSet res = loginStmt.executeQuery();
+		if (res.next()) {
+			loginUserName = res.getString(1);
+			
+			for (ModelManagerListener listener : modelManagerListeners) {
+				listener.userDidLogin(this);
+			}
+			
+			return true;
+		}
+		return false;
+	}
+	
+	public void logout() {
+		loginUserName = null;
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.userDidLogout(this);
+		}
+	}
+	
+	public boolean isLoggedIn() {
+		return loginUserName != null;
+	}
+	
+	public String getLoginUserName() {
+		return loginUserName;
 	}
 	
 	private String md5(String toHash) {

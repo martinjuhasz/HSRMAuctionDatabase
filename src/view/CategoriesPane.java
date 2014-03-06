@@ -14,7 +14,7 @@ import model.ModelManager;
 import model.ModelManagerListener;
 import net.miginfocom.swing.MigLayout;
 
-public class CategoriesPane extends JPanel implements ModelManagerListener, ActionListener {
+public class CategoriesPane extends JPanel implements ActionListener {
 	
 	private ModelManager modelManager;
 	private JTable categoriesTable;
@@ -46,23 +46,10 @@ public class CategoriesPane extends JPanel implements ModelManagerListener, Acti
 		add(inputPanel);
 		
 	}
-	
-	@Override
-	public void didUpdate(ModelManager manager) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void didUpdateUser(ModelManager manager) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

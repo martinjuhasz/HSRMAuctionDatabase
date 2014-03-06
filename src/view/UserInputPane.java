@@ -8,12 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import model.ModelManager;
-import model.ModelManagerException;
-import model.User;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
@@ -22,7 +21,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 	private ModelManager modelManager;
 	
 	private JTextField userNameField;
-	private JTextField passwordField;
+	private JPasswordField passwordField;
 	private JTextField firstNameField;
 	private JTextField surNameField;
 	private JTextField emailField;
@@ -55,7 +54,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 		JLabel passwordTitle = new JLabel("Passwort:");
 		add(passwordTitle);
 		
-		passwordField = new JTextField();
+		passwordField = new JPasswordField();
 		add(passwordField, "growx, wrap");
 		
 		JLabel firstNameTitle = new JLabel("Vorname:");
@@ -125,10 +124,9 @@ public class UserInputPane extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void setUser(int row) {
+	public void setUser(UserList userList, int row) {
 		userRow = row;
 		
-		UserList userList = modelManager.getUserList();
 		userNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_USER_NAME));
 		firstNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_FIRST_NAME));
 		surNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_SUR_NAME));

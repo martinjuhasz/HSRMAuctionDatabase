@@ -11,7 +11,7 @@ import model.ModelManager;
 import model.ModelManagerListener;
 import net.miginfocom.swing.MigLayout;
 
-public class AuctionPane extends JPanel implements ModelManagerListener, ListSelectionListener {
+public class AuctionPane extends JPanel implements ListSelectionListener {
 
 	private ModelManager modelManager;
 	private JTable auctionTable;
@@ -32,20 +32,7 @@ public class AuctionPane extends JPanel implements ModelManagerListener, ListSel
 		auctionTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(auctionTable), "grow, pushx");
 	}
-
-
-	@Override
-	public void didUpdate(ModelManager manager) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void didUpdateUser(ModelManager manager) {
-	}
-
-
+	
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// only fire on mouse released
@@ -54,7 +41,4 @@ public class AuctionPane extends JPanel implements ModelManagerListener, ListSel
 		String category = (String)categoryTable.getValueAt(categoryTable.getSelectedRow(), 0);
 		auctionTable.setModel(modelManager.getAuctionList(category));
 	}
-
-
-
 }

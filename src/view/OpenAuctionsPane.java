@@ -10,7 +10,7 @@ import net.miginfocom.swing.MigLayout;
 import model.ModelManager;
 import model.ModelManagerListener;
 
-public class OpenAuctionsPane extends JPanel implements ModelManagerListener, ListSelectionListener {
+public class OpenAuctionsPane extends JPanel implements ListSelectionListener {
 	
 	private ModelManager modelManager;
 	private JTable categoryTable;
@@ -20,7 +20,6 @@ public class OpenAuctionsPane extends JPanel implements ModelManagerListener, Li
 	public OpenAuctionsPane(ModelManager modelManager) {
 		
 		this.modelManager = modelManager;
-		this.modelManager.addModelManagerListener(this);
 		
 		setLayout(new MigLayout("fill"));
 		
@@ -35,19 +34,6 @@ public class OpenAuctionsPane extends JPanel implements ModelManagerListener, Li
 		add(new JScrollPane(currentAuctionTable), "grow");
 
 	}
-
-
-	@Override
-	public void didUpdate(ModelManager manager) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void didUpdateUser(ModelManager manager) {
-	}
-
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
