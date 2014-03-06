@@ -1,10 +1,9 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ActiveAuctionsList extends DatabaseTableModel {
+public class ActiveAuctionsList extends DatabaseModel {
 	
 	public ActiveAuctionsList(Connection db) {
 		super(db);
@@ -20,15 +19,7 @@ public class ActiveAuctionsList extends DatabaseTableModel {
 		loadData();
 	}
 	
-	@Override
-	public int getColumnCount() {
-		return 1;
+	public DatabaseTableModel getTableModel() {
+		return new DatabaseTableModel(this, new String[]{"Auktionen"});
 	}
-	
-	@Override
-	public String getColumnName(int column) {
-		if(column == 0) return "Auktionen";
-		return "";
-	}
-
 }

@@ -1,13 +1,9 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.table.AbstractTableModel;
-
-public class CategoryList extends DatabaseTableModel {
+public class CategoryList extends DatabaseModel {
 	
 	public static final int COLUMN_CATEGORY_NAME = 0;
 	public static final int COLUMN_CATEGORY_ID = 1;
@@ -24,15 +20,7 @@ public class CategoryList extends DatabaseTableModel {
 		loadData();
 	}
 	
-	@Override
-	public int getColumnCount() {
-		return 1;
+	public DatabaseTableModel getTableModel() {
+		return new DatabaseTableModel(this, new String[]{"Kategorie"});
 	}
-
-	@Override
-	public String getColumnName(int column) {
-		if(column == COLUMN_CATEGORY_NAME) return "Kategorie";
-		return "";
-	}
-
 }

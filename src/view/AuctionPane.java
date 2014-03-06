@@ -14,6 +14,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.CategoryList;
+import model.DatabaseModel;
+import model.DatabaseTableModel;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
@@ -33,20 +35,20 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
-				categoryTable.setModel(modelManager.getCategoriesList());
-				auctionTable.setModel(modelManager.getAuctionList());
+				categoryTable.setModel(modelManager.getCategoriesList().getTableModel());
+				auctionTable.setModel(modelManager.getAuctionList().getTableModel());
 			}
 		});
 		
 		categoryTable = new JTable();
-		categoryTable.setModel(modelManager.getCategoriesList());
+		categoryTable.setModel(modelManager.getCategoriesList().getTableModel());
 		categoryTable.getSelectionModel().addListSelectionListener(this);
 		categoryTable.setAutoCreateRowSorter(true);
 		categoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(categoryTable), "growy, w 150!");
 		
 		auctionTable = new JTable();
-		auctionTable.setModel(modelManager.getAuctionList());
+		auctionTable.setModel(modelManager.getAuctionList().getTableModel());
 		auctionTable.setAutoCreateRowSorter(true);
 		auctionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(auctionTable), "grow, pushx, wrap");
@@ -72,7 +74,8 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		// only fire on mouse released
 		if(e.getValueIsAdjusting() || auctionTable.getSelectedRow() < 0) return;
 		
-		int category = (int)categoryTable.getModel().getValueAt(categoryTable.getSelectedRow(), CategoryList.COLUMN_CATEGORY_ID);
-		auctionTable.setModel(modelManager.getAuctionList(category));
+		DatabaseModel model = ((DatabaseTableModel)categoryTable.getModel()).getDatabaseModel();
+		int category = (int) model.getRow(categoryTable.getSelectedRow())[CategoryList.COLUMN_CATEGORY_ID];
+		auctionTable.setModel(modelManager.getAuctionList(category).getTableModel());
 	}
 }

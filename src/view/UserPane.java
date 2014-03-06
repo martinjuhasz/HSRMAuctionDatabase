@@ -9,6 +9,8 @@ import javax.swing.event.ListSelectionListener;
 
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
+import model.DatabaseModel;
+import model.DatabaseTableModel;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
@@ -23,7 +25,7 @@ public class UserPane extends JPanel {
 		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateUser(ModelManager manager) {
-				userTable.setModel(manager.getUserList());
+				userTable.setModel(manager.getUserList().getTableModel());
 			}
 		});
 		
@@ -31,7 +33,7 @@ public class UserPane extends JPanel {
 		
 		
 		userTable = new JTable();
-		userTable.setModel(modelManager.getUserList());
+		userTable.setModel(modelManager.getUserList().getTableModel());
 		userTable.setAutoCreateRowSorter(true);
 		userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		userTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -39,7 +41,7 @@ public class UserPane extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if(e.getValueIsAdjusting() ||  userTable.getSelectedRow() < 0) return;
-				UserList model = (UserList)userTable.getModel();
+				DatabaseModel model = ((DatabaseTableModel)userTable.getModel()).getDatabaseModel();
 				userInputPane.setUser(model.getRow(userTable.getSelectedRow()));
 			}
 		});

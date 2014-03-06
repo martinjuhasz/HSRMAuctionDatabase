@@ -1,13 +1,9 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.table.AbstractTableModel;
-
-public class UserList extends DatabaseTableModel {
+public class UserList extends DatabaseModel {
 	
 	public static final int COLUMN_USER_NAME = 0;
 	public static final int COLUMN_FIRST_NAME = 1;
@@ -32,33 +28,9 @@ public class UserList extends DatabaseTableModel {
 		loadData();
 	}
 	
-	@Override
-	public int getColumnCount() {
-		return 8;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		switch (column) {
-		case 0:
-			return "Benutzername";
-		case 1:
-			return "Vorname";
-		case 2:
-			return "Nachname";
-		case 3:
-			return "E-Mail";
-		case 4:
-			return "Strasse";
-		case 5:
-			return "Hausnummer";
-		case 6:
-			return "PLZ";
-		case 7:
-			return "Stadt";
-		default:
-			return "";
-		}
+	public DatabaseTableModel getTableModel() {
+		return new DatabaseTableModel(this, new String[]{"Benutzername","Vorname",
+				"Nachname","E-Mail","Strasse","Hausnummer", "PLZ", "Stadt"});
 	}
 
 }

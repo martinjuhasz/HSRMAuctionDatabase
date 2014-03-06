@@ -17,12 +17,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.CategoryList;
+import model.DatabaseTableModel;
+import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
 import controller.ModelManagerException;
-import model.CategoryList;
-import model.UserList;
-import net.miginfocom.swing.MigLayout;
 
 public class CategoriesPane extends JPanel implements ActionListener, ListSelectionListener {
 	
@@ -41,14 +41,14 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
-				categoriesTable.setModel(modelManager.getCategoriesList());
+				categoriesTable.setModel(modelManager.getCategoriesList().getTableModel());
 			}
 		});
 		
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
 		categoriesTable = new JTable();
-		categoriesTable.setModel(modelManager.getCategoriesList());
+		categoriesTable.setModel(modelManager.getCategoriesList().getTableModel());
 		categoriesTable.setAutoCreateRowSorter(true);
 		categoriesTable.getSelectionModel().addListSelectionListener(this);
 		categoriesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -103,9 +103,9 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 	}
 	
 	private void setCategory(int row) {
-		CategoryList categoryList = (CategoryList)categoriesTable.getModel();
-		cid = (int)categoryList.getValueAt(row, CategoryList.COLUMN_CATEGORY_ID);
-		categoryField.setText((String)categoryList.getValueAt(row, CategoryList.COLUMN_CATEGORY_NAME));
+		Object[] rowData = ((DatabaseTableModel)categoriesTable.getModel()).getDatabaseModel().getRow(row);
+		cid = (int)rowData[CategoryList.COLUMN_CATEGORY_ID];
+		categoryField.setText((String)rowData[CategoryList.COLUMN_CATEGORY_NAME]);
 	}
 	
 	public void cleanCategory() {

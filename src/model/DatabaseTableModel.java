@@ -1,72 +1,37 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
 public class DatabaseTableModel extends AbstractTableModel {
 
-	protected Connection db;
-	protected List<Object[]> resultSet;
+	private DatabaseModel databaseModel;
+	private String[] columns;
 	
-	protected PreparedStatement selectStmt;
-	
-	public DatabaseTableModel(Connection db) {
-		this.db = db;
-		loadData();
-	}
-	
-	protected void loadData() {
-		resultSet = queryResults();
-
-		fireTableDataChanged();
-	}
-	
-	private List<Object[]> queryResults() {
-		if(selectStmt == null) return null;
-		
-		List<Object[]> result = new ArrayList<>();
-		try {
-			ResultSet resultSet = selectStmt.executeQuery();
-			while(resultSet.next()) {
-				Object[] row = new Object[resultSet.getMetaData().getColumnCount()];
-				for (int i = 0; i < row.length; i++) {
-					row[i] = resultSet.getObject(i + 1);
-				}
-				result.add(row);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+	public DatabaseTableModel(DatabaseModel databaseModel, String[] columns) {
+		this.databaseModel = databaseModel;
+		this.columns = columns;
 	}
 	
 	@Override
 	public int getRowCount() {
-		return resultSet.size();
+		return databaseModel.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 0;
+		return columns.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return resultSet.get(rowIndex)[columnIndex];
-	}
-	
-	public Object[] getRow(int rowIndex) {
-		return resultSet.get(rowIndex);
+		return databaseModel.getRow(rowIndex)[columnIndex];
 	}
 	
 	public String getColumnName(int column) {
-		return "";
+		return columns[column];
 	}
-
+	
+	public DatabaseModel getDatabaseModel() {
+		return databaseModel;
+	}
 }

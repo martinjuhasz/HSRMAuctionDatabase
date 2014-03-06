@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClosedAuctionsList extends DatabaseTableModel {
+public class ClosedAuctionsList extends DatabaseModel {
 
 	public ClosedAuctionsList(Connection db){
 		super(db);
@@ -16,24 +16,9 @@ public class ClosedAuctionsList extends DatabaseTableModel {
 		}
 		
 		loadData();
-		
 	}
 	
-	
-	public int getColumnCount() {
-		return 3;
-	}
-	
-	public String getColumnName(int column) {
-		switch (column) {
-		case 0:
-			return "Kategorie";
-		case 1:
-			return "Anzahl der Auktionen";
-		case 2:
-			return "Summe";
-		default:
-			return "";
-		}
+	public DatabaseTableModel getTableModel() {
+		return new DatabaseTableModel(this, new String[]{"Kategorie","Anzahl der Auktionen","Summe"});
 	}
 }

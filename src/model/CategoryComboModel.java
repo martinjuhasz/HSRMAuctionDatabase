@@ -15,12 +15,12 @@ public class CategoryComboModel extends AbstractListModel<String> implements Com
 	
 	@Override
 	public int getSize() {
-		return this.categoryList.getRowCount();
+		return this.categoryList.size();
 	}
 
 	@Override
 	public String getElementAt(int index) {
-		return (String)this.categoryList.getValueAt(index, CategoryList.COLUMN_CATEGORY_NAME);
+		return (String)this.categoryList.getRow(index)[CategoryList.COLUMN_CATEGORY_NAME];
 	}
 
 	@Override

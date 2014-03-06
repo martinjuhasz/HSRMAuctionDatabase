@@ -10,6 +10,8 @@ import javax.swing.event.ListSelectionListener;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
 import model.CategoryList;
+import model.DatabaseModel;
+import model.DatabaseTableModel;
 import net.miginfocom.swing.MigLayout;
 
 public class ActiveAuctionsPane extends JPanel implements ListSelectionListener {
@@ -28,12 +30,12 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
-				categoryTable.setModel(manager.getCategoriesList());
+				categoryTable.setModel(manager.getCategoriesList().getTableModel());
 			}
 		});
 		
 		categoryTable = new JTable();
-		categoryTable.setModel(modelManager.getCategoriesList());
+		categoryTable.setModel(modelManager.getCategoriesList().getTableModel());
 		categoryTable.getSelectionModel().addListSelectionListener(this);
 		categoryTable.setAutoCreateRowSorter(true);
 		categoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -52,7 +54,8 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 		// only fire on mouse released
 		if(e.getValueIsAdjusting() || currentAuctionTable.getSelectedRow() < 0) return;
 		
-		int category = (int)categoryTable.getModel().getValueAt(categoryTable.getSelectedRow(), CategoryList.COLUMN_CATEGORY_ID);
-		currentAuctionTable.setModel(modelManager.getAuctionList(category));
+		DatabaseModel model = ((DatabaseTableModel)categoryTable.getModel()).getDatabaseModel();
+		int category = (int) model.getRow(categoryTable.getSelectedRow())[CategoryList.COLUMN_CATEGORY_ID];
+		currentAuctionTable.setModel(modelManager.getAuctionList(category).getTableModel());
 	}
 }

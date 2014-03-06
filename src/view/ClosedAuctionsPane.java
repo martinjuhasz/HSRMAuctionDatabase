@@ -21,7 +21,7 @@ public class ClosedAuctionsPane extends JPanel {
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
 		closedAuctionTable = new JTable();
-		closedAuctionTable.setModel(modelManager.getClosedAuctionsList());
+		closedAuctionTable.setModel(modelManager.getClosedAuctionsList().getTableModel());
 		closedAuctionTable.setAutoCreateRowSorter(true);
 		closedAuctionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(closedAuctionTable), "grow, pushx");
@@ -29,7 +29,7 @@ public class ClosedAuctionsPane extends JPanel {
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
-				closedAuctionTable.setModel(manager.getClosedAuctionsList());
+				closedAuctionTable.setModel(manager.getClosedAuctionsList().getTableModel());
 			}
 		});
 		
