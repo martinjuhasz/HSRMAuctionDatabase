@@ -16,7 +16,6 @@ public class CategoryList extends DatabaseTableModel {
 		super(db);
 		
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"category\"");
 			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			e.printStackTrace();

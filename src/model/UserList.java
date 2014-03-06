@@ -24,7 +24,6 @@ public class UserList extends DatabaseTableModel {
 		super(db);
 		
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"user_view\"");
 			selectStmt = db.prepareStatement("SELECT * FROM \"user_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			e.printStackTrace();

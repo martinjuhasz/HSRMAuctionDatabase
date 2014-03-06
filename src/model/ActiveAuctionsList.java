@@ -12,8 +12,6 @@ public class ActiveAuctionsList extends DatabaseTableModel {
 
 	public void setCategory(String category) {
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction\" WHERE category=?");
-			countStmt.setString(1, category);
 			selectStmt = db.prepareStatement("SELECT title FROM \"auction\" WHERE category=?",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			selectStmt.setString(1, category);
 		} catch (SQLException e) {

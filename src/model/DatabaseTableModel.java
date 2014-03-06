@@ -4,16 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 public class DatabaseTableModel extends AbstractTableModel {
 
 	protected Connection db;
-	protected int rowCount;
-	protected Object resultSet[][];
+	protected List<Object[]> resultSet;
 	
-	protected PreparedStatement countStmt;
 	protected PreparedStatement selectStmt;
 	
 	public DatabaseTableModel(Connection db) {
@@ -22,39 +22,23 @@ public class DatabaseTableModel extends AbstractTableModel {
 	}
 	
 	protected void loadData() {
-		rowCount = queryRowCount();
 		resultSet = queryResults();
 
 		fireTableDataChanged();
 	}
 	
-	private int queryRowCount() {
-		
-		if(countStmt == null) return 0;
-		
-		try {
-			ResultSet res = countStmt.executeQuery();
-			if (res.next()) {
-				return res.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	private Object[][] queryResults() {
+	private List<Object[]> queryResults() {
 		if(selectStmt == null) return null;
 		
-		Object result[][] = null;
+		List<Object[]> result = new ArrayList<>();
 		try {
 			ResultSet resultSet = selectStmt.executeQuery();
-			result = new Object[getRowCount()][resultSet.getMetaData().getColumnCount()];
-			for (int i = 0; i < result.length; i++) {
-				for (int j = 0; j < result[i].length; j++) {
-					resultSet.absolute(i + 1);
-					result[i][j] = resultSet.getObject(j + 1);
+			while(resultSet.next()) {
+				Object[] row = new Object[resultSet.getMetaData().getColumnCount()];
+				for (int i = 0; i < row.length; i++) {
+					row[i] = resultSet.getObject(i + 1);
 				}
+				result.add(row);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,7 +48,7 @@ public class DatabaseTableModel extends AbstractTableModel {
 	
 	@Override
 	public int getRowCount() {
-		return rowCount;
+		return resultSet.size();
 	}
 
 	@Override
@@ -74,11 +58,11 @@ public class DatabaseTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return resultSet[rowIndex][columnIndex];
+		return resultSet.get(rowIndex)[columnIndex];
 	}
 	
 	public Object[] getRow(int rowIndex) {
-		return resultSet[rowIndex];
+		return resultSet.get(rowIndex);
 	}
 	
 	public String getColumnName(int column) {

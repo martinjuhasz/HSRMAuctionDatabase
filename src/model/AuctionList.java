@@ -12,7 +12,6 @@ public class AuctionList extends DatabaseTableModel {
 	public AuctionList(Connection db){
 		super(db);
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\"");
 			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -22,8 +21,6 @@ public class AuctionList extends DatabaseTableModel {
 	
 	public void setCategory(int category) {
 		try {
-			countStmt = db.prepareStatement("SELECT COUNT(*) FROM \"auction_view\" WHERE category=?");
-			countStmt.setInt(1, category);
 			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			selectStmt.setInt(1, category);
 		} catch (SQLException e) {
