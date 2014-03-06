@@ -25,7 +25,7 @@ public class OpenAuctionsPane extends JPanel implements ModelManagerListener, Li
 		setLayout(new MigLayout("fill"));
 		
 		categoryTable = new JTable();
-		categoryTable.setModel(modelManager.getCategoryForOpenAuctionsList());
+		categoryTable.setModel(modelManager.getCategoriesList());
 		categoryTable.getSelectionModel().addListSelectionListener(this);
 		categoryTable.setAutoCreateRowSorter(true);
 		add(new JScrollPane(categoryTable), "grow");

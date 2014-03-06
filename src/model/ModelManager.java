@@ -19,7 +19,7 @@ public class ModelManager {
     
     private UserList userList;
     private AuctionList auctionList;
-    private CategoryList categoryForOpenAuctionsList;
+    private CategoryList categoriesList;
     private ActiveAuctionsList acticeAuctionsList;
 
     static { 
@@ -82,11 +82,11 @@ public class ModelManager {
 		}
 		return auctionList;
 	}
-	public CategoryList getCategoryForOpenAuctionsList() {
-		if(categoryForOpenAuctionsList == null) {
-			categoryForOpenAuctionsList = new CategoryList(connection);
+	public CategoryList getCategoriesList() {
+		if(categoriesList == null) {
+			categoriesList = new CategoryList(connection);
 		}
-		return categoryForOpenAuctionsList;
+		return categoriesList;
 	}
 	
 	public ActiveAuctionsList getActiveAuctionsList(String category) {

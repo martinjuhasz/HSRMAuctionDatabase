@@ -14,6 +14,7 @@ public class MainFrame extends JFrame {
 		add(tabPane);
 		
 		tabPane.addTab("Benutzer", new UserPane(modelManager));
+		tabPane.addTab("Kategorien", new CategoriesPane(modelManager));
 		tabPane.addTab("Auktionen", new AuctionPane(modelManager));
 		tabPane.addTab("Berichte", new ReportPane(modelManager));
 		
