@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import model.ModelManager;
+import model.ModelManagerException;
 import model.UserList;
 import net.miginfocom.swing.MigLayout;
 
@@ -31,13 +33,13 @@ public class UserInputPane extends JPanel implements ActionListener {
 	private JTextField cityField;
 	private JButton submitButton;
 	private JButton newButton;
-	private int userRow;
+	private int uid;
 	private Callback resetCallback;
 	
 	public UserInputPane(ModelManager modelManager) {
 		
 		this.modelManager = modelManager;
-		userRow = -1;
+		uid = -1;
 		
 		this.setLayout(new MigLayout("", "[][150!]",""));
 	
@@ -110,9 +112,9 @@ public class UserInputPane extends JPanel implements ActionListener {
 			try {
 				modelManager.updateUser(userNameField.getText(), passwordField.getText(), firstNameField.getText(), 
 						surNameField.getText(), emailField.getText(), streetField.getText(), 
-						streetNumberField.getText(), postalField.getText(), cityField.getText(), userRow < 0);
+						streetNumberField.getText(), postalField.getText(), cityField.getText(), uid);
 				cleanUser();
-			} catch (Exception e1) {
+			} catch (SQLException | ModelManagerException e1) {
 				JFrame frame = (JFrame)SwingUtilities.getRoot(this);
 				JOptionPane.showMessageDialog(frame, e1);
 			}
@@ -125,9 +127,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 	}
 	
 	public void setUser(UserList userList, int row) {
-		System.out.println("old row: " + userRow + " ; new Row: " + row);
-		userRow = row;
-		
+		uid = (int)userList.getValueAt(row, UserList.COLUMN_UID);
 		userNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_USER_NAME));
 		firstNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_FIRST_NAME));
 		surNameField.setText((String)userList.getValueAt(row, UserList.COLUMN_SUR_NAME));
@@ -139,7 +139,7 @@ public class UserInputPane extends JPanel implements ActionListener {
 	}
 	
 	public void cleanUser() {
-		userRow = -1;
+		uid = -1;
 		userNameField.setText("");
 		passwordField.setText("");
 		firstNameField.setText("");

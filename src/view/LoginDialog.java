@@ -38,14 +38,14 @@ public class LoginDialog extends JDialog implements ActionListener {
 		JLabel userNameTitle = new JLabel("Benutzername:");
 		getContentPane().add(userNameTitle);
 
-		userNameField = new JTextField();
+		userNameField = new JTextField("choise");
 		userNameField.addActionListener(this);
 		getContentPane().add(userNameField, "growx, wrap");
 
 		JLabel passwordTitle = new JLabel("Passwort:");
 		getContentPane().add(passwordTitle);
 
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField("password");
 		passwordField.addActionListener(this);
 		getContentPane().add(passwordField, "growx, wrap");
 

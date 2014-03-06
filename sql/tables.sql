@@ -18,7 +18,8 @@ CREATE TABLE "city" (
 );
 
 CREATE TABLE "user" (
-	username 		VARCHAR(100) 	PRIMARY KEY,
+	id				SERIAL 			PRIMARY KEY,
+	username 		VARCHAR(100) 	UNIQUE NOT NULL,
 	password		VARCHAR(255)	NOT NULL,
 	first_name		VARCHAR(255)	NOT NULL,
 	last_name		VARCHAR(255)	NOT NULL,
@@ -33,17 +34,17 @@ CREATE TABLE "bank_account" (
 	bank_number		"BLZ"			NOT NULL,
 	account_number	"KTNR"			NOT NULL,
 	account_holder	VARCHAR(255)	NOT NULL,
-	username		VARCHAR(100)	REFERENCES "user"(username) NOT NULL,
+	uid				INT4			REFERENCES "user"(id) NOT NULL,
 	PRIMARY KEY (bank_number, account_number)
 );
 
 CREATE TABLE "admin" (
-	username 	VARCHAR(100) PRIMARY KEY REFERENCES "user"(username)
+	uid 	INT4 PRIMARY KEY REFERENCES "user"(id)
 );
 
 CREATE TABLE "search_term" (
-	username	VARCHAR(100) PRIMARY KEY REFERENCES "user"(username),
-	term 		VARCHAR(255) NOT NULL
+	uid			INT4 			PRIMARY KEY REFERENCES "user"(id),
+	term 		VARCHAR(255)	NOT NULL
 );
 
 CREATE TABLE "category" (
@@ -62,14 +63,14 @@ CREATE TABLE "auction" (
 	description			TEXT			NOT NULL,
 	image 				BYTEA,
 	category			VARCHAR(100)	REFERENCES "category"(name) NOT NULL,
-	offerer				VARCHAR(100) 	REFERENCES "user"(username) NOT NULL,
+	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
 	price 				INT 			NOT NULL,
 	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
 );
 
 -- rating nur setzen wenn auction vorbei und rater == buyer
 CREATE TABLE "rating" (
-	rater			VARCHAR(100) 	REFERENCES "user"(username),
+	rater			INT4			REFERENCES "user"(id),
 	auction			INT4			PRIMARY KEY REFERENCES "auction"(id),
 	score			INT 			CHECK (score BETWEEN 0 AND 5),
 	comment			TEXT
@@ -78,19 +79,19 @@ CREATE TABLE "rating" (
 -- bid prüfen ob endtime schon abgelaufen
 -- bid nur wenn nicht schon höchstbietender
 CREATE TABLE "bid" (
-	username	VARCHAR(100)	REFERENCES "user"(username),
+	uid			INT4			REFERENCES "user"(id),
 	auction 	INT4			REFERENCES "auction"(id),
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	price 		INT, -- nur bid erstellen wenn price > maximal price der auction ist
-	PRIMARY KEY(username, auction, time)
+	PRIMARY KEY(uid, auction, time)
 );
 
 CREATE TABLE "comment" (
-	username	VARCHAR(100)	REFERENCES "user"(username),
+	uid			INT4			REFERENCES "user"(id),
 	auction 	INT4			REFERENCES "auction"(id),
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	content		TEXT 			NOT NULL,
-	PRIMARY KEY (username, auction, time) 		
+	PRIMARY KEY (uid, auction, time) 		
 );
 
 
@@ -99,24 +100,24 @@ CREATE TABLE "comment" (
 -------------------------------------------------------------------------------------
 
 CREATE VIEW "user_view" AS
-	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city, u.password FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code WHERE u.deleted=FALSE;
+	SELECT u.username, u.first_name, u.last_name, u.email, u.street, u.street_number, u.postal_code, c.city, u.password, u.id FROM "user" u LEFT JOIN city c ON u.postal_code=c.postal_code WHERE u.deleted=FALSE;
 
 CREATE RULE "user_insert" AS ON INSERT TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
-       INSERT INTO  "city" SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
-       INSERT INTO  "user" VALUES(NEW.username, NEW.password, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
+       INSERT INTO  "city"(postal_code, city) SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
+       INSERT INTO  "user"(username, password, first_name, last_name,email,street,street_number,postal_code) VALUES(NEW.username, NEW.password, NEW.first_name, NEW.last_name, NEW.email, NEW.street, NEW.street_number, NEW.postal_code);
 );
 CREATE RULE "user_update" AS ON UPDATE TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
-       INSERT INTO  "city" SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
-       UPDATE "user" SET username=NEW.username, first_name=NEW.first_name, last_name=NEW.last_name, email=NEW.email, street=NEW.street,  street_number=NEW.street_number, postal_code=NEW.postal_code, password=NEW.password;
+       INSERT INTO  "city"(postal_code, city) SELECT NEW.postal_code, NEW.city WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE postal_code = NEW.postal_code);
+       UPDATE "user" SET username=NEW.username, first_name=NEW.first_name, last_name=NEW.last_name, email=NEW.email, street=NEW.street,  street_number=NEW.street_number, postal_code=NEW.postal_code, password=NEW.password WHERE id=NEW.id;
 );
 CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
        --INSERT INTO  "city" VALUES(NEW.postal_code,NEW.city) WHERE NOT EXISTS ( SELECT postal_code FROM "city" WHERE id = NEW.postal_code);
-  	DELETE FROM "bank_account" WHERE username=OLD.username;
-  	DELETE FROM "search_term" WHERE username=OLD.username;
-  	DELETE FROM "admin" WHERE username=OLD.username;
-  	UPDATE "user" SET deleted=TRUE;
+  	DELETE FROM "bank_account" WHERE uid=OLD.id;
+  	DELETE FROM "search_term" WHERE uid=OLD.id;
+  	DELETE FROM "admin" WHERE uid=OLD.id;
+  	UPDATE "user" SET deleted=TRUE WHERE id=OLD.id;
 );
 
 -- max_bid sollte nicht höchster sein, sondern 2t höchster + 1

@@ -20,7 +20,7 @@ public class LoginStatusPane extends JPanel {
 	
 	public LoginStatusPane(ModelManager mManager) {
 		
-		setLayout(new MigLayout());
+		setLayout(new MigLayout("rtl"));
 		
 		this.modelManager = mManager;
 		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {
@@ -35,9 +35,6 @@ public class LoginStatusPane extends JPanel {
 			}
 		});
 		
-		userNameLabel = new JLabel();
-		add(userNameLabel, "gapleft push");
-		
 		logoutButton = new JButton("Logout");
 		logoutButton.addActionListener(new ActionListener() {
 			
@@ -48,6 +45,9 @@ public class LoginStatusPane extends JPanel {
 			}
 		});
 		add(logoutButton, "gapleft push");
+		
+		userNameLabel = new JLabel();
+		add(userNameLabel, "gapleft push");
 		
 		refresh();
 	}

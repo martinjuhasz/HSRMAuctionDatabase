@@ -17,6 +17,8 @@ public class UserList extends DatabaseTableModel {
 	public static final int COLUMN_STREET_NUMBER = 5;
 	public static final int COLUMN_POSTAL_CODE = 6;
 	public static final int COLUMN_CITY = 7;
+	public static final int COLUMN_PASSWORD = 8;
+	public static final int COLUMN_UID = 9;
 
 	public UserList(Connection db) {
 		super(db);

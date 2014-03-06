@@ -41,7 +41,7 @@ public class UserPane extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if(e.getValueIsAdjusting()) return;
+				if(e.getValueIsAdjusting() ||  userTable.getSelectedRow() < 0) return;
 				userInputPane.setUser((UserList)userTable.getModel(), userTable.getSelectedRow());
 			}
 		});

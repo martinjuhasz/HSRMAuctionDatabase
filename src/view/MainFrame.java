@@ -1,7 +1,7 @@
 package view;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -35,14 +35,14 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		setLayout(new MigLayout("rtl"));
+		setLayout(new MigLayout("fill", "", "[55!][]"));
 		
 		loginStatusPane = new LoginStatusPane(modelManager);
-		add(loginStatusPane, "wrap");
+		add(loginStatusPane, "growx, wrap");
 		
 		tabPane = new JTabbedPane();
 		tabPane.setVisible(false);
-		add(tabPane);
+		add(tabPane, "grow");
 		
 		tabs = new ArrayList<>();
 		tabs.add(new Tab("Benutzer", new UserPane(modelManager), true));
@@ -51,7 +51,7 @@ public class MainFrame extends JFrame {
 		tabs.add(new Tab("Berichte", new ReportPane(modelManager), true));
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500,500);
+		setSize(950,650);
 		
 		showLogin();
 	}
