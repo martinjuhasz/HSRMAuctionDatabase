@@ -10,7 +10,7 @@ public class ClosedAuctionsList extends DatabaseTableModel {
 		super(db);
 		
 		try {
-			selectStmt = db.prepareStatement("SELECT * FROM\"closed_auctions_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT * FROM\"closed_auctions_view\"");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

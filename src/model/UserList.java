@@ -24,7 +24,7 @@ public class UserList extends DatabaseTableModel {
 		super(db);
 		
 		try {
-			selectStmt = db.prepareStatement("SELECT * FROM \"user_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT * FROM \"user_view\"");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

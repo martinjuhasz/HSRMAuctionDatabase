@@ -16,7 +16,7 @@ public class CategoryList extends DatabaseTableModel {
 		super(db);
 		
 		try {
-			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\"");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

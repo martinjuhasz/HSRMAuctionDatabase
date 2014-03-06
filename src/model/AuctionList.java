@@ -12,7 +12,7 @@ public class AuctionList extends DatabaseTableModel {
 	public AuctionList(Connection db){
 		super(db);
 		try {
-			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\"");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -21,7 +21,7 @@ public class AuctionList extends DatabaseTableModel {
 	
 	public void setCategory(int category) {
 		try {
-			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?");
 			selectStmt.setInt(1, category);
 		} catch (SQLException e) {
 			e.printStackTrace();
