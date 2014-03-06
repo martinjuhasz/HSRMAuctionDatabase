@@ -25,8 +25,8 @@ CREATE TABLE "user" (
 	email			"EMAIL"			NOT NULL,
 	street			VARCHAR(255)	NOT NULL,
 	street_number	VARCHAR(255)	NOT NULL,
-	deleted			BOOLEAN			DEFAULT FALSE,
-	postal_code		VARCHAR(40)		REFERENCES "city"(postal_code) NOT NULL
+	postal_code		VARCHAR(40)		REFERENCES "city"(postal_code) NOT NULL,
+	deleted			BOOLEAN			DEFAULT FALSE
 );
 
 CREATE TABLE "bank_account" (
