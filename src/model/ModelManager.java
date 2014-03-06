@@ -22,6 +22,7 @@ public class ModelManager {
     private AuctionList auctionList;
     private CategoryList categoriesList;
     private ActiveAuctionsList acticeAuctionsList;
+    private ClosedAuctionsList closedAuctionsList;
 
     static { 
     	try {
@@ -96,6 +97,13 @@ public class ModelManager {
 		}
 		acticeAuctionsList.setCategory(category);
 		return acticeAuctionsList;
+	}
+	
+	public ClosedAuctionsList getClosedAuctionsList() {
+		if(closedAuctionsList == null) {
+			closedAuctionsList = new ClosedAuctionsList(connection);
+		}
+		return closedAuctionsList;
 	}
 	
 
