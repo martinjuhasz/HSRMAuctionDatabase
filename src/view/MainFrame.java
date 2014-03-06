@@ -37,11 +37,8 @@ public class MainFrame extends JFrame {
 		
 		setLayout(new MigLayout("fill", "", "[55!][]"));
 		
-		CreateAuctionDialog auctionDialog = new CreateAuctionDialog(this, modelManager);
-		auctionDialog.setVisible(true);
-		
-		//loginStatusPane = new LoginStatusPane(modelManager);
-		//add(loginStatusPane, "growx, wrap");
+		loginStatusPane = new LoginStatusPane(modelManager);
+		add(loginStatusPane, "growx, wrap");
 		
 		tabPane = new JTabbedPane();
 		tabPane.setVisible(false);

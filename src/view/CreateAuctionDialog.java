@@ -102,7 +102,7 @@ public class CreateAuctionDialog extends JDialog {
 		
 		JLabel titleLabel = new JLabel("Titel:");
 		add(titleLabel, "gapy 30");
-		
+			
 		titleTextField = new JTextField();
 		add(titleTextField, "wrap, growx,spanx 2");
 		
@@ -146,6 +146,13 @@ public class CreateAuctionDialog extends JDialog {
 		add(priceEuroLabel, "wrap, w 10!");
 		
 		closeButton = new JButton("abbrechen");
+		closeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				weakThis.dispose();
+			}
+		});
 		add(closeButton, "gapy 40");
 		
 		addButton = new JButton("erstellen");

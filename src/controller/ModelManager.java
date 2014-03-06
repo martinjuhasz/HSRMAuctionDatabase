@@ -114,6 +114,8 @@ public class ModelManager {
 	public void updateUser(String userName, String password, String firstName,
 			String surName, String email, String street, String streetNumber,
 			String postalCode, String city, int uid) throws SQLException, ModelManagerException {
+		
+		// TODO: if password is empty, keep old password
 
 		// insert user
 		PreparedStatement insertUserStmt;
