@@ -3,8 +3,8 @@ package view;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import controller.ModelManager;
 import net.miginfocom.swing.MigLayout;
+import controller.ModelManager;
 
 public class ReportPane extends JPanel {
 

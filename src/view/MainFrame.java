@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
+import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
-import net.miginfocom.swing.MigLayout;
 
 public class MainFrame extends JFrame {
 	

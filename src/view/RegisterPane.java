@@ -13,10 +13,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import model.UserList;
+import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerException;
-import net.miginfocom.swing.MigLayout;
-import model.UserList;
 
 public class RegisterPane extends JPanel implements ActionListener {
 

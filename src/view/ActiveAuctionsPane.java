@@ -7,12 +7,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controller.ModelManager;
-import controller.ModelManagerAdapter;
 import model.CategoryList;
 import model.DatabaseModel;
 import model.DatabaseTableModel;
 import net.miginfocom.swing.MigLayout;
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 
 public class ActiveAuctionsPane extends JPanel implements ListSelectionListener {
 	

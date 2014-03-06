@@ -7,12 +7,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import controller.ModelManager;
-import controller.ModelManagerAdapter;
 import model.DatabaseModel;
 import model.DatabaseTableModel;
-import model.UserList;
 import net.miginfocom.swing.MigLayout;
+import controller.ModelManager;
+import controller.ModelManagerAdapter;
 
 public class UserPane extends JPanel {
 	

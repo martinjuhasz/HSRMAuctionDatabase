@@ -5,9 +5,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
-import net.miginfocom.swing.MigLayout;
 
 public class ClosedAuctionsPane extends JPanel {
 
