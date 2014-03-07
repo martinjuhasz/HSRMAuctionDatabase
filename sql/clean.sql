@@ -6,6 +6,7 @@ DROP VIEW "auction_view";
 DROP VIEW "closed_auctions_view";
 DROP VIEW "auction_detail_view";
 DROP VIEW "auction_comment_view";
+DROP VIEW "auctions_won_view";
 DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
 DROP TRIGGER setEndDateToNowOnBidTrigger ON "bid";
 

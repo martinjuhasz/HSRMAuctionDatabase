@@ -155,10 +155,16 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 			a.id
 	FROM "auction" a WHERE a.end_time >= now() ORDER BY a.end_time;
 
+CREATE VIEW "auctions_won_view" (title, max_bid, max_bidder) AS
+	SELECT	a.title,
+			max_bid(a.id),
+			max_bidder(a.id)
+	FROM "auction" a ORDER BY a.end_time;
+
 CREATE VIEW "auction_detail_view" AS
 	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
 	max_bid(a.id), (SELECT u2.username FROM "user" u2 WHERE u2.id=max_bidder(a.id)) AS max_bidder, 
-	coalesce((SELECT TRUE WHERE a.end_time > now()), FALSE) AS open, max_bidder(a.id) AS max_bidder_id
+	coalesce((SELECT TRUE WHERE a.end_time > now()), FALSE) AS open, max_bidder(a.id) AS max_bidder_id	
 	FROM "auction" a JOIN "category" c ON a.category=c.id JOIN "user" u ON a.offerer=u.id;
 
 CREATE VIEW "auction_comment_view" AS

@@ -26,7 +26,7 @@ public class AccountPane extends JPanel implements ModelManagerListener {
 		
 		accountTabPane.addTab("Mein Profil", registerPane);
 		accountTabPane.addTab("Bankdaten", null);
-		accountTabPane.addTab("gewonnene Auktionen", null);
+		accountTabPane.addTab("gewonnene Auktionen", new WonAuctionsPane(modelManager));
 		
 	}
 
