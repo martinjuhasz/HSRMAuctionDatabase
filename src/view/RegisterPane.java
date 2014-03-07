@@ -142,7 +142,6 @@ public class RegisterPane extends JPanel implements ActionListener {
 	 * @param userData the new user
 	 */
 	public void setUser(Object[] userData) {
-		System.out.println(userData);
 		uid = (int) userData[UserModel.COLUMN_UID];
 		userNameField.setText((String) userData[UserModel.COLUMN_USER_NAME]);
 		firstNameField.setText((String) userData[UserModel.COLUMN_FIRST_NAME]);
