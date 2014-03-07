@@ -8,7 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
+import model.AuctionDetailModel;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 
@@ -26,7 +29,7 @@ public class AuctionDetailPane extends JDialog {
 	private JLabel endTimeLabel;
 	private JLabel categoryLabel;
 	private JLabel offererLabel;
-	
+	private JTable commentTable;
 	
 	public AuctionDetailPane(JFrame parent, ModelManager modelManager) {
 		super(parent, "Auktion", ModalityType.APPLICATION_MODAL);
@@ -65,14 +68,26 @@ public class AuctionDetailPane extends JDialog {
 		offererLabel = new JLabel("Anbieter: Eldorado");
 		pane.add(offererLabel, "wrap, gapleft 20");
 		
+		commentTable = new JTable();
+		pane.add(new JScrollPane(commentTable), "spanx, growx, wrap, gapleft 20, gapright 20, gaptop 10, h 150");
+		
 		pack();
 		//setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(parent);
 	}
 	
-	public void setAuction(Object[] auctionData) {
-		
+	public void setAuction(AuctionDetailModel auctionModel) {
+		Object[] auctionData = auctionModel.getFirst();
+		titleLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_TITLE]);
+		highestBidLabel.setText(auctionData[AuctionDetailModel.COLUMN_MAX_BID] + " €");
+		highestBidUserLabel.setText("von " + (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER]);
+		descriptionLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_DESCRIPTION]);
+		startTimeLabel.setText("Start: " + auctionData[AuctionDetailModel.COLUMN_START_TIME]);
+		endTimeLabel.setText("Ende: " + auctionData[AuctionDetailModel.COLUMN_END_TIME]);
+		categoryLabel.setText("Kategorie: " + (String)auctionData[AuctionDetailModel.COLUMN_CATEGORY]);
+		offererLabel.setText("Anbieter: : " + (String)auctionData[AuctionDetailModel.COLUMN_OFFERER]);
+		commentTable.setModel(auctionModel.getCommentModel().getTableModel());
 	}
 
 }

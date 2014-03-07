@@ -2,6 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.AuctionList;
 import model.CategoryList;
 import model.DatabaseModel;
 import model.DatabaseTableModel;
@@ -53,10 +56,27 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		auctionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(auctionTable), "grow, pushx, wrap");
 		
+		final AuctionPane auctionThis = this;
+		auctionTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+
+					AuctionList model = (AuctionList) ((DatabaseTableModel) auctionTable
+							.getModel()).getDatabaseModel();
+					JFrame frame = (JFrame) SwingUtilities.getRoot(auctionThis);
+					AuctionDetailPane auctionDetailPane = new AuctionDetailPane(
+							frame, modelManager);
+					auctionDetailPane.setAuction(model
+							.getDetailModelForRow(auctionTable.getSelectedRow()));
+					auctionDetailPane.setVisible(true);
+				}
+			}
+		});
+		
 		newAuctionButton = new JButton("neue Auktion erstellen");
 		add(newAuctionButton, "al right, span");
 		
-		final AuctionPane auctionThis = this;
+		
 		newAuctionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
