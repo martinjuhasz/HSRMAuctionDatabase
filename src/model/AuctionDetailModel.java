@@ -32,8 +32,8 @@ public class AuctionDetailModel extends DatabaseModel {
 	/**
 	 * Instantiates a new auction detail model.
 	 *
-	 * @param db the db
-	 * @param id the id
+	 * @param db the database connection
+	 * @param id the auction id
 	 */
 	public AuctionDetailModel(Connection db, int id) {
 		super(db);
@@ -48,7 +48,7 @@ public class AuctionDetailModel extends DatabaseModel {
 	}
 
 	/**
-	 * Gets the comment model.
+	 * Gets the comment model for this auction.
 	 *
 	 * @return the comment model
 	 */

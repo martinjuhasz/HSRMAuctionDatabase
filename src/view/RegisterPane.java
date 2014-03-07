@@ -21,7 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import model.UserList;
 import model.UserModel;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;

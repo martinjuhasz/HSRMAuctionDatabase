@@ -27,7 +27,7 @@ public class DatabaseModel {
 	/**
 	 * Instantiates a new database model.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public DatabaseModel(Connection db) {
 		this.db = db;
@@ -35,7 +35,7 @@ public class DatabaseModel {
 	}
 	
 	/**
-	 * Load data.
+	 * Load data and notify the table models.
 	 */
 	protected void loadData() {
 		resultSet = queryResults();
@@ -45,7 +45,7 @@ public class DatabaseModel {
 	}
 	
 	/**
-	 * Refresh.
+	 * Refresh the data.
 	 */
 	public void refresh() {
 		loadData();
@@ -54,7 +54,7 @@ public class DatabaseModel {
 	/**
 	 * Query results.
 	 *
-	 * @return the list
+	 * @return the list of database rows
 	 */
 	private List<Object[]> queryResults() {
 		if(selectStmt == null) return null;
@@ -67,7 +67,7 @@ public class DatabaseModel {
 	}
 	
 	/**
-	 * Result set to list.
+	 * Convert result set to list of object arrays.
 	 *
 	 * @param resultSet the result set
 	 * @return the list
@@ -99,7 +99,7 @@ public class DatabaseModel {
 	}
 	
 	/**
-	 * Gets the first.
+	 * Gets the first row.
 	 *
 	 * @return the first
 	 */
@@ -108,7 +108,7 @@ public class DatabaseModel {
 	}
 	
 	/**
-	 * Size.
+	 * Count of rows.
 	 *
 	 * @return the int
 	 */

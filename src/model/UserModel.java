@@ -27,8 +27,8 @@ public class UserModel extends DatabaseModel {
 	/**
 	 * Instantiates a new user model.
 	 *
-	 * @param db the db
-	 * @param id the id
+	 * @param db the database connection
+	 * @param id the user id
 	 */
 	public UserModel(Connection db, int id) {
 		super(db);

@@ -21,7 +21,7 @@ public class WonAuctionsListModel extends DatabaseModel {
 	/**
 	 * Instantiates a new won auctions list model.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public WonAuctionsListModel(Connection db) {
 		super(db);
@@ -50,7 +50,7 @@ public class WonAuctionsListModel extends DatabaseModel {
 	}
 	
 	/**
-	 * Gets the detail model for row.
+	 * Gets the detail model for a auction.
 	 *
 	 * @param row the row
 	 * @return the detail model for row

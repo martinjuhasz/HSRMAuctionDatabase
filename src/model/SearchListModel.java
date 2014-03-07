@@ -18,8 +18,8 @@ public class SearchListModel extends DatabaseModel {
 	/**
 	 * Instantiates a new search list model.
 	 *
-	 * @param db the db
-	 * @param uid the uid
+	 * @param db the database connection
+	 * @param uid the user id
 	 */
 	public SearchListModel(Connection db, int uid) {
 		super(db);

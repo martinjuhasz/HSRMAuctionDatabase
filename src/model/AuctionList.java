@@ -23,7 +23,7 @@ public class AuctionList extends DatabaseModel {
 	/**
 	 * Instantiates a new auction list.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public AuctionList(Connection db){
 		super(db);

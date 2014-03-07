@@ -48,6 +48,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		this.modelManager = manager;
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
+		// update view when the model changes
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
@@ -80,7 +81,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		auctionTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-
+					// Show a detail pane for the auction
 					AuctionList model = (AuctionList) ((DatabaseTableModel) auctionTable
 							.getModel()).getDatabaseModel();
 					JFrame frame = (JFrame) SwingUtilities.getRoot(auctionThis);
@@ -100,6 +101,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		newAuctionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Show dialog to create an auction
 				JFrame frame = (JFrame) SwingUtilities.getRoot(auctionThis);
 				CreateAuctionDialog auctionDialog = new CreateAuctionDialog(frame, modelManager);
 				auctionDialog.setVisible(true);
@@ -117,6 +119,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		// only fire on mouse released
 		if(e.getValueIsAdjusting() || categoryTable.getSelectedRow() < 0) return;
 		
+		// Update list of auctions that are in the choosen category
 		DatabaseModel model = ((DatabaseTableModel)categoryTable.getModel()).getDatabaseModel();
 		int category = (int) model.getRow(categoryTable.getSelectedRow())[CategoryList.COLUMN_CATEGORY_ID];
 		auctionTable.setModel(modelManager.getAuctionList(category).getTableModel());

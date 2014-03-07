@@ -19,7 +19,7 @@ public class CategoryList extends DatabaseModel {
 	/**
 	 * Instantiates a new category list.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public CategoryList(Connection db) {
 		super(db);

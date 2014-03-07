@@ -16,7 +16,7 @@ public class UserList extends DatabaseModel {
 	/**
 	 * Instantiates a new user list.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public UserList(Connection db) {
 		super(db);

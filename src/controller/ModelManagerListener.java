@@ -12,7 +12,7 @@ package controller;
 public interface ModelManagerListener {
 	
 	/**
-	 * Did update.
+	 * Did update a value in the model.
 	 *
 	 * @param manager the manager
 	 */

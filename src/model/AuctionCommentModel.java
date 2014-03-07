@@ -16,7 +16,7 @@ public class AuctionCommentModel extends DatabaseModel {
 	/**
 	 * Instantiates a new auction comment model.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 * @param id the id
 	 */
 	public AuctionCommentModel(Connection db, int id) {

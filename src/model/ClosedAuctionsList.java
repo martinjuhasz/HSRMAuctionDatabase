@@ -16,7 +16,7 @@ public class ClosedAuctionsList extends DatabaseModel {
 	/**
 	 * Instantiates a new closed auctions list.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public ClosedAuctionsList(Connection db){
 		super(db);

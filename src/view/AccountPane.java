@@ -38,7 +38,7 @@ public class AccountPane extends JPanel implements ModelManagerListener {
 		registerPane = new RegisterPane(modelManager);
 		
 		accountTabPane.addTab("Mein Profil", registerPane);
-		accountTabPane.addTab("gewonnene Auktionen", new WonAuctionsPane(modelManager));
+		accountTabPane.addTab("Gewonnene Auktionen", new WonAuctionsPane(modelManager));
 		
 	}
 
@@ -83,6 +83,7 @@ public class AccountPane extends JPanel implements ModelManagerListener {
 	 */
 	@Override
 	public void userDidLogin(ModelManager manager) {
+		// Show data of the user that logged in
 		UserModel userModel = manager.getUserModel(manager.getLoginUserID());
 		registerPane.setUser(userModel.getFirst());
 	}

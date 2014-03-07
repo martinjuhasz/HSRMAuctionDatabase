@@ -18,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
-import model.AuctionList;
 import model.DatabaseTableModel;
 import model.WonAuctionsListModel;
 import net.miginfocom.swing.MigLayout;

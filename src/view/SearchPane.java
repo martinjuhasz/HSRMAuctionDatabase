@@ -28,7 +28,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import model.AuctionList;
-import model.CategoryList;
 import model.DatabaseModel;
 import model.DatabaseTableModel;
 import model.SearchListModel;

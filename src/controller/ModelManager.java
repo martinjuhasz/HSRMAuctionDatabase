@@ -27,9 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import model.ActiveAuctionsList;
 import model.AuctionList;
@@ -56,6 +54,7 @@ public class ModelManager {
 
 	static {
 		try {
+			// Load the postgress sql driver
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver did not load - aborting");
@@ -105,6 +104,7 @@ public class ModelManager {
 			System.exit(-1);
 		}
 
+		// Close database connection, when the program terminates
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				try {
@@ -139,7 +139,7 @@ public class ModelManager {
 	}
 
 	/**
-	 * Gets the auction list.
+	 * Gets the auction list of a category.
 	 *
 	 * @param category the category
 	 * @return the auction list
@@ -193,7 +193,7 @@ public class ModelManager {
 	}
 
 	/**
-	 * Gets the active auctions list.
+	 * Gets the active auctions list of a category.
 	 *
 	 * @param category the category
 	 * @return the active auctions list
@@ -215,7 +215,7 @@ public class ModelManager {
 	}
 	
 	/**
-	 * Gets the category combo model.
+	 * Gets the category combo box model.
 	 *
 	 * @return the category combo model
 	 */
@@ -279,24 +279,21 @@ public class ModelManager {
 	 * @param userName the user name
 	 * @param password the password
 	 * @param firstName the first name
-	 * @param surName the sur name
+	 * @param surName the surname
 	 * @param email the email
 	 * @param street the street
 	 * @param streetNumber the street number
 	 * @param postalCode the postal code
 	 * @param city the city
-	 * @param uid the uid
+	 * @param uid the user id
 	 * @throws SQLException the SQL exception
 	 * @throws ModelManagerException the model manager exception
 	 */
 	public void updateUser(String userName, String password, String firstName,
 			String surName, String email, String street, String streetNumber,
 			String postalCode, String city, int uid) throws SQLException, ModelManagerException {
-		
-		// TODO: if password is empty, keep old password
-
-		// insert user
 		PreparedStatement insertUserStmt;
+		// Insert, if it is a new user, otherwise update
 		if (uid < 0) {
 			insertUserStmt = connection
 					.prepareStatement("INSERT INTO \"user_view\" VALUES(?,?,?,?,?,?,?,?,?)");
@@ -315,6 +312,8 @@ public class ModelManager {
 		insertUserStmt.setString(6, streetNumber);
 		insertUserStmt.setString(7, postalCode);
 		insertUserStmt.setString(8, city);
+		// Only send new password, if there is a new one. Otherwise send an empty string, 
+		// that is ignored on update
 		insertUserStmt.setString(9, password.length() == 0 ? "" : md5(password));
 
 		int userWasInserted = insertUserStmt.executeUpdate();
@@ -354,13 +353,14 @@ public class ModelManager {
 	 * Update category.
 	 *
 	 * @param newCategory the new category
-	 * @param cid the cid
+	 * @param cid the category id
 	 * @throws ModelManagerException the model manager exception
 	 * @throws SQLException the SQL exception
 	 */
 	public void updateCategory(String newCategory, int cid) throws ModelManagerException,SQLException {
 		
 		PreparedStatement insertCategoryStmt;
+		// Insert if it is a new category, otherwise update
 		if (cid < 0) {
 			insertCategoryStmt = connection.prepareStatement("INSERT INTO \"category\"(name) VALUES(?)");
 		} else {
@@ -385,7 +385,7 @@ public class ModelManager {
 	/**
 	 * Delete category.
 	 *
-	 * @param cid the cid
+	 * @param cid the category id
 	 * @throws SQLException the SQL exception
 	 */
 	public void deleteCategory(int cid) throws SQLException{
@@ -425,6 +425,7 @@ public class ModelManager {
 		insertAuctionStmt.setBoolean(9, isDirectBuy);
 		
 		if(image != null) {
+			// Convert the image to a binary array, that could be inserted
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			try {
 				ImageIO.write(image, "jpg", os);
@@ -528,10 +529,10 @@ public class ModelManager {
 	}
 
 	/**
-	 * Md5.
+	 * Generate a md5 hash of a string
 	 *
-	 * @param toHash the to hash
-	 * @return the string
+	 * @param toHash the string to hash
+	 * @return the hash
 	 */
 	private String md5(String toHash) {
 		try {
@@ -549,7 +550,7 @@ public class ModelManager {
 	}
 	
 	/**
-	 * Bid.
+	 * Bid on an auction or buy the product.
 	 *
 	 * @param auction the auction
 	 * @param price the price
@@ -575,7 +576,7 @@ public class ModelManager {
 	}
 
 	/**
-	 * Comment.
+	 * Comment on an auction.
 	 *
 	 * @param auction the auction
 	 * @param text the text
@@ -601,7 +602,7 @@ public class ModelManager {
 	}
 	
 	/**
-	 * Rate.
+	 * Rate an auction.
 	 *
 	 * @param auction the auction
 	 * @param rating the rating

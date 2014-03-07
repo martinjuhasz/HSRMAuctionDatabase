@@ -28,9 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import model.AuctionDetailModel;
 import net.miginfocom.swing.MigLayout;
@@ -99,6 +96,7 @@ public class AuctionDetailPane extends JDialog {
 		startTimeLabel = new JLabel("Start: 01.01.2000 12:10 Uhr");
 		pane.add(startTimeLabel, "gapleft 20, gaptop 20");
 		
+		// Universal button to bid/buy/rate
 		bidButton = new JButton();
 		pane.add(bidButton,  "spany 2, align right, wrap, gapright 20, w 150, h 40");
 		final AuctionDetailPane finalThis = this;
@@ -111,6 +109,7 @@ public class AuctionDetailPane extends JDialog {
 				boolean direct_buy = (boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_DIRECT_BUY];
 				boolean open = (boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_OPEN];
 				if (open) {
+					// If there is an open direct buy auction, show the buy dialog
 					if (direct_buy) {
 						int answer = JOptionPane.showOptionDialog(finalThis, titleLabel.getText() +
 								" für " + highestBidLabel.getText() + " kaufen?", "Kaufen", JOptionPane.YES_NO_OPTION,
@@ -122,6 +121,7 @@ public class AuctionDetailPane extends JDialog {
 								JOptionPane.showMessageDialog(finalThis, e1);
 							}
 						}
+					// If there is an open auction, show dialog to bid
 					} else {
 						final BidDialog bidDialog = new BidDialog(finalThis, modelManager);
 						bidDialog.setBidCallback(new Callback() {
@@ -135,6 +135,7 @@ public class AuctionDetailPane extends JDialog {
 						bidDialog.setStartBid(price + 1);
 						bidDialog.setVisible(true);
 					}
+				// If the auction is closed, allow to rate
 				} else {
 					final RateDialog rateDialog = new RateDialog(finalThis, modelManager);
 					rateDialog.setRateCallback(new Callback() {
@@ -177,6 +178,7 @@ public class AuctionDetailPane extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					// Add an comment and reset the text field
 					int auctionId = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_ID];
 					modelManager.comment(auctionId, commentField.getText());
 					commentField.setText("");
@@ -193,13 +195,14 @@ public class AuctionDetailPane extends JDialog {
 	}
 	
 	/**
-	 * Sets the auction.
+	 * Sets the auction and updates the view.
 	 *
 	 * @param auctionModel the new auction
 	 */
 	public void setAuction(AuctionDetailModel auctionModel) {
 		this.auctionDetailModel = auctionModel;
 		Object[] auctionData = auctionModel.getFirst();
+		// Create an image from the byte array we got from the database
 		BufferedImage img = null;
 		try {
 			byte[] imageBytes = (byte[])auctionData[AuctionDetailModel.COLUMN_IMAGE];
@@ -231,10 +234,13 @@ public class AuctionDetailPane extends JDialog {
 		boolean direct_buy = (boolean)auctionData[AuctionDetailModel.COLUMN_DIRECT_BUY];
 		boolean open = (boolean)auctionData[AuctionDetailModel.COLUMN_OPEN];
 		int rating = (int)auctionData[AuctionDetailModel.COLUMN_RATING];
+		// Show universal button with correct label
 		bidButton.setText(open ? (direct_buy ? "Kaufen" : "Bieten") : "Bewerten" );
+		// But only, if the user could bid, buy or rate
 		bidButton.setVisible(open || (isCurrentUserMaxBidder() && rating==0));
 		String ratingText = "Rating: ";
 		for (int i = 0; i < rating; i++) {
+			// Add unicode stars to show the rating
 			ratingText += "\u2605";
 		}
 		ratingLabel.setText(ratingText);

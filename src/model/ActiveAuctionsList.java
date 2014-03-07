@@ -16,7 +16,7 @@ public class ActiveAuctionsList extends DatabaseModel {
 	/**
 	 * Instantiates a new active auctions list.
 	 *
-	 * @param db the db
+	 * @param db the database connection
 	 */
 	public ActiveAuctionsList(Connection db) {
 		super(db);

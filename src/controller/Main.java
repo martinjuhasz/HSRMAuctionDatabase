@@ -16,14 +16,6 @@ import view.MainFrame;
 import com.alee.laf.WebLookAndFeel;
 
 public class Main {
-
-	/**
-	 * Instantiates a new main.
-	 */
-	public Main() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * The main method.
 	 *

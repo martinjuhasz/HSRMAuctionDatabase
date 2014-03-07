@@ -51,6 +51,10 @@ public class LoginDialog extends JDialog implements ActionListener {
 
 		getContentPane().setLayout(new MigLayout("", "[][150!]", ""));
 
+		JLabel infoLabel = new JLabel("<html>Nutzer: 'arrayridge', Admin: 'choise'<br /> "
+				+ "Passwort (beide): 'password'</html>");
+		getContentPane().add(infoLabel, "span");
+		
 		JLabel userNameTitle = new JLabel("Benutzername:");
 		getContentPane().add(userNameTitle);
 

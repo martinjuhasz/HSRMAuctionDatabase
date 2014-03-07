@@ -40,6 +40,7 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 		
 		setLayout(new MigLayout("fill"));
 		
+		// Update view if needed
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
@@ -77,6 +78,7 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 		// only fire on mouse released
 		if(e.getValueIsAdjusting() || categoryTable.getSelectedRow() < 0) return;
 		
+		// Update list of auctions that are in the choosen category
 		DatabaseModel model = ((DatabaseTableModel)categoryTable.getModel()).getDatabaseModel();
 		int category = (int) model.getRow(categoryTable.getSelectedRow())[CategoryList.COLUMN_CATEGORY_ID];
 		currentAuctionTable.setModel(modelManager.getAuctionList(category).getTableModel(true));
