@@ -302,7 +302,7 @@ public class ModelManager {
 		PreparedStatement loginStmt = connection
 				.prepareStatement("SELECT u.username, u.id,"
 						+ "coalesce((SELECT TRUE FROM \"admin\" a WHERE a.uid = u.id ), FALSE) AS admin "
-						+ "FROM \"user\" u WHERE u.username=? AND u.password=?");
+						+ "FROM \"user\" u WHERE u.username=? AND u.password=? AND u.deleted=FALSE");
 		loginStmt.setString(1, username);
 		loginStmt.setString(2, md5(password));
 		ResultSet res = loginStmt.executeQuery();
