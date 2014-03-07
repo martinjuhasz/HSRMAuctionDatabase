@@ -323,4 +323,21 @@ public class ModelManager {
 		}
 	}
 
+	public void comment(int auction, String text) throws SQLException, ModelManagerException {
+		PreparedStatement insertCommentStmt = connection
+				.prepareStatement("INSERT INTO \"comment\"(uid, auction, content) VALUES(?,?,?)");
+		insertCommentStmt.setInt(1, loginUserID);
+		insertCommentStmt.setInt(2, auction);
+		insertCommentStmt.setString(3, text);
+		
+		int commentWasInserted = insertCommentStmt.executeUpdate();
+		if (commentWasInserted <= 0) {
+			throw new ModelManagerException("unable to insert comment. bad arguments?");
+		}
+
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateAuction(this);
+		}
+	}
 }

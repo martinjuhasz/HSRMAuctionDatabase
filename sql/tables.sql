@@ -92,6 +92,7 @@ CREATE TABLE "bid" (
 	PRIMARY KEY(uid, auction, time)
 );
 
+-- nur kommentare mit inhalt einfügen
 CREATE TABLE "comment" (
 	uid			INT4			REFERENCES "user"(id),
 	auction 	INT4			REFERENCES "auction"(id) ON DELETE CASCADE,

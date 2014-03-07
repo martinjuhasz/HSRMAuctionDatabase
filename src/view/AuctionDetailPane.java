@@ -3,12 +3,12 @@ package view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -18,6 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import model.AuctionDetailModel;
 import net.miginfocom.swing.MigLayout;
@@ -40,6 +44,8 @@ public class AuctionDetailPane extends JDialog {
 	private JLabel categoryLabel;
 	private JLabel offererLabel;
 	private JTable commentTable;
+	private JTextField commentField;
+	private JButton commentButton;
 	private boolean direct_buy;
 	AuctionDetailModel auctionDetailModel;
 	
@@ -114,17 +120,38 @@ public class AuctionDetailPane extends JDialog {
 			}
 		});
 		
-		endTimeLabel = new JLabel("Ende: 01.01.2000 12:10 Uhr");
+		endTimeLabel = new JLabel();
 		pane.add(endTimeLabel, "wrap, gapleft 20");
 		
-		categoryLabel = new JLabel("Kategorie: Spielzeug");
+		categoryLabel = new JLabel();
 		pane.add(categoryLabel, "wrap, gapleft 20");
 		
-		offererLabel = new JLabel("Anbieter: Eldorado");
+		offererLabel = new JLabel();
 		pane.add(offererLabel, "wrap, gapleft 20");
 		
 		commentTable = new JTable();
+		commentTable.setDefaultRenderer(Object.class, new MultilineCellRenderer());
+		
 		pane.add(new JScrollPane(commentTable), "spanx, growx, wrap, gapleft 20, gapright 20, gaptop 10, h 150");
+		
+		commentField = new JTextField();
+		pane.add(commentField, "growx, gapleft 20");
+		
+		commentButton = new JButton("Kommentieren");
+		pane.add(commentButton, "gapright 20");
+		commentButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int auctionId = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_ID];
+					modelManager.comment(auctionId, commentField.getText());
+					commentField.setText("");
+				} catch (SQLException | ModelManagerException e1) {
+					JOptionPane.showMessageDialog(finalThis, e1);
+				}
+			}
+		});
 		
 		pack();
 		setResizable(false);
