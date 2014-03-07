@@ -149,7 +149,7 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
 			max_bid(a.id) AS max_bid,
 			a.category, a.id
-	FROM "auction" a;
+	FROM "auction" a WHERE a.end_time >= now();
 
 CREATE VIEW "auction_detail_view" AS
 	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
@@ -165,25 +165,5 @@ CREATE VIEW "closed_auctions_view" AS
 		(SELECT COUNT(*) FROM auction a WHERE a.category=cat.id AND a.end_time < now()) AS count,
 		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
 	FROM category cat;
-
-
-
-
--------------------------------------------------------------------------------------
---	TRIGGER
--------------------------------------------------------------------------------------
-
-CREATE FUNCTION setStartEndDateToAuction() RETURNS TRIGGER AS
-$BODY$
-DECLARE auctionend TIMESTAMP;
-BEGIN
-SELECT (now() + interval '7d') INTO auctionend;
-NEW.start_time := now();
-NEW.end_time := auctionend;
-RETURN NEW;
-END;
-$BODY$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER setStartEndDateToAuctionTrigger BEFORE INSERT ON "auction" FOR EACH ROW EXECUTE PROCEDURE setStartEndDateToAuction();
 
 
