@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -46,7 +47,7 @@ public class AuctionDetailPane extends JDialog {
 	private JTable commentTable;
 	private JTextField commentField;
 	private JButton commentButton;
-	private boolean direct_buy;
+	private JLabel ratingLabel;
 	AuctionDetailModel auctionDetailModel;
 	
 	public AuctionDetailPane(JFrame parent, ModelManager aModelManager) {
@@ -93,29 +94,44 @@ public class AuctionDetailPane extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int auctionId = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_ID];
 				int price = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_MAX_BID];
-				if (direct_buy) {
-					int answer = JOptionPane.showOptionDialog(finalThis, titleLabel.getText() +
-							" für " + highestBidLabel.getText() + " kaufen?", "Kaufen", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, new String[]{"Ja", "Nein"}, "Nein");
-					if (answer == JOptionPane.YES_OPTION) {
-						try {
-							modelManager.bid(auctionId, price);
-						} catch (SQLException | ModelManagerException e1) {
-							JOptionPane.showMessageDialog(finalThis, e1);
+				boolean direct_buy = (boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_DIRECT_BUY];
+				boolean open = (boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_OPEN];
+				if (open) {
+					if (direct_buy) {
+						int answer = JOptionPane.showOptionDialog(finalThis, titleLabel.getText() +
+								" für " + highestBidLabel.getText() + " kaufen?", "Kaufen", JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, new String[]{"Ja", "Nein"}, "Nein");
+						if (answer == JOptionPane.YES_OPTION) {
+							try {
+								modelManager.bid(auctionId, price);
+							} catch (SQLException | ModelManagerException e1) {
+								JOptionPane.showMessageDialog(finalThis, e1);
+							}
 						}
+					} else {
+						final BidDialog bidDialog = new BidDialog(finalThis, modelManager);
+						bidDialog.setBidCallback(new Callback() {
+							
+							@Override
+							public void callback(int status) {
+								bidDialog.dispose();
+							}
+						});
+						bidDialog.setAuctionId(auctionId);
+						bidDialog.setStartBid(price + 1);
+						bidDialog.setVisible(true);
 					}
 				} else {
-					final BidDialog bidDialog = new BidDialog(finalThis, modelManager);
-					bidDialog.setBidCallback(new Callback() {
+					final RateDialog rateDialog = new RateDialog(finalThis, modelManager);
+					rateDialog.setRateCallback(new Callback() {
 						
 						@Override
 						public void callback(int status) {
-							bidDialog.dispose();
+							rateDialog.dispose();
 						}
 					});
-					bidDialog.setAuctionId(auctionId);
-					bidDialog.setStartBid(price + 1);
-					bidDialog.setVisible(true);
+					rateDialog.setAuctionId(auctionId);
+					rateDialog.setVisible(true);
 				}
 			}
 		});
@@ -124,7 +140,10 @@ public class AuctionDetailPane extends JDialog {
 		pane.add(endTimeLabel, "wrap, gapleft 20");
 		
 		categoryLabel = new JLabel();
-		pane.add(categoryLabel, "wrap, gapleft 20");
+		pane.add(categoryLabel, "gapleft 20");
+		
+		ratingLabel = new JLabel();
+		pane.add(ratingLabel,  "align right, wrap, gapright 20");
 		
 		offererLabel = new JLabel();
 		pane.add(offererLabel, "wrap, gapleft 20");
@@ -176,6 +195,7 @@ public class AuctionDetailPane extends JDialog {
 		}
 		
 		titleLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_TITLE]);
+		System.out.println(Arrays.toString(auctionData));
 		highestBidLabel.setText((int) auctionData[AuctionDetailModel.COLUMN_MAX_BID] + " €");
 		String maxBidder = (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER];
 		if (maxBidder != null) {
@@ -189,9 +209,20 @@ public class AuctionDetailPane extends JDialog {
 		categoryLabel.setText("Kategorie: " + (String)auctionData[AuctionDetailModel.COLUMN_CATEGORY]);
 		offererLabel.setText("Anbieter: : " + (String)auctionData[AuctionDetailModel.COLUMN_OFFERER]);
 		commentTable.setModel(auctionModel.getCommentModel().getTableModel());
-		direct_buy = (boolean)auctionData[AuctionDetailModel.COLUMN_DIRECT_BUY];
-		bidButton.setText(direct_buy ? "Kaufen" : "Bieten");
-		bidButton.setVisible((boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_OPEN]);
+		boolean direct_buy = (boolean)auctionData[AuctionDetailModel.COLUMN_DIRECT_BUY];
+		boolean open = (boolean)auctionData[AuctionDetailModel.COLUMN_OPEN];
+		int rating = (int)auctionData[AuctionDetailModel.COLUMN_RATING];
+		bidButton.setText(open ? (direct_buy ? "Kaufen" : "Bieten") : "Bewerten" );
+		bidButton.setVisible(open || (isCurrentUserMaxBidder() && rating==0));
+		String ratingText = "Rating: ";
+		for (int i = 0; i < rating; i++) {
+			ratingText += "\u2605";
+		}
+		ratingLabel.setText(ratingText);
+		ratingLabel.setVisible(rating > 0);
 	}
-
+	
+	private boolean isCurrentUserMaxBidder() {
+		return modelManager.getLoginUserID() == (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_MAX_BIDDER_ID];
+	}
 }
