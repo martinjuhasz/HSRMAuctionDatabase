@@ -79,6 +79,8 @@ CREATE TABLE "rating" (
 
 -- bid prüfen ob endtime schon abgelaufen
 -- bid nur wenn nicht schon höchstbietender
+-- bid nur höher als mindestgebot und höher als 2t höchstes Gebot plus 1
+-- bid nur wenn Datum und Uhrzeit im Zeitraum liegt
 CREATE TABLE "bid" (
 	uid			INT4			REFERENCES "user"(id),
 	auction 	INT4			REFERENCES "auction"(id),
