@@ -147,6 +147,7 @@ AS '
 ' LANGUAGE 'SQL';
 
 -- max_bid sollte nicht höchster sein, sondern 2t höchster + 1
+-- max_bid sollte bei fehlendem Gebot gleich dem startpreis sein und nicht startpreis + 1
 CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 	SELECT	a.title,
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
