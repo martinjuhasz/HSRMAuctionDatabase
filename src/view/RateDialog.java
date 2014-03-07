@@ -48,6 +48,7 @@ public class RateDialog extends JDialog {
 		JLabel bidTitle = new JLabel("Wertung:");
 		pane.add(bidTitle);
 
+		// Add entries with one to five unicode stars
 		rateComboBox = new JComboBox<>(new String[]{"\u2605","\u2605\u2605", "\u2605\u2605\u2605", 
 				"\u2605\u2605\u2605\u2605", "\u2605\u2605\u2605\u2605\u2605"});
 		pane.add(rateComboBox, "growx, wrap");
@@ -60,6 +61,7 @@ public class RateDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (rateCallback != null) {
+					// Submit rating
 					try {
 						modelManager.rate(auctionId, rateComboBox.getSelectedIndex() + 1);
 						rateCallback.callback(0);

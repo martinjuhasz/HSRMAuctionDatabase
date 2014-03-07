@@ -68,6 +68,7 @@ public class LoginStatusPane extends JPanel {
 	 * Refresh.
 	 */
 	public void refresh() {
+		// Update user name and activate logout button on login
 		userNameLabel.setText(modelManager.getLoginUserName());
 		logoutButton.setEnabled(modelManager.isLoggedIn());
 	}

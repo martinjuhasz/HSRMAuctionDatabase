@@ -164,7 +164,7 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 		JLabel priceEuroLabel = new JLabel("€");
 		add(priceEuroLabel, "wrap, w 10!");
 		
-		closeButton = new JButton("abbrechen");
+		closeButton = new JButton("Abbrechen");
 		closeButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -178,12 +178,9 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 		addButton.addActionListener(this);
 		add(addButton, "wrap, spanx 2, al right");
 		
-		
-		
-		
 		pack();
 		setPreferredSize(new Dimension(300, 300));
-		//setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(parent);
 	}
 
@@ -193,6 +190,7 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addButton) {
+			// Create or update an auction
 			int categoryID = (int)((CategoryComboModel)categoryComboBox.getModel()).getDatabaseModel().getRow(categoryComboBox.getSelectedIndex())[CategoryList.COLUMN_CATEGORY_ID];
 			boolean isDirectBuy = directBuyCheckBox.isSelected();
 			int price;

@@ -31,8 +31,8 @@ public class ReportPane extends JPanel {
 		reportTabPane = new JTabbedPane();
 		add(reportTabPane, "grow");
 		
-		reportTabPane.addTab("abgelaufene Auktionen", new ClosedAuctionsPane(modelManager));
-		reportTabPane.addTab("laufende Auktionen", new ActiveAuctionsPane(modelManager));
+		reportTabPane.addTab("Abgelaufene Auktionen", new ClosedAuctionsPane(modelManager));
+		reportTabPane.addTab("Laufende Auktionen", new ActiveAuctionsPane(modelManager));
 		
 	}
 

@@ -59,6 +59,7 @@ public class MainFrame extends JFrame {
 		tabPane.setVisible(false);
 		add(tabPane, "grow, spanx 2, gapy 10");
 		
+		// Add all tabs with the needed permissions
 		tabs = new ArrayList<>();
 		tabs.add(new Tab("Benutzer", new UserPane(modelManager), true));
 		tabs.add(new Tab("Kategorien", new CategoriesPane(modelManager), true));
@@ -74,7 +75,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * Update tabs.
+	 * Show tab corresponding to the current role (normal user or admin)
 	 */
 	private void updateTabs() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -106,6 +107,7 @@ public class MainFrame extends JFrame {
 					@Override
 					public void callback(int status) {
 						if (status == LoginDialog.CALLBACK_STATUS_LOGIN) {
+							// Exit programm, if the user does not want to login
 							if (!modelManager.isLoggedIn()) {
 								System.exit(0);
 							} else {

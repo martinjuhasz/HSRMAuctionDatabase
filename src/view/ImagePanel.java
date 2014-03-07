@@ -45,7 +45,6 @@ public class ImagePanel extends JPanel {
 			coverImage = ImageIO.read(getClass()
 					.getResourceAsStream("/" + path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -66,7 +65,6 @@ public class ImagePanel extends JPanel {
 			validate();
 			repaint();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -56,6 +56,7 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 		this.modelManager = manager;
 		setLayout(new MigLayout("fill", "", "[top]"));
 		
+		// Update table with search terms if needed
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 
 			@Override
