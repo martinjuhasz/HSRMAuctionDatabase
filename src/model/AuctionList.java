@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package model;
 
 import java.sql.Connection;
@@ -12,6 +20,11 @@ public class AuctionList extends DatabaseModel {
 	public static final int COLUMN_DESCRIPTION = 4;
 	public static final int COLUMN_ID = 5;
 	
+	/**
+	 * Instantiates a new auction list.
+	 *
+	 * @param db the db
+	 */
 	public AuctionList(Connection db){
 		super(db);
 		try {
@@ -22,6 +35,11 @@ public class AuctionList extends DatabaseModel {
 		loadData();
 	}
 	
+	/**
+	 * Sets the category.
+	 *
+	 * @param category the new category
+	 */
 	public void setCategory(int category) {
 		try {
 			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?");
@@ -32,6 +50,11 @@ public class AuctionList extends DatabaseModel {
 		loadData();
 	}
 	
+	/**
+	 * Sets the search term.
+	 *
+	 * @param searchTerm the new search term
+	 */
 	public void setSearchTerm(String searchTerm) {
 		searchTerm = "%"+searchTerm+"%";
 		try {
@@ -44,10 +67,19 @@ public class AuctionList extends DatabaseModel {
 		loadData();
 	}
 	
+	/* (non-Javadoc)
+	 * @see model.DatabaseModel#getTableModel()
+	 */
 	public DatabaseTableModel getTableModel() {
 		return super.getTableModel(new String[]{"Titel","Enddatum","Höchstgebot / Kaufpreis"});
 	}
 	
+	/**
+	 * Gets the table model.
+	 *
+	 * @param onlyTitle the only title
+	 * @return the table model
+	 */
 	public DatabaseTableModel getTableModel(boolean onlyTitle) {
 		if(onlyTitle) {
 			return super.getTableModel(new String[]{"Titel"});
@@ -55,6 +87,12 @@ public class AuctionList extends DatabaseModel {
 		return this.getTableModel();
 	}
 	
+	/**
+	 * Gets the detail model for row.
+	 *
+	 * @param row the row
+	 * @return the detail model for row
+	 */
 	public AuctionDetailModel getDetailModelForRow(int row) {
 		int id = (int)getRow(row)[COLUMN_ID];
 		return new AuctionDetailModel(db, id);

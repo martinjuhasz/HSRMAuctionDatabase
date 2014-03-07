@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Component;
@@ -18,12 +26,18 @@ public class MultilineCellRenderer extends JTextArea
   implements TableCellRenderer {
   private List<List<Integer>> rowColHeight = new ArrayList<List<Integer>>();
   
+  /**
+   * Instantiates a new multiline cell renderer.
+   */
   public MultilineCellRenderer() {
     setLineWrap(true);
     setWrapStyleWord(true);
     setOpaque(true);
   }
   
+  /* (non-Javadoc)
+   * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+   */
   public Component getTableCellRendererComponent(
       JTable table, Object value, boolean isSelected, boolean hasFocus,
       int row, int column) {
@@ -55,6 +69,10 @@ public class MultilineCellRenderer extends JTextArea
   
   /**
    * Calculate the new preferred height for a given row, and sets the height on the table.
+   *
+   * @param table the table
+   * @param row the row
+   * @param column the column
    */
   private void adjustRowHeight(JTable table, int row, int column) {
     //The trick to get this to work properly is to set the width of the column to the 

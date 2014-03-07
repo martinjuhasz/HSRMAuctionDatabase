@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.util.ArrayList;
@@ -18,6 +26,11 @@ public class MainFrame extends JFrame {
 	private JTabbedPane tabPane;
 	private List<Tab> tabs;
 
+	/**
+	 * Instantiates a new main frame.
+	 *
+	 * @param modelManager the model manager
+	 */
 	public MainFrame(final ModelManager modelManager) {
 		this.modelManager = modelManager;
 		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {
@@ -57,6 +70,9 @@ public class MainFrame extends JFrame {
 		showLogin();
 	}
 	
+	/**
+	 * Update tabs.
+	 */
 	private void updateTabs() {
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -72,6 +88,9 @@ public class MainFrame extends JFrame {
 		});
 	}
 	
+	/**
+	 * Show login.
+	 */
 	private void showLogin() {
 		final MainFrame frame = this;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -99,6 +118,9 @@ public class MainFrame extends JFrame {
 		});
 	}
 	
+	/**
+	 * Show register.
+	 */
 	public void showRegister() {
 		final MainFrame frame = this;
 		SwingUtilities.invokeLater(new Runnable() {

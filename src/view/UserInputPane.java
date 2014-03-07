@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +25,11 @@ public class UserInputPane extends RegisterPane implements ActionListener {
 	private JButton deleteButton;
 	private Callback resetCallback;
 
+	/**
+	 * Instantiates a new user input pane.
+	 *
+	 * @param modelManager the model manager
+	 */
 	public UserInputPane(ModelManager modelManager) {
 		super(modelManager);
 
@@ -29,6 +42,9 @@ public class UserInputPane extends RegisterPane implements ActionListener {
 		add(deleteButton, "growx, span, wrap");
 	}
 
+	/* (non-Javadoc)
+	 * @see view.RegisterPane#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
@@ -50,6 +66,11 @@ public class UserInputPane extends RegisterPane implements ActionListener {
 	}
 
 
+	/**
+	 * Sets the reset callback.
+	 *
+	 * @param resetCallback the new reset callback
+	 */
 	public void setResetCallback(Callback resetCallback) {
 		this.resetCallback = resetCallback;
 	}

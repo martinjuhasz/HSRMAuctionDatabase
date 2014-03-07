@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.MouseAdapter;
@@ -22,6 +30,11 @@ public class WonAuctionsPane extends JPanel {
 	private ModelManager modelManager;
 	private JTable auctionTable;
 	
+	/**
+	 * Instantiates a new won auctions pane.
+	 *
+	 * @param manager the manager
+	 */
 	public WonAuctionsPane(ModelManager manager) {
 		this.modelManager = manager;
 		setLayout(new MigLayout("fill", "", "[top]"));

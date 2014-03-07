@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import javax.swing.JPanel;
@@ -21,6 +29,11 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 	private JTable currentAuctionTable;
 	
 	
+	/**
+	 * Instantiates a new active auctions pane.
+	 *
+	 * @param manager the manager
+	 */
 	public ActiveAuctionsPane(ModelManager manager) {
 		
 		this.modelManager = manager;
@@ -55,6 +68,9 @@ public class ActiveAuctionsPane extends JPanel implements ListSelectionListener 
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		

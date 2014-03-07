@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import javax.swing.JPanel;
@@ -19,6 +27,11 @@ public class UserPane extends JPanel {
 	private JTable userTable;
 	private UserInputPane userInputPane;
 
+	/**
+	 * Instantiates a new user pane.
+	 *
+	 * @param modelManager the model manager
+	 */
 	public UserPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
 		this.modelManager.addModelManagerListener(new ModelManagerAdapter() {

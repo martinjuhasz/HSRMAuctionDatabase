@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Color;
@@ -50,6 +58,12 @@ public class AuctionDetailPane extends JDialog {
 	private JLabel ratingLabel;
 	AuctionDetailModel auctionDetailModel;
 	
+	/**
+	 * Instantiates a new auction detail pane.
+	 *
+	 * @param parent the parent
+	 * @param aModelManager the a model manager
+	 */
 	public AuctionDetailPane(JFrame parent, ModelManager aModelManager) {
 		super(parent, "Auktion", ModalityType.APPLICATION_MODAL);
 		this.modelManager = aModelManager;
@@ -178,6 +192,11 @@ public class AuctionDetailPane extends JDialog {
 		setLocationRelativeTo(parent);
 	}
 	
+	/**
+	 * Sets the auction.
+	 *
+	 * @param auctionModel the new auction
+	 */
 	public void setAuction(AuctionDetailModel auctionModel) {
 		this.auctionDetailModel = auctionModel;
 		Object[] auctionData = auctionModel.getFirst();
@@ -222,6 +241,11 @@ public class AuctionDetailPane extends JDialog {
 		ratingLabel.setVisible(rating > 0);
 	}
 	
+	/**
+	 * Checks if is current user max bidder.
+	 *
+	 * @return true, if is current user max bidder
+	 */
 	private boolean isCurrentUserMaxBidder() {
 		return modelManager.getLoginUserID() == (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_MAX_BIDDER_ID];
 	}

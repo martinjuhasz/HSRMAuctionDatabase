@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Frame;
@@ -11,6 +19,12 @@ public class RegisterDialog extends JDialog {
 	private RegisterPane registerPane;
 	private Callback registerCallback;
 
+	/**
+	 * Instantiates a new register dialog.
+	 *
+	 * @param parent the parent
+	 * @param modelManager the model manager
+	 */
 	public RegisterDialog(Frame parent, ModelManager modelManager) {
 		super(parent, "Registrieren", ModalityType.APPLICATION_MODAL);
 		
@@ -24,6 +38,11 @@ public class RegisterDialog extends JDialog {
 		setLocationRelativeTo(parent);
 	}
 	
+	/**
+	 * Sets the register callback.
+	 *
+	 * @param registerCallback the new register callback
+	 */
 	public void setRegisterCallback(Callback registerCallback) {
 		this.registerCallback = registerCallback;
 		registerPane.setRegisterCallback(registerCallback);

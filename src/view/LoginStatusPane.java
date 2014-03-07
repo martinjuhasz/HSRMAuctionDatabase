@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +25,11 @@ public class LoginStatusPane extends JPanel {
 	private JLabel userNameLabel;
 	private JButton logoutButton;
 	
+	/**
+	 * Instantiates a new login status pane.
+	 *
+	 * @param mManager the m manager
+	 */
 	public LoginStatusPane(ModelManager mManager) {
 		
 		setLayout(new MigLayout("rtl"));
@@ -51,6 +64,9 @@ public class LoginStatusPane extends JPanel {
 		refresh();
 	}
 
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		userNameLabel.setText(modelManager.getLoginUserName());
 		logoutButton.setEnabled(modelManager.isLoggedIn());

@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import javax.swing.JPanel;
@@ -11,6 +19,11 @@ public class ReportPane extends JPanel {
 	private JTabbedPane reportTabPane;
 	
 	
+	/**
+	 * Instantiates a new report pane.
+	 *
+	 * @param modelManager the model manager
+	 */
 	public ReportPane(ModelManager modelManager) {
 		
 		this.setLayout(new MigLayout("fill"));

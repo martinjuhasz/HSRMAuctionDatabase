@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -31,6 +39,11 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 	private JButton newAuctionButton;
 	
 	
+	/**
+	 * Instantiates a new auction pane.
+	 *
+	 * @param manager the manager
+	 */
 	public AuctionPane(ModelManager manager) {
 		this.modelManager = manager;
 		setLayout(new MigLayout("fill", "", "[top]"));
@@ -96,6 +109,9 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// only fire on mouse released

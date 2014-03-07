@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Color;
@@ -49,6 +57,12 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 	
 	private BufferedImage image;
 	
+	/**
+	 * Instantiates a new creates the auction dialog.
+	 *
+	 * @param parent the parent
+	 * @param manager the manager
+	 */
 	public CreateAuctionDialog(Frame parent, ModelManager manager) {
 		
 		super(parent, "Auktion erstellen", ModalityType.APPLICATION_MODAL);
@@ -173,6 +187,9 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addButton) {

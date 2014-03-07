@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import javax.swing.JPanel;
@@ -14,6 +22,11 @@ public class ClosedAuctionsPane extends JPanel {
 	private ModelManager modelManager;
 	private JTable closedAuctionTable;
 	
+	/**
+	 * Instantiates a new closed auctions pane.
+	 *
+	 * @param manager the manager
+	 */
 	public ClosedAuctionsPane(ModelManager manager) {
 		
 		this.modelManager = manager;

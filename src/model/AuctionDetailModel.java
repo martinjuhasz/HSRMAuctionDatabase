@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package model;
 
 import java.sql.Connection;
@@ -21,6 +29,12 @@ public class AuctionDetailModel extends DatabaseModel {
 	public static final int COLUMN_MAX_BIDDER_ID = 13;
 	public static final int COLUMN_RATING = 14;
 
+	/**
+	 * Instantiates a new auction detail model.
+	 *
+	 * @param db the db
+	 * @param id the id
+	 */
 	public AuctionDetailModel(Connection db, int id) {
 		super(db);
 
@@ -33,6 +47,11 @@ public class AuctionDetailModel extends DatabaseModel {
 		loadData();
 	}
 
+	/**
+	 * Gets the comment model.
+	 *
+	 * @return the comment model
+	 */
 	public AuctionCommentModel getCommentModel() {
 		return new AuctionCommentModel(db, (int)getFirst()[COLUMN_ID]);
 	}

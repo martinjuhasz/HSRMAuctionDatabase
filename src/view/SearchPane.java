@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -39,6 +47,11 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 	private JButton deleteButton;
 	
 	
+	/**
+	 * Instantiates a new search pane.
+	 *
+	 * @param manager the manager
+	 */
 	public SearchPane(ModelManager manager) {
 		this.modelManager = manager;
 		setLayout(new MigLayout("fill", "", "[top]"));
@@ -153,6 +166,9 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// only fire on mouse released
@@ -163,6 +179,11 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 		setSearchTermToAuctionTable(searchTerm);
 	}
 	
+	/**
+	 * Sets the search term to auction table.
+	 *
+	 * @param term the new search term to auction table
+	 */
 	private void setSearchTermToAuctionTable(String term) {
 		auctionTable.setModel(modelManager.getAuctionListWithSearchTerm(term).getTableModel());
 	}

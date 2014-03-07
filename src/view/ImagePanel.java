@@ -1,8 +1,8 @@
-/**
- * ImagePanel that handles Resizing and displaying and image
+/*
+ * HSRMAuctionDatabase
  * 
- * @author Simon Seyer
  * @author Martin Juhasz
+ * @author Simon Seyer
  * @author Julia Kraft
  * 
  */
@@ -52,8 +52,8 @@ public class ImagePanel extends JPanel {
 	
 	/**
 	 * Sets the image Path.
-	 * 
-	 * @param the new image Path
+	 *
+	 * @param path the new image path
 	 */
 	public void setImagePath(String path) {
 		try {
@@ -75,8 +75,8 @@ public class ImagePanel extends JPanel {
 
 	/**
 	 * Sets the image.
-	 * 
-	 * @param the new image
+	 *
+	 * @param coverImage the new image
 	 */
 	public void setImage(BufferedImage coverImage) {
 		this.coverImage = coverImage;

@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -34,6 +42,11 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 	private JButton newButton;
 	private int cid;
 
+	/**
+	 * Instantiates a new categories pane.
+	 *
+	 * @param manager the manager
+	 */
 	public CategoriesPane(ModelManager manager) {
 		this.modelManager = manager;
 		cid = -1;
@@ -78,6 +91,9 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == submitButton) {
@@ -100,6 +116,9 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if(e.getValueIsAdjusting() || categoriesTable.getSelectedRow() < 0) return;
@@ -107,12 +126,20 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		
 	}
 	
+	/**
+	 * Sets the category.
+	 *
+	 * @param row the new category
+	 */
 	private void setCategory(int row) {
 		Object[] rowData = ((DatabaseTableModel)categoriesTable.getModel()).getDatabaseModel().getRow(row);
 		cid = (int)rowData[CategoryList.COLUMN_CATEGORY_ID];
 		categoryField.setText((String)rowData[CategoryList.COLUMN_CATEGORY_NAME]);
 	}
 	
+	/**
+	 * Clean category.
+	 */
 	public void cleanCategory() {
 		cid = -1;
 		categoryField.setText("");

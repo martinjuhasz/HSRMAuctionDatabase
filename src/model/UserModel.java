@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package model;
 
 import java.sql.Connection;
@@ -16,6 +24,12 @@ public class UserModel extends DatabaseModel {
 	public static final int COLUMN_PASSWORD = 8;
 	public static final int COLUMN_UID = 9;
 	
+	/**
+	 * Instantiates a new user model.
+	 *
+	 * @param db the db
+	 * @param id the id
+	 */
 	public UserModel(Connection db, int id) {
 		super(db);
 

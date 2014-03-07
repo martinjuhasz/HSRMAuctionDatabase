@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package controller;
 
 import java.awt.image.BufferedImage;
@@ -55,6 +63,9 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * Instantiates a new model manager.
+	 */
 	public ModelManager() {
 		modelManagerListeners = new LinkedList<>();
 		loginUserID = -1;
@@ -62,14 +73,27 @@ public class ModelManager {
 		initDBConnection();
 	}
 
+	/**
+	 * Adds the model manager listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addModelManagerListener(ModelManagerListener listener) {
 		modelManagerListeners.add(listener);
 	}
 
+	/**
+	 * Removes the model manager listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeModelManagerListener(ModelManagerListener listener) {
 		modelManagerListeners.remove(listener);
 	}
 
+	/**
+	 * Inits the db connection.
+	 */
 	private void initDBConnection() {
 		try {
 			String url = "jdbc:postgresql://" + DATABASE_PATH;
@@ -96,40 +120,84 @@ public class ModelManager {
 		});
 	}
 
+	/**
+	 * Gets the user list.
+	 *
+	 * @return the user list
+	 */
 	public UserList getUserList() {
 		return new UserList(connection);
 	}
 
+	/**
+	 * Gets the auction list.
+	 *
+	 * @return the auction list
+	 */
 	public AuctionList getAuctionList() {
 		return new AuctionList(connection);
 	}
 
+	/**
+	 * Gets the auction list.
+	 *
+	 * @param category the category
+	 * @return the auction list
+	 */
 	public AuctionList getAuctionList(int category) {
 		AuctionList auctionList = new AuctionList(connection);
 		auctionList.setCategory(category);
 		return auctionList;
 	}
 	
+	/**
+	 * Gets the auction list with search term.
+	 *
+	 * @param term the term
+	 * @return the auction list with search term
+	 */
 	public AuctionList getAuctionListWithSearchTerm(String term) {
 		AuctionList auctionList = new AuctionList(connection);
 		auctionList.setSearchTerm(term);
 		return auctionList;
 	}
 	
+	/**
+	 * Gets the won auctions list model.
+	 *
+	 * @return the won auctions list model
+	 */
 	public WonAuctionsListModel getWonAuctionsListModel() {
 		WonAuctionsListModel listModel = new WonAuctionsListModel(connection);
 		listModel.setUser(loginUserID);
 		return listModel;
 	}
 
+	/**
+	 * Gets the categories list.
+	 *
+	 * @return the categories list
+	 */
 	public CategoryList getCategoriesList() {
 		return new CategoryList(connection);
 	}
 	
+	/**
+	 * Gets the search list.
+	 *
+	 * @param uid the uid
+	 * @return the search list
+	 */
 	public SearchListModel getSearchList(int uid) {
 		return new SearchListModel(connection, uid);
 	}
 
+	/**
+	 * Gets the active auctions list.
+	 *
+	 * @param category the category
+	 * @return the active auctions list
+	 */
 	public ActiveAuctionsList getActiveAuctionsList(String category) {
 		ActiveAuctionsList acticeAuctionsList = new ActiveAuctionsList(
 				connection);
@@ -137,18 +205,41 @@ public class ModelManager {
 		return acticeAuctionsList;
 	}
 
+	/**
+	 * Gets the closed auctions list.
+	 *
+	 * @return the closed auctions list
+	 */
 	public ClosedAuctionsList getClosedAuctionsList() {
 		return new ClosedAuctionsList(connection);
 	}
 	
+	/**
+	 * Gets the category combo model.
+	 *
+	 * @return the category combo model
+	 */
 	public CategoryComboModel getCategoryComboModel() {
 		return new CategoryComboModel(getCategoriesList());
 	}
 	
+	/**
+	 * Gets the user model.
+	 *
+	 * @param id the id
+	 * @return the user model
+	 */
 	public UserModel getUserModel(int id) {
 		return new UserModel(connection, id);
 	}
 
+	/**
+	 * Adds the search term.
+	 *
+	 * @param searchTerm the search term
+	 * @throws SQLException the SQL exception
+	 * @throws ModelManagerException the model manager exception
+	 */
 	public void addSearchTerm(String searchTerm) throws SQLException, ModelManagerException {
 		PreparedStatement insertTermStmt = connection.prepareStatement("INSERT INTO \"search_term\" VALUES(?,?)");
 		insertTermStmt.setInt(1, loginUserID);
@@ -165,6 +256,12 @@ public class ModelManager {
 		}
 	}
 	
+	/**
+	 * Delete search term.
+	 *
+	 * @param searchTerm the search term
+	 * @throws SQLException the SQL exception
+	 */
 	public void deleteSearchTerm(String searchTerm) throws SQLException {
 		PreparedStatement deleteTermStmt = connection.prepareStatement("DELETE FROM \"search_term\" WHERE uid=? AND term=?");
 		deleteTermStmt.setInt(1, loginUserID);
@@ -176,6 +273,22 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * Update user.
+	 *
+	 * @param userName the user name
+	 * @param password the password
+	 * @param firstName the first name
+	 * @param surName the sur name
+	 * @param email the email
+	 * @param street the street
+	 * @param streetNumber the street number
+	 * @param postalCode the postal code
+	 * @param city the city
+	 * @param uid the uid
+	 * @throws SQLException the SQL exception
+	 * @throws ModelManagerException the model manager exception
+	 */
 	public void updateUser(String userName, String password, String firstName,
 			String surName, String email, String street, String streetNumber,
 			String postalCode, String city, int uid) throws SQLException, ModelManagerException {
@@ -213,6 +326,12 @@ public class ModelManager {
 		notifyUserUpdate();
 	}
 	
+	/**
+	 * Delete user.
+	 *
+	 * @param uid the uid
+	 * @throws SQLException the SQL exception
+	 */
 	public void deleteUser(int uid) throws SQLException{
 		PreparedStatement deleteUserStmt = connection.prepareStatement("DELETE FROM \"user_view\" WHERE id=?");
 		deleteUserStmt.setInt(1, uid);
@@ -221,6 +340,9 @@ public class ModelManager {
 		notifyUserUpdate();
 	}
 	
+	/**
+	 * Notify user update.
+	 */
 	private void notifyUserUpdate() {
 		for (ModelManagerListener listener : modelManagerListeners) {
 			listener.didUpdate(this);
@@ -228,6 +350,14 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * Update category.
+	 *
+	 * @param newCategory the new category
+	 * @param cid the cid
+	 * @throws ModelManagerException the model manager exception
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateCategory(String newCategory, int cid) throws ModelManagerException,SQLException {
 		
 		PreparedStatement insertCategoryStmt;
@@ -252,6 +382,12 @@ public class ModelManager {
 
 	}
 	
+	/**
+	 * Delete category.
+	 *
+	 * @param cid the cid
+	 * @throws SQLException the SQL exception
+	 */
 	public void deleteCategory(int cid) throws SQLException{
 		PreparedStatement deleteCategoryStmt = connection.prepareStatement("DELETE FROM \"category\" WHERE id=?");
 		deleteCategoryStmt.setInt(1, cid);
@@ -263,6 +399,18 @@ public class ModelManager {
 		}
 	}
 	
+	/**
+	 * Insert auction.
+	 *
+	 * @param title the title
+	 * @param categoryID the category id
+	 * @param description the description
+	 * @param isDirectBuy the is direct buy
+	 * @param price the price
+	 * @param image the image
+	 * @throws ModelManagerException the model manager exception
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertAuction(String title, int categoryID, String description, boolean isDirectBuy, int price, BufferedImage image) throws ModelManagerException,SQLException {
 		
 		PreparedStatement insertAuctionStmt = connection.prepareStatement("INSERT INTO \"auction\"(start_time, end_time, title, description, image, category, offerer, price, is_directbuy) VALUES(?,?,?,?,?,?,?,?,?)");
@@ -302,6 +450,14 @@ public class ModelManager {
 		
 	}
 
+	/**
+	 * Login.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @return true, if successful
+	 * @throws SQLException the SQL exception
+	 */
 	public boolean login(String username, String password) throws SQLException {
 		PreparedStatement loginStmt = connection
 				.prepareStatement("SELECT u.username, u.id,"
@@ -324,6 +480,9 @@ public class ModelManager {
 		return false;
 	}
 
+	/**
+	 * Logout.
+	 */
 	public void logout() {
 		loginUserName = null;
 		loginUserID = -1;
@@ -332,22 +491,48 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * Checks if is logged in.
+	 *
+	 * @return true, if is logged in
+	 */
 	public boolean isLoggedIn() {
 		return loginUserName != null;
 	}
 
+	/**
+	 * Gets the login user name.
+	 *
+	 * @return the login user name
+	 */
 	public String getLoginUserName() {
 		return loginUserName;
 	}
 	
+	/**
+	 * Gets the login user id.
+	 *
+	 * @return the login user id
+	 */
 	public int getLoginUserID() {
 		return loginUserID;
 	}
 
+	/**
+	 * Checks if is admin.
+	 *
+	 * @return true, if is admin
+	 */
 	public boolean isAdmin() {
 		return admin;
 	}
 
+	/**
+	 * Md5.
+	 *
+	 * @param toHash the to hash
+	 * @return the string
+	 */
 	private String md5(String toHash) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -363,6 +548,14 @@ public class ModelManager {
 		return "";
 	}
 	
+	/**
+	 * Bid.
+	 *
+	 * @param auction the auction
+	 * @param price the price
+	 * @throws SQLException the SQL exception
+	 * @throws ModelManagerException the model manager exception
+	 */
 	public void bid(int auction, int price) throws SQLException, ModelManagerException {
 		PreparedStatement insertBidStmt = connection
 				.prepareStatement("INSERT INTO \"bid\"(uid, auction, price) VALUES(?,?,?)");
@@ -381,6 +574,14 @@ public class ModelManager {
 		}
 	}
 
+	/**
+	 * Comment.
+	 *
+	 * @param auction the auction
+	 * @param text the text
+	 * @throws SQLException the SQL exception
+	 * @throws ModelManagerException the model manager exception
+	 */
 	public void comment(int auction, String text) throws SQLException, ModelManagerException {
 		PreparedStatement insertCommentStmt = connection
 				.prepareStatement("INSERT INTO \"comment\"(uid, auction, content) VALUES(?,?,?)");
@@ -399,6 +600,14 @@ public class ModelManager {
 		}
 	}
 	
+	/**
+	 * Rate.
+	 *
+	 * @param auction the auction
+	 * @param rating the rating
+	 * @throws SQLException the SQL exception
+	 * @throws ModelManagerException the model manager exception
+	 */
 	public void rate(int auction, int rating) throws SQLException, ModelManagerException {
 		PreparedStatement insertRatingStmt = connection
 				.prepareStatement("INSERT INTO \"rating\"(rater, auction, score) VALUES(?,?,?)");

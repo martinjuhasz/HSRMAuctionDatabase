@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Color;
@@ -30,6 +38,12 @@ public class LoginDialog extends JDialog implements ActionListener {
 	public static final int CALLBACK_STATUS_LOGIN = 0;
 	public static final int CALLBACK_STATUS_REGISTER = 1;
 
+	/**
+	 * Instantiates a new login dialog.
+	 *
+	 * @param parent the parent
+	 * @param modelManager the model manager
+	 */
 	public LoginDialog(Frame parent, ModelManager modelManager) {
 		super(parent, "Login", ModalityType.APPLICATION_MODAL);
 		
@@ -79,6 +93,9 @@ public class LoginDialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(parent);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == registerButton) {
@@ -101,6 +118,11 @@ public class LoginDialog extends JDialog implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Sets the login callback.
+	 *
+	 * @param loginCallback the new login callback
+	 */
 	public void setLoginCallback(Callback loginCallback) {
 		this.loginCallback = loginCallback;
 	}

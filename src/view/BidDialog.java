@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Container;
@@ -24,6 +32,12 @@ public class BidDialog extends JDialog {
 	private JButton submitButton;
 	private Callback bidCallback;
 	
+	/**
+	 * Instantiates a new bid dialog.
+	 *
+	 * @param parent the parent
+	 * @param modelManager the model manager
+	 */
 	public BidDialog(Window parent, final ModelManager modelManager) {
 		super(parent, "Auktion", ModalityType.APPLICATION_MODAL);
 		this.modelManager = modelManager;
@@ -61,14 +75,29 @@ public class BidDialog extends JDialog {
 		setLocationRelativeTo(parent);
 	}
 
+	/**
+	 * Sets the start bid.
+	 *
+	 * @param bid the new start bid
+	 */
 	public void setStartBid(int bid) {
 		bidSpinner.setValue(bid);
 	}
 	
+	/**
+	 * Sets the auction id.
+	 *
+	 * @param auctionId the new auction id
+	 */
 	public void setAuctionId(int auctionId) {
 		this.auctionId = auctionId;
 	}
 	
+	/**
+	 * Sets the bid callback.
+	 *
+	 * @param bidCallback the new bid callback
+	 */
 	public void setBidCallback(Callback bidCallback) {
 		this.bidCallback = bidCallback;
 	}

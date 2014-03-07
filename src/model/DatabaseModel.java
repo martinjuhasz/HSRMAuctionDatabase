@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package model;
 
 import java.sql.Connection;
@@ -16,11 +24,19 @@ public class DatabaseModel {
 	
 	protected PreparedStatement selectStmt;
 	
+	/**
+	 * Instantiates a new database model.
+	 *
+	 * @param db the db
+	 */
 	public DatabaseModel(Connection db) {
 		this.db = db;
 		this.tableModels = new LinkedList<>();
 	}
 	
+	/**
+	 * Load data.
+	 */
 	protected void loadData() {
 		resultSet = queryResults();
 		for(DatabaseTableModel tableModel : tableModels) {
@@ -28,10 +44,18 @@ public class DatabaseModel {
 		}
 	}
 	
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		loadData();
 	}
 	
+	/**
+	 * Query results.
+	 *
+	 * @return the list
+	 */
 	private List<Object[]> queryResults() {
 		if(selectStmt == null) return null;
 		try {
@@ -42,6 +66,12 @@ public class DatabaseModel {
 		return null;
 	}
 	
+	/**
+	 * Result set to list.
+	 *
+	 * @param resultSet the result set
+	 * @return the list
+	 */
 	protected List<Object[]> resultSetToList(ResultSet resultSet) {
 		List<Object[]> result = new ArrayList<>();
 		try {
@@ -58,24 +88,51 @@ public class DatabaseModel {
 		return result;
 	}
 
+	/**
+	 * Gets the row.
+	 *
+	 * @param rowIndex the row index
+	 * @return the row
+	 */
 	public Object[] getRow(int rowIndex) {
 		return resultSet.get(rowIndex);
 	}
 	
+	/**
+	 * Gets the first.
+	 *
+	 * @return the first
+	 */
 	public Object[] getFirst() {
 		return getRow(0);
 	}
 	
+	/**
+	 * Size.
+	 *
+	 * @return the int
+	 */
 	public int size() {
 		return resultSet.size();
 	}
 	
+	/**
+	 * Gets the table model.
+	 *
+	 * @param columns the columns
+	 * @return the table model
+	 */
 	protected DatabaseTableModel getTableModel(String []columns) {
 		DatabaseTableModel tableModel = new DatabaseTableModel(this, columns);
 		tableModels.add(tableModel);
 		return tableModel;
 	}
 	
+	/**
+	 * Gets the table model.
+	 *
+	 * @return the table model
+	 */
 	public DatabaseTableModel getTableModel() {
 		return new DatabaseTableModel(this, new String[]{});
 	}

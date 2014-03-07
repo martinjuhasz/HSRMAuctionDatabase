@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -36,6 +44,11 @@ public class RegisterPane extends JPanel implements ActionListener {
 	protected int uid;
 	private Callback registerCallback;
 
+	/**
+	 * Instantiates a new register pane.
+	 *
+	 * @param modelManager the model manager
+	 */
 	public RegisterPane(ModelManager modelManager) {
 		this.modelManager = modelManager;
 		uid = -1;
@@ -101,6 +114,9 @@ public class RegisterPane extends JPanel implements ActionListener {
 		add(submitButton, "growx, span, wrap");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
@@ -120,6 +136,11 @@ public class RegisterPane extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Sets the user.
+	 *
+	 * @param userData the new user
+	 */
 	public void setUser(Object[] userData) {
 		System.out.println(userData);
 		uid = (int) userData[UserModel.COLUMN_UID];
@@ -134,6 +155,9 @@ public class RegisterPane extends JPanel implements ActionListener {
 		cityField.setText((String) userData[UserModel.COLUMN_CITY]);
 	}
 
+	/**
+	 * Clean user.
+	 */
 	public void cleanUser() {
 		uid = -1;
 		userNameField.setText("");
@@ -147,6 +171,11 @@ public class RegisterPane extends JPanel implements ActionListener {
 		cityField.setText("");
 	}
 
+	/**
+	 * Sets the register callback.
+	 *
+	 * @param registerCallback the new register callback
+	 */
 	public void setRegisterCallback(Callback registerCallback) {
 		this.registerCallback = registerCallback;
 	}

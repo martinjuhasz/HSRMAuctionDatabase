@@ -1,3 +1,11 @@
+/*
+ * HSRMAuctionDatabase
+ * 
+ * @author Martin Juhasz
+ * @author Simon Seyer
+ * @author Julia Kraft
+ * 
+ */
 package view;
 
 import java.awt.Container;
@@ -25,6 +33,12 @@ public class RateDialog extends JDialog {
 	private JButton submitButton;
 	private Callback rateCallback;
 	
+	/**
+	 * Instantiates a new rate dialog.
+	 *
+	 * @param parent the parent
+	 * @param modelManager the model manager
+	 */
 	public RateDialog(Window parent, final ModelManager modelManager) {
 		super(parent, "Bewerten", ModalityType.APPLICATION_MODAL);
 		this.modelManager = modelManager;
@@ -63,10 +77,20 @@ public class RateDialog extends JDialog {
 		setLocationRelativeTo(parent);
 	}
 	
+	/**
+	 * Sets the rate callback.
+	 *
+	 * @param rateCallback the new rate callback
+	 */
 	public void setRateCallback(Callback rateCallback) {
 		this.rateCallback = rateCallback;
 	}
 	
+	/**
+	 * Sets the auction id.
+	 *
+	 * @param auctionId the new auction id
+	 */
 	public void setAuctionId(int auctionId) {
 		this.auctionId = auctionId;
 	}
