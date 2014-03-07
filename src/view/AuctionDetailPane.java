@@ -72,7 +72,7 @@ public class AuctionDetailPane extends JDialog {
 		pane.add(new JScrollPane(commentTable), "spanx, growx, wrap, gapleft 20, gapright 20, gaptop 10, h 150");
 		
 		pack();
-		//setResizable(false);
+		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(parent);
 	}
@@ -81,7 +81,12 @@ public class AuctionDetailPane extends JDialog {
 		Object[] auctionData = auctionModel.getFirst();
 		titleLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_TITLE]);
 		highestBidLabel.setText(auctionData[AuctionDetailModel.COLUMN_MAX_BID] + " €");
-		highestBidUserLabel.setText("von " + (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER]);
+		String maxBidder = (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER];
+		if (maxBidder != null) {
+			highestBidUserLabel.setText("von " + maxBidder);
+		} else {
+			highestBidUserLabel.setText("keine Gebote");
+		}
 		descriptionLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_DESCRIPTION]);
 		startTimeLabel.setText("Start: " + auctionData[AuctionDetailModel.COLUMN_START_TIME]);
 		endTimeLabel.setText("Ende: " + auctionData[AuctionDetailModel.COLUMN_END_TIME]);
