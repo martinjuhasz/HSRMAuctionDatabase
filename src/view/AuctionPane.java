@@ -72,7 +72,7 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// only fire on mouse released
-		if(e.getValueIsAdjusting() || auctionTable.getSelectedRow() < 0) return;
+		if(e.getValueIsAdjusting() || categoryTable.getSelectedRow() < 0) return;
 		
 		DatabaseModel model = ((DatabaseTableModel)categoryTable.getModel()).getDatabaseModel();
 		int category = (int) model.getRow(categoryTable.getSelectedRow())[CategoryList.COLUMN_CATEGORY_ID];
