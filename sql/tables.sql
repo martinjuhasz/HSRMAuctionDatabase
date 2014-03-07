@@ -43,8 +43,9 @@ CREATE TABLE "admin" (
 );
 
 CREATE TABLE "search_term" (
-	uid			INT4 			PRIMARY KEY REFERENCES "user"(id),
-	term 		VARCHAR(255)	NOT NULL
+	uid			INT4 			REFERENCES "user"(id),
+	term 		VARCHAR(255)	NOT NULL,
+	PRIMARY KEY (uid, term)
 );
 
 -- name kein empty string
@@ -149,7 +150,9 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 	SELECT	a.title,
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
 			max_bid(a.id) AS max_bid,
-			a.category, a.id
+			a.category,
+			a.description,
+			a.id
 	FROM "auction" a WHERE a.end_time >= now() ORDER BY a.end_time;
 
 CREATE VIEW "auction_detail_view" AS

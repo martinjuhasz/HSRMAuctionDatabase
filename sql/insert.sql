@@ -91,9 +91,9 @@ INSERT INTO "category" VALUES(10, 'Haustierbedarf');
 INSERT INTO "category" VALUES(11, 'PC- & Videospiele');
 SELECT SETVAL((SELECT pg_get_serial_sequence('category', 'id')), 12, false);
 
-INSERT INTO "auction" VALUES(1, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 2, 1, 50, false);
-INSERT INTO "auction" VALUES(3, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Lokomotive', 'tolle Legolokomotive mit Lokführer', null, 2, 1, 60, false);
-INSERT INTO "auction" VALUES(2, '2013-12-01 12:13:00.00', '2013-12-08 12:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 2, 3, 30, true);
+INSERT INTO "auction" VALUES(1, '2014-03-07 10:13:00.00', '2014-03-14 14:13:00.00', 'Lego Eisenbahn', 'neuwertige Legoeisenbahn', null, 2, 1, 50, false);
+INSERT INTO "auction" VALUES(3, '2014-03-07 10:13:00.00', '2014-03-14 12:13:00.00', 'Lego Lokomotive', 'tolle Legolokomotive mit Lokführer', null, 2, 1, 60, false);
+INSERT INTO "auction" VALUES(2, '2014-03-07 10:13:00.00', '2014-03-14 16:13:00.00', 'Lego Auto', 'neuwertiges Legoauto', null, 2, 3, 30, true);
 
 INSERT INTO "auction" VALUES(4, '2014-03-05 19:22:00.00', '2014-03-12 19:22:00.00', 'Devil Staubsauger', 'roter Devilstaubsauger mit verschiedenen Aufsätzen', null, 3, 19, 1, false);
 INSERT INTO "auction" VALUES(5, '2014-03-05 14:50:00.00', '2014-03-12 14:50:00.00', 'Bosch Mixer Neu OVP', 'Mixer ist unbenutzt und in original Verpackung', null, 3, 15, 30, true);
@@ -111,7 +111,7 @@ INSERT INTO "auction" VALUES(13, '2014-02-23 16:55:00.00', '2014-03-02 16:55:00.
 INSERT INTO "auction" VALUES(14, '2014-02-24 12:55:00.00', '2014-03-03 12:55:00.00', 'Schreibtisch aus Nussbaumholz', 'Schreibtisch aus Nussbaumholz', null, 6, 6, 200, true);
 INSERT INTO "auction" VALUES(15, '2014-03-05 11:55:00.00', '2014-03-12 12:13:00.00', 'Schlafcouch', 'schwarze Schlafcouch aus Leder', null, 6, 8, 500, true);
 
-INSERT INTO "auction" VALUES(16, '2014-03-04 15:13:00.00', '2014-03-11 15:13:00.00', 'Riesen Windel Packet', 'Riesen Windel Packet 500 Stück', null, 7, 18, 150, true);
+INSERT INTO "auction" VALUES(16, '2014-03-04 15:13:00.00', '2014-03-11 15:13:00.00', 'Riesen Windel Paket', 'Riesen Windel Paket 500 Stück', null, 7, 18, 150, true);
 INSERT INTO "auction" VALUES(17, '2014-03-05 15:13:00.00', '2014-03-12 15:13:00.00', 'Fahrradsitz', 'Fahrradsitz grün', null, 7, 15, 20, false);
 INSERT INTO "auction" VALUES(18, '2014-03-06 15:13:00.00', '2014-03-13 15:13:00.00', 'Milchpumpe', 'Milchpumpe unbenutzt', null, 7, 17, 1, false);
 
@@ -169,3 +169,8 @@ INSERT INTO "comment" VALUES(12, 25,'2014-03-07 12:55:00', 'ist außer den 3 Ebe
 
 INSERT INTO "comment" VALUES(17, 28,'2014-03-06 13:44:00', 'In welchem Zustand ist der Artikel?');
 INSERT INTO "comment" VALUES(25, 28,'2014-03-07 12:12:00', 'Der Artikel ist in einem neuwertigen Zustand');
+
+
+INSERT INTO "search_term" VALUES(25, 'Lego');
+INSERT INTO "search_term" VALUES(25, 'Laptop');
+INSERT INTO "search_term" VALUES(26, 'Ice Age');

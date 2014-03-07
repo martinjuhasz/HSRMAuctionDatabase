@@ -47,7 +47,9 @@ public class MainFrame extends JFrame {
 		tabs.add(new Tab("Benutzer", new UserPane(modelManager), true));
 		tabs.add(new Tab("Kategorien", new CategoriesPane(modelManager), true));
 		tabs.add(new Tab("Auktionen", new AuctionPane(modelManager), false));
+		tabs.add(new Tab("Suche", new SearchPane(modelManager), false));
 		tabs.add(new Tab("Berichte", new ReportPane(modelManager), true));
+		tabs.add(new Tab("Account", new AccountPane(modelManager), false));
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(950,650);

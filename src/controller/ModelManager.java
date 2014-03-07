@@ -25,7 +25,9 @@ import model.AuctionList;
 import model.CategoryComboModel;
 import model.CategoryList;
 import model.ClosedAuctionsList;
+import model.SearchListModel;
 import model.UserList;
+import model.UserModel;
 
 public class ModelManager {
 
@@ -102,9 +104,19 @@ public class ModelManager {
 		auctionList.setCategory(category);
 		return auctionList;
 	}
+	
+	public AuctionList getAuctionListWithSearchTerm(String term) {
+		AuctionList auctionList = new AuctionList(connection);
+		auctionList.setSearchTerm(term);
+		return auctionList;
+	}
 
 	public CategoryList getCategoriesList() {
 		return new CategoryList(connection);
+	}
+	
+	public SearchListModel getSearchList(int uid) {
+		return new SearchListModel(connection, uid);
 	}
 
 	public ActiveAuctionsList getActiveAuctionsList(String category) {
@@ -120,6 +132,41 @@ public class ModelManager {
 	
 	public CategoryComboModel getCategoryComboModel() {
 		return new CategoryComboModel(getCategoriesList());
+	}
+	
+	public UserModel getUserModel(int id) {
+		return new UserModel(connection, id);
+	}
+
+	public int getLoginUserID() {
+		return loginUserID;
+	}
+	
+	public void addSearchTerm(String searchTerm) throws SQLException, ModelManagerException {
+		PreparedStatement insertTermStmt = connection.prepareStatement("INSERT INTO \"search_term\" VALUES(?,?)");
+		insertTermStmt.setInt(1, loginUserID);
+		insertTermStmt.setString(2, searchTerm);
+		
+		int termWasInserted = insertTermStmt.executeUpdate();
+		if (termWasInserted <= 0) {
+			throw new ModelManagerException(
+					"unable to insert search term. bad arguments?");
+		}
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateSearchTerms(this);
+		}
+	}
+	
+	public void deleteSearchTerm(String searchTerm) throws SQLException {
+		PreparedStatement deleteTermStmt = connection.prepareStatement("DELETE FROM \"search_term\" WHERE uid=? AND term=?");
+		deleteTermStmt.setInt(1, loginUserID);
+		deleteTermStmt.setString(2, searchTerm);
+		deleteTermStmt.executeUpdate();
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateSearchTerms(this);
+		}
 	}
 
 	public void updateUser(String userName, String password, String firstName,

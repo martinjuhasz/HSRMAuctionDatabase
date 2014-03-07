@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import model.UserList;
+import model.UserModel;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerException;
@@ -120,16 +121,17 @@ public class RegisterPane extends JPanel implements ActionListener {
 	}
 
 	public void setUser(Object[] userData) {
-		uid = (int) userData[UserList.COLUMN_UID];
-		userNameField.setText((String) userData[UserList.COLUMN_USER_NAME]);
-		firstNameField.setText((String) userData[UserList.COLUMN_FIRST_NAME]);
-		surNameField.setText((String) userData[UserList.COLUMN_SUR_NAME]);
-		emailField.setText((String) userData[UserList.COLUMN_EMAIL]);
-		streetField.setText((String) userData[UserList.COLUMN_STREET]);
+		System.out.println(userData);
+		uid = (int) userData[UserModel.COLUMN_UID];
+		userNameField.setText((String) userData[UserModel.COLUMN_USER_NAME]);
+		firstNameField.setText((String) userData[UserModel.COLUMN_FIRST_NAME]);
+		surNameField.setText((String) userData[UserModel.COLUMN_SUR_NAME]);
+		emailField.setText((String) userData[UserModel.COLUMN_EMAIL]);
+		streetField.setText((String) userData[UserModel.COLUMN_STREET]);
 		streetNumberField
-				.setText((String) userData[UserList.COLUMN_STREET_NUMBER]);
-		postalField.setText((String) userData[UserList.COLUMN_POSTAL_CODE]);
-		cityField.setText((String) userData[UserList.COLUMN_CITY]);
+				.setText((String) userData[UserModel.COLUMN_STREET_NUMBER]);
+		postalField.setText((String) userData[UserModel.COLUMN_POSTAL_CODE]);
+		cityField.setText((String) userData[UserModel.COLUMN_CITY]);
 	}
 
 	public void cleanUser() {

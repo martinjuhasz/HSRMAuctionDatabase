@@ -9,7 +9,8 @@ public class AuctionList extends DatabaseModel {
 	public static final int COLUMN_END_TIME = 1;
 	public static final int COLUMN_MAX_BID = 2;
 	public static final int COLUMN_CATEGORY = 3;
-	public static final int COLUMN_ID = 4;
+	public static final int COLUMN_DESCRIPTION = 4;
+	public static final int COLUMN_ID = 5;
 	
 	public AuctionList(Connection db){
 		super(db);
@@ -25,6 +26,18 @@ public class AuctionList extends DatabaseModel {
 		try {
 			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE category=?");
 			selectStmt.setInt(1, category);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		loadData();
+	}
+	
+	public void setSearchTerm(String searchTerm) {
+		searchTerm = "%"+searchTerm+"%";
+		try {
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE title LIKE ? OR description LIKE ?");
+			selectStmt.setString(1, searchTerm);
+			selectStmt.setString(2, searchTerm);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
