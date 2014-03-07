@@ -47,14 +47,17 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		setLayout(new MigLayout("fill", "", "[55!][]"));
+		setLayout(new MigLayout("fill, insets 20", "", "[55!][]"));
+		
+		ImagePanel logoPanel = new ImagePanel("logo.gif", ImagePanel.SIZE_FILL);
+		add(logoPanel, "w 128!, h 47!");
 		
 		loginStatusPane = new LoginStatusPane(modelManager);
 		add(loginStatusPane, "growx, wrap");
 		
 		tabPane = new JTabbedPane();
 		tabPane.setVisible(false);
-		add(tabPane, "grow");
+		add(tabPane, "grow, spanx 2, gapy 10");
 		
 		tabs = new ArrayList<>();
 		tabs.add(new Tab("Benutzer", new UserPane(modelManager), true));
