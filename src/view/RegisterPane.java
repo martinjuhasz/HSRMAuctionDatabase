@@ -8,6 +8,7 @@
  */
 package view;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -130,7 +131,7 @@ public class RegisterPane extends JPanel implements ActionListener {
 				}
 			}
 		} catch (SQLException | ModelManagerException e1) {
-			JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+			Window frame = (Window) SwingUtilities.getRoot(this);
 			JOptionPane.showMessageDialog(frame, e1);
 		}
 	}

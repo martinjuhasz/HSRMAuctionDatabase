@@ -8,12 +8,12 @@
  */
 package view;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -60,7 +60,7 @@ public class UserInputPane extends RegisterPane implements ActionListener {
 				modelManager.deleteUser(uid);
 			}
 		} catch (SQLException e1) {
-			JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+			Window frame = (Window) SwingUtilities.getRoot(this);
 			JOptionPane.showMessageDialog(frame, e1);
 		}
 	}
