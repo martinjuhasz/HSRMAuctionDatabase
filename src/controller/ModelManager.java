@@ -19,6 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import model.ActiveAuctionsList;
 import model.AuctionList;
@@ -73,6 +76,7 @@ public class ModelManager {
 			connection = DriverManager.getConnection(url, DATABASE_USER,
 					DATABASE_PASSWORD);
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Couldn't connect - aborting");
 			System.out.println("Couldn't connect - aborting");
 			System.exit(-1);
 		}
