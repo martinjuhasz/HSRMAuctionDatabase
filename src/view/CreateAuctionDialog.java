@@ -87,6 +87,7 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Show file chooser to add an image
 				JFileChooser fileChooser = new JFileChooser();
 				FileFilter imageFilter = new FileNameExtensionFilter("Bilder", ImageIO.getReaderFileSuffixes());
 				fileChooser.addChoosableFileFilter(imageFilter);
@@ -99,7 +100,6 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 						image = ImageIO.read(file);
 						imagePanel.setImage(image);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

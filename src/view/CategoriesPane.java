@@ -8,6 +8,7 @@
  */
 package view;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -97,6 +98,7 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == submitButton) {
+			// Save the category
 			try {
 				modelManager.updateCategory(categoryField.getText(), cid);
 				cleanCategory();
@@ -105,12 +107,14 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 				JOptionPane.showMessageDialog(frame, e1);
 			}
 		} else if(e.getSource() == newButton) {
+			// Clean fields to create a new category
 			cleanCategory();
 		} else if (e.getSource() == deleteButton) {
+			// Delete a category
 			try {
 				modelManager.deleteCategory(cid);
 			} catch (SQLException e1) {
-				JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+				Window frame = (Window) SwingUtilities.getRoot(this);
 				JOptionPane.showMessageDialog(frame, e1);
 			}
 		}

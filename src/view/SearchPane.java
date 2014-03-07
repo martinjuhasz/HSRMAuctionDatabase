@@ -8,6 +8,7 @@
  */
 package view;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -106,10 +107,10 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 					modelManager.addSearchTerm(searchField.getText());
 					searchField.setText("");
 				} catch (SQLException e1) {
-					JFrame frame = (JFrame) SwingUtilities.getRoot(weakThis);
+					Window frame = (Window) SwingUtilities.getRoot(weakThis);
 					JOptionPane.showMessageDialog(frame, e1);
 				} catch (ModelManagerException e1) {
-					JFrame frame = (JFrame) SwingUtilities.getRoot(weakThis);
+					Window frame = (Window) SwingUtilities.getRoot(weakThis);
 					JOptionPane.showMessageDialog(frame, e1);
 				}
 			}
