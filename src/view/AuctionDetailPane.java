@@ -3,7 +3,11 @@ package view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -79,6 +83,20 @@ public class AuctionDetailPane extends JDialog {
 	
 	public void setAuction(AuctionDetailModel auctionModel) {
 		Object[] auctionData = auctionModel.getFirst();
+		BufferedImage img = null;
+		try {
+			byte[] imageBytes = (byte[])auctionData[AuctionDetailModel.COLUMN_IMAGE];
+			if(imageBytes != null) {
+				img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+				imagePanel.setImage(img);
+			} else {
+				imagePanel.setImagePath("default_detail.jpg");
+			}
+		} catch (IOException e) {
+			imagePanel.setImagePath("default_detail.jpg");
+		}
+		
+		
 		titleLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_TITLE]);
 		highestBidLabel.setText(auctionData[AuctionDetailModel.COLUMN_MAX_BID] + " €");
 		highestBidUserLabel.setText("von " + (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER]);

@@ -218,8 +218,9 @@ public class ModelManager {
 			} catch (IOException e) {
 				throw new ModelManagerException("image not readable");
 			}
-			InputStream is = new ByteArrayInputStream(os.toByteArray());
-			insertAuctionStmt.setBinaryStream(5, is);
+			byte imageBytes[] = os.toByteArray();
+			InputStream is = new ByteArrayInputStream(imageBytes);
+			insertAuctionStmt.setBinaryStream(5, is, imageBytes.length);
 		} else {
 			insertAuctionStmt.setNull(5, Types.NULL);
 		}
