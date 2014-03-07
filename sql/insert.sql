@@ -101,7 +101,7 @@ INSERT INTO "auction" VALUES(6, '2014-03-04 20:13:00.00', '2014-03-11 20:13:00.0
 
 INSERT INTO "auction" VALUES(7, '2014-03-04 17:33:00.00', '2014-03-11 17:33:00.00', 'gebrauchte Gucci Pumps', 'gebrauchte Gucci Pumps in lila Größe 39', null, 4, 6, 220, true);
 INSERT INTO "auction" VALUES(8, '2014-03-03 10:15:00.00', '2014-03-10 10:15:00.00', 'H&M Jeans Größe 36', 'H&M Jeans Größe 36 in blau, guter Zustand', null, 4, 10, 1, false);
-INSERT INTO "auction" VALUES(9, '2013-11-01 12:13:00.00', '2013-11-08 12:13:00.00', 'Süßes Spaghettiträger-Top', 'Süßes Spaghettiträger-Top Größe 34', null, 4, 22, 3000, false);
+INSERT INTO "auction" VALUES(9, '2013-11-01 12:13:00.00', '2013-11-08 12:13:00.00', 'Süßes Spaghettiträger-Top', 'Süßes Spaghettiträger-Top Größe 34', null, 4, 22, 1, false);
 
 INSERT INTO "auction" VALUES(10, '2014-03-03 15:13:00.00', '2014-03-10 15:13:00.00', 'Big Bang Theory Shirt', 'Big Bang Theory Shirt XXL', null, 5, 17, 1, false);
 INSERT INTO "auction" VALUES(11, '2014-03-02 22:13:00.00', '2014-03-09 22:13:00.00', 'Jogging Hose von Esprit', 'Jogging Hose von Esprit NEU', null, 5, 24, 50, true);
@@ -109,12 +109,45 @@ INSERT INTO "auction" VALUES(12, '2014-02-22 11:55:00.00', '2014-03-01 11:55:00.
 
 INSERT INTO "auction" VALUES(13, '2014-02-23 16:55:00.00', '2014-03-02 16:55:00.00', 'Stehlampe', 'Stehlampe aus Metall', null, 6, 1, 1, false);
 INSERT INTO "auction" VALUES(14, '2014-02-24 12:55:00.00', '2014-03-03 12:55:00.00', 'Schreibtisch aus Nussbaumholz', 'Schreibtisch aus Nussbaumholz', null, 6, 6, 200, true);
-INSERT INTO "auction" VALUES(15, '2014-03-05 11:55:00.00', '2014-03-05 12:13:00.00', 'Schlafcouch', 'schwarze Schlafcouch aus Leder', null, 6, 8, 500, true);
+INSERT INTO "auction" VALUES(15, '2014-03-05 11:55:00.00', '2014-03-12 12:13:00.00', 'Schlafcouch', 'schwarze Schlafcouch aus Leder', null, 6, 8, 500, true);
 
 INSERT INTO "auction" VALUES(16, '2014-03-04 15:13:00.00', '2014-03-11 15:13:00.00', 'Riesen Windel Packet', 'Riesen Windel Packet 500 Stück', null, 7, 18, 150, true);
 INSERT INTO "auction" VALUES(17, '2014-03-05 15:13:00.00', '2014-03-12 15:13:00.00', 'Fahrradsitz', 'Fahrradsitz grün', null, 7, 15, 20, false);
 INSERT INTO "auction" VALUES(18, '2014-03-06 15:13:00.00', '2014-03-13 15:13:00.00', 'Milchpumpe', 'Milchpumpe unbenutzt', null, 7, 17, 1, false);
 
+INSERT INTO "auction" VALUES(19, '2014-03-07 10:13:00.00', '2014-03-14 10:13:00.00', 'Asus Laptop 17"', 'Asus Laptop 17" Neu', null, 8, 14, 1000, true);
+INSERT INTO "auction" VALUES(20, '2014-03-07 10:13:00.00', '2014-03-14 10:13:00.00', 'Tastatur mit Maus', 'Tastatur mit Maus kabellos', null, 8, 17, 1, false);
+INSERT INTO "auction" VALUES(21, '2014-02-05 15:13:00.00', '2014-02-12 15:13:00.00', '500Gb Festplatte', '500Gb Festplatte', null, 8, 9, 1, false);
+
+INSERT INTO "auction" VALUES(22, '2014-03-07 10:13:00.00', '2014-03-14 10:13:00.00', 'Pulp Fiction DVD', 'Pulp Fiction DVD ohne Kratzer', null, 9, 8, 1, false);
+INSERT INTO "auction" VALUES(23, '2014-03-04 10:13:00.00', '2014-03-11 10:13:00.00', 'König der Löwen Blue Ray', 'König der Löwen Blue Ray', null, 9, 4, 1, false);
+INSERT INTO "auction" VALUES(24, '2014-02-07 10:13:00.00', '2014-02-14 10:13:00.00', 'Ice Age 3 in 3D', 'Ice Age 3 in 3D', null, 9, 19, 15, true);
+
+INSERT INTO "auction" VALUES(25, '2014-03-06 10:13:00.00', '2014-03-13 10:13:00.00', 'Hamsterkäfig', 'Hamsterkäfig mit 3 Ebenen', null, 10, 3, 1, false);
+INSERT INTO "auction" VALUES(26, '2014-03-01 12:13:00.00', '2014-03-08 12:13:00.00', 'Hundekörbchen in rot', 'Hundekörbchen in rot super kuschelig', null, 10, 7, 40, true);
+INSERT INTO "auction" VALUES(27, '2014-02-04 10:13:00.00', '2014-02-11 10:13:00.00', 'Aquarium 60l mit Pumpe', 'Aquarium 60l mit Pumpe', null, 10, 13, 10, false);
+
+INSERT INTO "auction" VALUES(28, '2014-03-05 14:13:00.00', '2014-03-12 14:13:00.00', 'Battlefield 4 Premium', 'Battlefield 4 Premium für PC', null, 11, 25, 35, true);
+INSERT INTO "auction" VALUES(29, '2014-03-01 10:55:00.00', '2014-03-08 10:55:00.00', 'Die Sims 3', 'Die Sims 3 Playstation 3', null, 11, 16, 1, false);
+INSERT INTO "auction" VALUES(30, '2014-02-06 10:13:00.00', '2014-02-13 10:13:00.00', 'Donkey Kong Country', 'Donkey Kong Country für die Super Nintendo', null, 11, 19, 1, false);
+
+
 INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 55);
 INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 65);
 INSERT INTO "bid" VALUES(8, 3, '2013-12-03 12:15:00.00', 66);
+
+INSERT INTO "bid" VALUES(4, 9, '2013-11-08 10:11:00.00', 2);
+INSERT INTO "bid" VALUES(10, 9, '2013-12-03 12:12:00.00', 5);
+INSERT INTO "bid" VALUES(12, 9, '2013-12-03 12:13:00.00', 7);
+
+INSERT INTO "bid" VALUES(13, 12, '2013-03-01 09:15:00.00', 32);
+INSERT INTO "bid" VALUES(21, 12, '2013-03-01 11:15:00.00', 88);
+
+INSERT INTO "bid" VALUES(15, 14, '2014-03-01 14:18:00.00', 200);
+
+INSERT INTO "bid" VALUES(9, 24, '2014-02-12 19:55:00.00', 15);
+
+INSERT INTO "bid" VALUES(9, 27, '2014-02-05 19:55:00.00', 15);
+INSERT INTO "bid" VALUES(14, 27, '2014-02-06 20:09:00.00', 21);
+INSERT INTO "bid" VALUES(9, 27, '2014-02-06 21:55:00.00', 25);
+INSERT INTO "bid" VALUES(26, 27, '2014-02-10 13:42:00.00', 27);
