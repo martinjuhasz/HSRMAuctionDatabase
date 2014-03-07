@@ -175,10 +175,10 @@ public class ModelManager {
 	}
 
 	public void updateCategory(String newCategory, int cid) throws ModelManagerException,SQLException {
-
+		
 		PreparedStatement insertCategoryStmt;
 		if (cid < 0) {
-			insertCategoryStmt = connection.prepareStatement("INSERT INTO \"category\" VALUES(?)");
+			insertCategoryStmt = connection.prepareStatement("INSERT INTO \"category\"(name) VALUES(?)");
 		} else {
 			insertCategoryStmt = connection.prepareStatement("UPDATE \"category\" SET name=? WHERE id=?");
 			insertCategoryStmt.setInt(2, cid);
@@ -196,6 +196,17 @@ public class ModelManager {
 			listener.didUpdateCategory(this);
 		}
 
+	}
+	
+	public void deleteCategory(int cid) throws SQLException{
+		PreparedStatement deleteCategoryStmt = connection.prepareStatement("DELETE FROM \"category\" WHERE id=?");
+		deleteCategoryStmt.setInt(1, cid);
+		deleteCategoryStmt.executeUpdate();
+		
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateCategory(this);
+		}
 	}
 	
 	public void insertAuction(String title, int categoryID, String description, boolean isDirectBuy, int price, BufferedImage image) throws ModelManagerException,SQLException {

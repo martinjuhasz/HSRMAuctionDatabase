@@ -66,20 +66,16 @@ CREATE TABLE "auction" (
 	title				VARCHAR(255)	NOT NULL,
 	description			TEXT			NOT NULL,
 	image 				BYTEA,
-	category			INT4			REFERENCES "category"(id) NOT NULL,
+	category			INT4			REFERENCES "category"(id) ON DELETE CASCADE NOT NULL,
 	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
 	price 				INT 			NOT NULL,
 	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
 );
 
-CREATE RULE "auction_insert" AS ON INSERT TO "auction" DO INSTEAD (
-       INSERT INTO "auction"(start_time, end_time, title, description, image, category, offerer, price, is_directbuy) VALUES(now(), (now() + interval '7d'), NEW.title, NEW.description, NEW.image, NEW.category,NEW.offerer,NEW.price,NEW.is_directbuy);
-);
-
 -- rating nur setzen wenn auction vorbei und rater == buyer
 CREATE TABLE "rating" (
 	rater			INT4			REFERENCES "user"(id),
-	auction			INT4			PRIMARY KEY REFERENCES "auction"(id),
+	auction			INT4			PRIMARY KEY REFERENCES "auction"(id) ON DELETE CASCADE,
 	score			INT 			CHECK (score BETWEEN 0 AND 5),
 	comment			TEXT
 );
@@ -90,7 +86,7 @@ CREATE TABLE "rating" (
 -- bid nur wenn Datum und Uhrzeit im Zeitraum liegt
 CREATE TABLE "bid" (
 	uid			INT4			REFERENCES "user"(id),
-	auction 	INT4			REFERENCES "auction"(id),
+	auction 	INT4			REFERENCES "auction"(id) ON DELETE CASCADE,
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	price 		INT, -- nur bid erstellen wenn price > maximal price der auction ist
 	PRIMARY KEY(uid, auction, time)
@@ -98,7 +94,7 @@ CREATE TABLE "bid" (
 
 CREATE TABLE "comment" (
 	uid			INT4			REFERENCES "user"(id),
-	auction 	INT4			REFERENCES "auction"(id),
+	auction 	INT4			REFERENCES "auction"(id) ON DELETE CASCADE,
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	content		TEXT 			NOT NULL,
 	PRIMARY KEY (uid, auction, time) 		
@@ -170,5 +166,24 @@ CREATE VIEW "closed_auctions_view" AS
 		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
 	FROM category cat;
 
+
+
+
+-------------------------------------------------------------------------------------
+--	TRIGGER
+-------------------------------------------------------------------------------------
+
+CREATE FUNCTION setStartEndDateToAuction() RETURNS TRIGGER AS
+$BODY$
+DECLARE auctionend TIMESTAMP;
+BEGIN
+SELECT (now() + interval '7d') INTO auctionend;
+NEW.start_time := now();
+NEW.end_time := auctionend;
+RETURN NEW;
+END;
+$BODY$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER setStartEndDateToAuctionTrigger BEFORE INSERT ON "auction" FOR EACH ROW EXECUTE PROCEDURE setStartEndDateToAuction();
 
 

@@ -35,6 +35,13 @@ public class AuctionList extends DatabaseModel {
 		return super.getTableModel(new String[]{"Titel","Enddatum","Höchstgebot / Kaufpreis"});
 	}
 	
+	public DatabaseTableModel getTableModel(boolean onlyTitle) {
+		if(onlyTitle) {
+			return super.getTableModel(new String[]{"Titel"});
+		}
+		return this.getTableModel();
+	}
+	
 	public AuctionDetailModel getDetailModelForRow(int row) {
 		int id = (int)getRow(row)[COLUMN_ID];
 		return new AuctionDetailModel(db, id);

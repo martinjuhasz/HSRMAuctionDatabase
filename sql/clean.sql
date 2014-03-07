@@ -1,12 +1,12 @@
 DROP RULE "user_insert" ON "user_view";
 DROP RULE "user_update" ON "user_view";
 DROP RULE "user_delete" ON "user_view";
-DROP RULE "auction_insert" ON "auction";
 DROP VIEW "user_view";
 DROP VIEW "auction_view";
 DROP VIEW "closed_auctions_view";
 DROP VIEW "auction_detail_view";
 DROP VIEW "auction_comment_view";
+DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
 
 DROP TABLE "bid";
 DROP TABLE "comment";
@@ -25,3 +25,4 @@ DROP DOMAIN "KTNR";
 
 DROP FUNCTION max_bid(integer);
 DROP FUNCTION max_bidder(integer);
+DROP FUNCTION setStartEndDateToAuction();

@@ -56,10 +56,6 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		
 		JPanel inputPanel = new JPanel(new MigLayout("", "[][150!]",""));
 		
-		newButton = new JButton("Neu");
-		newButton.addActionListener(this);
-		inputPanel.add(newButton, "growx, span, wrap");
-		
 		JLabel categoryTitleLabel = new JLabel("Kategorie:");
 		inputPanel.add(categoryTitleLabel);
 		
@@ -69,6 +65,10 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		submitButton = new JButton("Speichern");
 		submitButton.addActionListener(this);
 		inputPanel.add(submitButton, "growx, span, wrap");
+		
+		newButton = new JButton("Neu");
+		newButton.addActionListener(this);
+		inputPanel.add(newButton, "growx, span, wrap");
 		
 		deleteButton = new JButton("Löschen");
 		deleteButton.addActionListener(this);
@@ -91,7 +91,12 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 		} else if(e.getSource() == newButton) {
 			cleanCategory();
 		} else if (e.getSource() == deleteButton) {
-			
+			try {
+				modelManager.deleteCategory(cid);
+			} catch (SQLException e1) {
+				JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+				JOptionPane.showMessageDialog(frame, e1);
+			}
 		}
 	}
 

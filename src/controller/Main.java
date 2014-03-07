@@ -1,6 +1,11 @@
 package controller;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import view.MainFrame;
+
+import com.alee.laf.WebLookAndFeel;
 
 public class Main {
 
