@@ -54,6 +54,7 @@ CREATE TRIGGER supressRatingBeforeEndTrigger BEFORE INSERT ON "rating" FOR EACH 
 
 -- supress bidding if auction is finished
 -- supress bidding if bid is lower than the max bid
+-- supress bidding on own auction
 -- update the bid if a user bids for an auctions where he's currently the highest bidder
 -- end auction if a bid was made to a direct buy auction
 CREATE FUNCTION supressBiddingAfterEnd() RETURNS TRIGGER AS
@@ -62,6 +63,7 @@ DECLARE openAuction boolean;
 DECLARE maxBid integer;
 DECLARE maxBidder integer;
 DECLARE maxBidTime TIMESTAMP;
+DECLARE auctionOfferer integer;
 BEGIN
 SELECT coalesce((SELECT TRUE FROM "auction" a WHERE a.id=NEW.auction AND a.end_time > now()), FALSE) INTO openAuction;
 IF NOT openAuction THEN
@@ -78,6 +80,12 @@ SELECT max_bidder(NEW.auction) INTO maxBidder;
 IF maxBidder = NEW.uid THEN
 	SELECT time FROM "bid" WHERE "bid".uid = NEW.uid AND "bid".auction =  NEW.auction AND "bid".price >= maxBid INTO maxBidTime;
 	UPDATE "bid" SET price=NEW.price WHERE "bid".uid = NEW.uid AND "bid".auction = NEW.auction AND "bid".time = maxBidTime;
+	RETURN NULL;
+END IF;
+
+SELECT offerer FROM "auction" a WHERE id=NEW.auction INTO auctionOfferer;
+IF NEW.uid = auctionOfferer THEN
+	RAISE EXCEPTION 'Sie können nicht auf ihre eigene Auktion bieten';
 	RETURN NULL;
 END IF;
 
