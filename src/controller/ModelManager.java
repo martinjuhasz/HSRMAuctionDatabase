@@ -145,10 +145,6 @@ public class ModelManager {
 		return new UserModel(connection, id);
 	}
 
-	public int getLoginUserID() {
-		return loginUserID;
-	}
-	
 	public void addSearchTerm(String searchTerm) throws SQLException, ModelManagerException {
 		PreparedStatement insertTermStmt = connection.prepareStatement("INSERT INTO \"search_term\" VALUES(?,?)");
 		insertTermStmt.setInt(1, loginUserID);
@@ -339,6 +335,10 @@ public class ModelManager {
 	public String getLoginUserName() {
 		return loginUserName;
 	}
+	
+	public int getLoginUserID() {
+		return loginUserID;
+	}
 
 	public boolean isAdmin() {
 		return admin;
@@ -387,6 +387,24 @@ public class ModelManager {
 		int commentWasInserted = insertCommentStmt.executeUpdate();
 		if (commentWasInserted <= 0) {
 			throw new ModelManagerException("unable to insert comment. bad arguments?");
+		}
+
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateAuction(this);
+		}
+	}
+	
+	public void rate(int auction, int rating) throws SQLException, ModelManagerException {
+		PreparedStatement insertRatingStmt = connection
+				.prepareStatement("INSERT INTO \"rating\"(rater, auction, score) VALUES(?,?,?)");
+		insertRatingStmt.setInt(1, loginUserID);
+		insertRatingStmt.setInt(2, auction);
+		insertRatingStmt.setInt(3, rating);
+		
+		int ratingWasInserted = insertRatingStmt.executeUpdate();
+		if (ratingWasInserted <= 0) {
+			throw new ModelManagerException("unable to insert rating. bad arguments?");
 		}
 
 		for (ModelManagerListener listener : modelManagerListeners) {
