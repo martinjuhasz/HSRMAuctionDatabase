@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -21,6 +23,7 @@ import model.AuctionDetailModel;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
 import controller.ModelManagerAdapter;
+import controller.ModelManagerException;
 
 public class AuctionDetailPane extends JDialog {
 
@@ -82,8 +85,19 @@ public class AuctionDetailPane extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int auctionId = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_ID];
+				int price = (int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_MAX_BID];
 				if (direct_buy) {
-					
+					int answer = JOptionPane.showOptionDialog(finalThis, titleLabel.getText() +
+							" für " + highestBidLabel.getText() + " kaufen?", "Kaufen", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, new String[]{"Ja", "Nein"}, "Nein");
+					if (answer == JOptionPane.YES_OPTION) {
+						try {
+							modelManager.bid(auctionId, price);
+						} catch (SQLException | ModelManagerException e1) {
+							JOptionPane.showMessageDialog(finalThis, e1);
+						}
+					}
 				} else {
 					final BidDialog bidDialog = new BidDialog(finalThis, modelManager);
 					bidDialog.setBidCallback(new Callback() {
@@ -93,8 +107,8 @@ public class AuctionDetailPane extends JDialog {
 							bidDialog.dispose();
 						}
 					});
-					bidDialog.setAuctionId((int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_ID]);
-					bidDialog.setStartBid((int)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_MAX_BID] + 1);
+					bidDialog.setAuctionId(auctionId);
+					bidDialog.setStartBid(price + 1);
 					bidDialog.setVisible(true);
 				}
 			}
@@ -150,6 +164,7 @@ public class AuctionDetailPane extends JDialog {
 		commentTable.setModel(auctionModel.getCommentModel().getTableModel());
 		direct_buy = (boolean)auctionData[AuctionDetailModel.COLUMN_DIRECT_BUY];
 		bidButton.setText(direct_buy ? "Kaufen" : "Bieten");
+		bidButton.setVisible((boolean)auctionDetailModel.getFirst()[AuctionDetailModel.COLUMN_OPEN]);
 	}
 
 }

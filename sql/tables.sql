@@ -153,7 +153,7 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 
 CREATE VIEW "auction_detail_view" AS
 	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
-	max_bid(a.id), max_bidder(a.id)
+	max_bid(a.id), max_bidder(a.id), coalesce((SELECT TRUE WHERE a.end_time > now()), FALSE) AS open
 	FROM "auction" a JOIN "category" c ON a.category=c.id JOIN "user" u ON a.offerer=u.id;
 
 CREATE VIEW "auction_comment_view" AS

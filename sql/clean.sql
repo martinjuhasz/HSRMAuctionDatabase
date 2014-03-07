@@ -7,6 +7,7 @@ DROP VIEW "closed_auctions_view";
 DROP VIEW "auction_detail_view";
 DROP VIEW "auction_comment_view";
 DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
+DROP TRIGGER setEndDateToNowOnBidTrigger ON "bid";
 
 DROP TABLE "bid";
 DROP TABLE "comment";
@@ -26,3 +27,4 @@ DROP DOMAIN "KTNR";
 DROP FUNCTION max_bid(integer);
 DROP FUNCTION max_bidder(integer);
 DROP FUNCTION setStartEndDateToAuction();
+DROP FUNCTION setEndDateToNowOnBid();

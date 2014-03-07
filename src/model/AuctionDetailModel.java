@@ -17,6 +17,7 @@ public class AuctionDetailModel extends DatabaseModel {
 	public static final int COLUMN_DIRECT_BUY = 9;
 	public static final int COLUMN_MAX_BID = 10;
 	public static final int COLUMN_MAX_BIDDER = 11;
+	public static final int COLUMN_OPEN = 12;
 
 	public AuctionDetailModel(Connection db, int id) {
 		super(db);
