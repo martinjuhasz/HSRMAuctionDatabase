@@ -41,6 +41,13 @@ public class AuctionPane extends JPanel implements ListSelectionListener {
 				categoryTable.setModel(modelManager.getCategoriesList().getTableModel());
 				auctionTable.setModel(modelManager.getAuctionList().getTableModel());
 			}
+			
+			@Override
+			public void didUpdateAuction(ModelManager manager) {
+				AuctionList model = (AuctionList) ((DatabaseTableModel) auctionTable
+						.getModel()).getDatabaseModel();
+				model.refresh();
+			}
 		});
 		
 		categoryTable = new JTable();

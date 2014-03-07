@@ -304,5 +304,23 @@ public class ModelManager {
 		}
 		return "";
 	}
+	
+	public void bid(int auction, int price) throws SQLException, ModelManagerException {
+		PreparedStatement insertBidStmt = connection
+				.prepareStatement("INSERT INTO \"bid\"(uid, auction, price) VALUES(?,?,?)");
+		insertBidStmt.setInt(1, loginUserID);
+		insertBidStmt.setInt(2, auction);
+		insertBidStmt.setInt(3, price);
+		
+		int bidnWasInserted = insertBidStmt.executeUpdate();
+		if (bidnWasInserted <= 0) {
+			throw new ModelManagerException("unable to insert bid. bad arguments?");
+		}
+
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateAuction(this);
+		}
+	}
 
 }
