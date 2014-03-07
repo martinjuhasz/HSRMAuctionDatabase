@@ -123,7 +123,12 @@ public class SearchPane extends JPanel implements ListSelectionListener  {
 				if(searchTable.getSelectedRow() < 0) return;
 				DatabaseModel model = ((DatabaseTableModel)searchTable.getModel()).getDatabaseModel();
 				String searchTerm = (String) model.getRow(searchTable.getSelectedRow())[SearchListModel.COLUMN_CATEGORY_TERM];
-				//modelManager.
+				try {
+					modelManager.deleteSearchTerm(searchTerm);
+				} catch (SQLException e1) {
+					JFrame frame = (JFrame) SwingUtilities.getRoot(weakThis);
+					JOptionPane.showMessageDialog(frame, e1);
+				}
 			}
 		});
 		add(deleteButton, "spanx 2, wrap");
