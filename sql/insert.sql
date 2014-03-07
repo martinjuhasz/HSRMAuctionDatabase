@@ -151,3 +151,29 @@ INSERT INTO "bid" VALUES(9, 27, '2014-02-05 19:55:00.00', 15);
 INSERT INTO "bid" VALUES(14, 27, '2014-02-06 20:09:00.00', 21);
 INSERT INTO "bid" VALUES(9, 27, '2014-02-06 21:55:00.00', 25);
 INSERT INTO "bid" VALUES(26, 27, '2014-02-10 13:42:00.00', 27);
+
+
+INSERT INTO "comment" VALUES(10, 1, '2013-12-02 17:55:00', 'Aus wievielen Teilen bestehlt die Legoeisenbahn?');
+
+INSERT INTO "comment" VALUES(11, 6, '2014-03-04 11:32:00', 'Wie heiß wird das Gerät?');
+INSERT INTO "comment" VALUES(5, 6, '2014-03-05 14:15:00', 'puh also ich verbrenne mir jedes mal die Finger dran, deswegen verkaufe ich es');
+INSERT INTO "comment" VALUES(13, 6, '2014-03-06 12:58:00', 'Und was kann ich darin alles machen? Auch Lebereis?');
+
+INSERT INTO "comment" VALUES(2, 10, '2014-03-04 10:04:00', 'Ich habe normal XXXL, meinen Sie ich sehe dick in dem TShirt aus?');
+
+INSERT INTO "comment" VALUES(1, 16, '2014-03-0 14:04:00', 'Können diese Windeln auch von Erwachsenen getragen werden?');
+
+INSERT INTO "comment" VALUES(5, 25, '2014-03-06 20:32:00', 'Wie groß ist der Käfig denn?');
+INSERT INTO "comment" VALUES(3, 25, '2014-03-06 21:59:00', '60x100, also viel Platz für einen Hamster');
+INSERT INTO "comment" VALUES(12, 25,'2014-03-07 12:55:00', 'ist außer den 3 Ebenen noch mehr Zubehör dabei?');
+
+INSERT INTO "comment" VALUES(17, 28,'2014-03-06 13:44:00', 'In welchem Zustand ist der Artikel?');
+INSERT INTO "comment" VALUES(25, 28,'2014-03-07 12:12:00', 'Der Artikel ist in einem neuwertigen Zustand');
+
+CREATE TABLE "comment" (
+	uid			INT4			REFERENCES "user"(id),
+	auction 	INT4			REFERENCES "auction"(id),
+	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	content		TEXT 			NOT NULL,
+	PRIMARY KEY (uid, auction, time) 		
+);
