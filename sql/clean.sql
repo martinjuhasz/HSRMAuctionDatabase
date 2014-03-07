@@ -6,6 +6,7 @@ DROP VIEW "user_view";
 DROP VIEW "auction_view";
 DROP VIEW "closed_auctions_view";
 DROP VIEW "auction_detail_view";
+DROP VIEW "auction_comment_view";
 
 DROP TABLE "bid";
 DROP TABLE "comment";

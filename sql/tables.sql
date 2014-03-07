@@ -151,7 +151,7 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 	SELECT	a.title,
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
 			max_bid(a.id) AS max_bid,
-			a.category
+			a.category, a.id
 	FROM "auction" a;
 
 CREATE VIEW "auction_detail_view" AS
@@ -159,7 +159,8 @@ CREATE VIEW "auction_detail_view" AS
 	max_bid(a.id), max_bidder(a.id)
 	FROM "auction" a JOIN "category" c ON a.category=c.id JOIN "user" u ON a.offerer=u.id;
 
-
+CREATE VIEW "auction_comment_view" AS
+	SELECT u.username, c.content, c.time, c.auction FROM "comment" c JOIN "user" u ON u.id=c.uid ORDER BY c.time DESC;
 
 
 CREATE VIEW "closed_auctions_view" AS

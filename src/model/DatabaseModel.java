@@ -58,6 +58,10 @@ public class DatabaseModel {
 		return resultSet.get(rowIndex);
 	}
 	
+	public Object[] getFirst() {
+		return getRow(0);
+	}
+	
 	public int size() {
 		return resultSet.size();
 	}
