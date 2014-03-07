@@ -18,13 +18,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -188,6 +186,8 @@ public class CreateAuctionDialog extends JDialog implements ActionListener {
 			}
 			try {
 				this.modelManager.insertAuction(titleTextField.getText(), categoryID, descriptionTextField.getText(), isDirectBuy, price, image);
+				this.dispose();
+				JOptionPane.showMessageDialog(this, "Auktion erfolgreich erstellt","", JOptionPane.PLAIN_MESSAGE);
 			} catch (ModelManagerException | SQLException e1) {
 				JOptionPane.showMessageDialog(this, e1);
 			}
