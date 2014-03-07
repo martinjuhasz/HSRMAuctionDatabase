@@ -202,7 +202,7 @@ public class ModelManager {
 		insertUserStmt.setString(6, streetNumber);
 		insertUserStmt.setString(7, postalCode);
 		insertUserStmt.setString(8, city);
-		insertUserStmt.setString(9, md5(password));
+		insertUserStmt.setString(9, password.length() == 0 ? "" : md5(password));
 
 		int userWasInserted = insertUserStmt.executeUpdate();
 		if (userWasInserted <= 0) {

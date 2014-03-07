@@ -9,6 +9,7 @@ DROP VIEW "auction_comment_view";
 DROP VIEW "auctions_won_view";
 DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
 DROP TRIGGER setEndDateToNowOnBidTrigger ON "bid";
+DROP TRIGGER keepOldPasswordTrigger ON "user";
 
 DROP TABLE "bid";
 DROP TABLE "comment";
@@ -29,3 +30,4 @@ DROP FUNCTION max_bid(integer);
 DROP FUNCTION max_bidder(integer);
 DROP FUNCTION setStartEndDateToAuction();
 DROP FUNCTION setEndDateToNowOnBid();
+DROP FUNCTION keepOldPassword();
