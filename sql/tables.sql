@@ -130,7 +130,7 @@ AS '
 					 WHERE a.id = b.auction AND price < (SELECT MAX(price) 
 					 FROM "bid" b WHERE a.id = b.auction)), 
 					 a.price) + 
-		   coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy), 0)
+		   coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy AND EXISTS (SELECT * FROM "bid" d WHERE a.id = d.auction)), 0)
 	FROM auction a WHERE a.id=$1;
 ' LANGUAGE 'SQL';
 
