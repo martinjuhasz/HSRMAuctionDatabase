@@ -168,7 +168,7 @@ CREATE VIEW "auction_comment_view" AS
 CREATE VIEW "closed_auctions_view" AS
 	SELECT	cat.name, 
 		(SELECT COUNT(*) FROM auction a WHERE a.category=cat.id AND a.end_time < now()) AS count,
-		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
+		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id AND c.end_time < now() GROUP BY c.id) AS prices), 0) AS sum
 	FROM category cat ORDER BY sum DESC;
 
 
