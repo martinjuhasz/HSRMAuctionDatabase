@@ -64,6 +64,11 @@ public class WonAuctionsPane extends JPanel {
 			public void userDidLogin(ModelManager manager) {
 				auctionTable.setModel(manager.getWonAuctionsListModel().getTableModel());
 			}
+			
+			@Override
+			public void didUpdateAuction(ModelManager manager) {
+				auctionTable.setModel(manager.getWonAuctionsListModel().getTableModel());
+			}
 		});
 		
 	}

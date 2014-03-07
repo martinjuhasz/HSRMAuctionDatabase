@@ -110,6 +110,7 @@ public class CategoriesPane extends JPanel implements ActionListener, ListSelect
 			// Clean fields to create a new category
 			cleanCategory();
 		} else if (e.getSource() == deleteButton) {
+			// Delete a category
 			try {
 				modelManager.deleteCategory(cid);
 			} catch (SQLException e1) {

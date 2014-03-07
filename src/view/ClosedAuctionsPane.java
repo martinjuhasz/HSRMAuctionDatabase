@@ -39,6 +39,7 @@ public class ClosedAuctionsPane extends JPanel {
 		closedAuctionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(closedAuctionTable), "grow, pushx");
 		
+		// Update view if needed
 		manager.addModelManagerListener(new ModelManagerAdapter() {
 			@Override
 			public void didUpdateCategory(ModelManager manager) {
