@@ -1,12 +1,12 @@
 DROP RULE "user_insert" ON "user_view";
 DROP RULE "user_update" ON "user_view";
 DROP RULE "user_delete" ON "user_view";
-DROP RULE "auction_insert" ON "auction";
 DROP VIEW "user_view";
 DROP VIEW "auction_view";
 DROP VIEW "closed_auctions_view";
 DROP VIEW "auction_detail_view";
 DROP VIEW "auction_comment_view";
+DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
 
 DROP TABLE "bid";
 DROP TABLE "comment";
@@ -24,7 +24,9 @@ DROP DOMAIN "BLZ";
 DROP DOMAIN "KTNR";
 
 DROP FUNCTION max_bid(integer);
-DROP FUNCTION max_bidder(integer);-------------------------------------------------------------------------------------
+DROP FUNCTION max_bidder(integer);
+DROP FUNCTION setStartEndDateToAuction();
+-------------------------------------------------------------------------------------
 --	DOMAINS
 -------------------------------------------------------------------------------------
 
@@ -92,20 +94,16 @@ CREATE TABLE "auction" (
 	title				VARCHAR(255)	NOT NULL,
 	description			TEXT			NOT NULL,
 	image 				BYTEA,
-	category			INT4			REFERENCES "category"(id) NOT NULL,
+	category			INT4			REFERENCES "category"(id) ON DELETE CASCADE NOT NULL,
 	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
 	price 				INT 			NOT NULL,
 	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
 );
 
-CREATE RULE "auction_insert" AS ON INSERT TO "auction" DO INSTEAD (
-       INSERT INTO "auction"(start_time, end_time, title, description, image, category, offerer, price, is_directbuy) VALUES(now(), (now() + interval '7d'), NEW.title, NEW.description, NEW.image, NEW.category,NEW.offerer,NEW.price,NEW.is_directbuy);
-);
-
 -- rating nur setzen wenn auction vorbei und rater == buyer
 CREATE TABLE "rating" (
 	rater			INT4			REFERENCES "user"(id),
-	auction			INT4			PRIMARY KEY REFERENCES "auction"(id),
+	auction			INT4			PRIMARY KEY REFERENCES "auction"(id) ON DELETE CASCADE,
 	score			INT 			CHECK (score BETWEEN 0 AND 5),
 	comment			TEXT
 );
@@ -116,7 +114,7 @@ CREATE TABLE "rating" (
 -- bid nur wenn Datum und Uhrzeit im Zeitraum liegt
 CREATE TABLE "bid" (
 	uid			INT4			REFERENCES "user"(id),
-	auction 	INT4			REFERENCES "auction"(id),
+	auction 	INT4			REFERENCES "auction"(id) ON DELETE CASCADE,
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	price 		INT, -- nur bid erstellen wenn price > maximal price der auction ist
 	PRIMARY KEY(uid, auction, time)
@@ -124,7 +122,7 @@ CREATE TABLE "bid" (
 
 CREATE TABLE "comment" (
 	uid			INT4			REFERENCES "user"(id),
-	auction 	INT4			REFERENCES "auction"(id),
+	auction 	INT4			REFERENCES "auction"(id) ON DELETE CASCADE,
 	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	content		TEXT 			NOT NULL,
 	PRIMARY KEY (uid, auction, time) 		
@@ -179,7 +177,7 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
 			max_bid(a.id) AS max_bid,
 			a.category, a.id
-	FROM "auction" a;
+	FROM "auction" a WHERE a.end_time >= now();
 
 CREATE VIEW "auction_detail_view" AS
 	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
@@ -195,7 +193,6 @@ CREATE VIEW "closed_auctions_view" AS
 		(SELECT COUNT(*) FROM auction a WHERE a.category=cat.id AND a.end_time < now()) AS count,
 		coalesce((SELECT SUM(prices.price) as maximum FROM (SELECT MAX(d.price) AS price FROM auction c, bid d WHERE c.category=cat.id AND d.auction=c.id GROUP BY c.id) AS prices), 0) AS sum
 	FROM category cat;
-
 
 
 
@@ -361,7 +358,7 @@ INSERT INTO "comment" VALUES(13, 6, '2014-03-06 12:58:00', 'Und was kann ich dar
 
 INSERT INTO "comment" VALUES(2, 10, '2014-03-04 10:04:00', 'Ich habe normal XXXL, meinen Sie ich sehe dick in dem TShirt aus?');
 
-INSERT INTO "comment" VALUES(1, 16, '2014-03-0 14:04:00', 'Können diese Windeln auch von Erwachsenen getragen werden?');
+INSERT INTO "comment" VALUES(1, 16, '2014-03-04 14:04:00', 'Können diese Windeln auch von Erwachsenen getragen werden?');
 
 INSERT INTO "comment" VALUES(5, 25, '2014-03-06 20:32:00', 'Wie groß ist der Käfig denn?');
 INSERT INTO "comment" VALUES(3, 25, '2014-03-06 21:59:00', '60x100, also viel Platz für einen Hamster');
@@ -369,11 +366,19 @@ INSERT INTO "comment" VALUES(12, 25,'2014-03-07 12:55:00', 'ist außer den 3 Ebe
 
 INSERT INTO "comment" VALUES(17, 28,'2014-03-06 13:44:00', 'In welchem Zustand ist der Artikel?');
 INSERT INTO "comment" VALUES(25, 28,'2014-03-07 12:12:00', 'Der Artikel ist in einem neuwertigen Zustand');
+-------------------------------------------------------------------------------------
+--	TRIGGER
+-------------------------------------------------------------------------------------
 
-CREATE TABLE "comment" (
-	uid			INT4			REFERENCES "user"(id),
-	auction 	INT4			REFERENCES "auction"(id),
-	time 		TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	content		TEXT 			NOT NULL,
-	PRIMARY KEY (uid, auction, time) 		
-);
+CREATE FUNCTION setStartEndDateToAuction() RETURNS TRIGGER AS
+$BODY$
+DECLARE auctionend TIMESTAMP;
+BEGIN
+SELECT (now() + interval '7d') INTO auctionend;
+NEW.start_time := now();
+NEW.end_time := auctionend;
+RETURN NEW;
+END;
+$BODY$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER setStartEndDateToAuctionTrigger BEFORE INSERT ON "auction" FOR EACH ROW EXECUTE PROCEDURE setStartEndDateToAuction();

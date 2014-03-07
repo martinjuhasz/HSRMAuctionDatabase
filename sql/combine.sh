@@ -1,2 +1,2 @@
 #!/bin/bash
-cat clean.sql tables.sql insert.sql > combined.sql
+cat clean.sql tables.sql insert.sql trigger.sql > combined.sql
