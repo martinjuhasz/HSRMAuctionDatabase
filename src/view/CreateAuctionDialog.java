@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -17,17 +18,23 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import model.CategoryComboModel;
+import model.CategoryList;
 import net.miginfocom.swing.MigLayout;
 import controller.ModelManager;
+import controller.ModelManagerException;
 
-public class CreateAuctionDialog extends JDialog {
+public class CreateAuctionDialog extends JDialog implements ActionListener {
 	
 	private JButton addImageButton;
 	private JButton resetImageButton;
@@ -139,7 +146,7 @@ public class CreateAuctionDialog extends JDialog {
 		priceLabel = new JLabel("Start-Preis:");
 		add(priceLabel);
 		
-		priceTextField = new JTextField();
+		priceTextField = new JTextField("1");
 		add(priceTextField, "growx");
 		
 		JLabel priceEuroLabel = new JLabel("€");
@@ -156,6 +163,7 @@ public class CreateAuctionDialog extends JDialog {
 		add(closeButton, "gapy 40");
 		
 		addButton = new JButton("erstellen");
+		addButton.addActionListener(this);
 		add(addButton, "wrap, spanx 2, al right");
 		
 		
@@ -165,6 +173,25 @@ public class CreateAuctionDialog extends JDialog {
 		setPreferredSize(new Dimension(300, 300));
 		//setResizable(false);
 		setLocationRelativeTo(parent);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == addButton) {
+			int categoryID = (int)((CategoryComboModel)categoryComboBox.getModel()).getDatabaseModel().getRow(categoryComboBox.getSelectedIndex())[CategoryList.COLUMN_CATEGORY_ID];
+			boolean isDirectBuy = directBuyCheckBox.isSelected();
+			int price;
+			try {
+				price = Integer.parseInt(priceTextField.getText());
+			} catch (NumberFormatException exp) {
+				price = 0;
+			}
+			try {
+				this.modelManager.insertAuction(titleTextField.getText(), categoryID, descriptionTextField.getText(), isDirectBuy, price, image);
+			} catch (ModelManagerException | SQLException e1) {
+				JOptionPane.showMessageDialog(this, e1);
+			}
+		}
 	}
 
 }

@@ -47,6 +47,7 @@ CREATE TABLE "search_term" (
 	term 		VARCHAR(255)	NOT NULL
 );
 
+-- name kein empty string
 CREATE TABLE "category" (
 	id		SERIAL 			PRIMARY KEY,
 	name 	VARCHAR(100)	UNIQUE NOT NULL
@@ -55,7 +56,9 @@ CREATE TABLE "category" (
 
 -- wenn directbuy, endtime auf bidtime setzen
 -- 2 views: auction und direktauction
-
+-- min price bei bid mind 1
+-- title kein empty string
+-- description kein empty string
 CREATE TABLE "auction" (
 	id					SERIAL 			PRIMARY KEY,
 	start_time			TIMESTAMP 		DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -67,6 +70,10 @@ CREATE TABLE "auction" (
 	offerer				INT4 			REFERENCES "user"(id) NOT NULL,
 	price 				INT 			NOT NULL,
 	is_directbuy		BOOLEAN			DEFAULT FALSE NOT NULL
+);
+
+CREATE RULE "auction_insert" AS ON INSERT TO "auction" DO INSTEAD (
+       INSERT INTO "auction"(start_time, end_time, title, description, image, category, offerer, price, is_directbuy) VALUES(now(), (now() + interval '7d'), NEW.title, NEW.description, NEW.image, NEW.category,NEW.offerer,NEW.price,NEW.is_directbuy);
 );
 
 -- rating nur setzen wenn auction vorbei und rater == buyer

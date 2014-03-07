@@ -1,5 +1,10 @@
 package controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,8 +13,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import model.ActiveAuctionsList;
 import model.AuctionList;
@@ -28,6 +37,7 @@ public class ModelManager {
 	private static final String DATABASE_PASSWORD = "XhED6Nj8yneGgcYwu:xnH8&d7h";
 
 	private String loginUserName;
+	private int loginUserID;
 	private boolean admin;
 
 	static {
@@ -41,6 +51,7 @@ public class ModelManager {
 
 	public ModelManager() {
 		modelManagerListeners = new LinkedList<>();
+		loginUserID = -1;
 
 		initDBConnection();
 	}
@@ -186,10 +197,48 @@ public class ModelManager {
 		}
 
 	}
+	
+	public void insertAuction(String title, int categoryID, String description, boolean isDirectBuy, int price, BufferedImage image) throws ModelManagerException,SQLException {
+		
+		PreparedStatement insertAuctionStmt = connection.prepareStatement("INSERT INTO \"auction\"(start_time, end_time, title, description, image, category, offerer, price, is_directbuy) VALUES(?,?,?,?,?,?,?,?,?)");
+		
+		insertAuctionStmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+		insertAuctionStmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+		insertAuctionStmt.setString(3, title);
+		insertAuctionStmt.setString(4, description);
+		insertAuctionStmt.setInt(6, categoryID);
+		insertAuctionStmt.setInt(7, loginUserID);
+		insertAuctionStmt.setInt(8, price);
+		insertAuctionStmt.setBoolean(9, isDirectBuy);
+		
+		if(image != null) {
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			try {
+				ImageIO.write(image, "jpg", os);
+			} catch (IOException e) {
+				throw new ModelManagerException("image not readable");
+			}
+			InputStream is = new ByteArrayInputStream(os.toByteArray());
+			insertAuctionStmt.setBinaryStream(5, is);
+		} else {
+			insertAuctionStmt.setNull(5, Types.NULL);
+		}
+		
+		int auctionWasInserted = insertAuctionStmt.executeUpdate();
+		if (auctionWasInserted <= 0) {
+			throw new ModelManagerException("unable to insert auction. bad arguments?");
+		}
+
+		for (ModelManagerListener listener : modelManagerListeners) {
+			listener.didUpdate(this);
+			listener.didUpdateAuction(this);
+		}
+		
+	}
 
 	public boolean login(String username, String password) throws SQLException {
 		PreparedStatement loginStmt = connection
-				.prepareStatement("SELECT u.username, "
+				.prepareStatement("SELECT u.username, u.id,"
 						+ "coalesce((SELECT TRUE FROM \"admin\" a WHERE a.uid = u.id ), FALSE) AS admin "
 						+ "FROM \"user\" u WHERE u.username=? AND u.password=?");
 		loginStmt.setString(1, username);
@@ -197,7 +246,8 @@ public class ModelManager {
 		ResultSet res = loginStmt.executeQuery();
 		if (res.next()) {
 			loginUserName = res.getString(1);
-			admin = res.getBoolean(2);
+			loginUserID = res.getInt(2);
+			admin = res.getBoolean(3);
 
 			for (ModelManagerListener listener : modelManagerListeners) {
 				listener.userDidLogin(this);
@@ -210,6 +260,7 @@ public class ModelManager {
 
 	public void logout() {
 		loginUserName = null;
+		loginUserID = -1;
 		for (ModelManagerListener listener : modelManagerListeners) {
 			listener.userDidLogout(this);
 		}

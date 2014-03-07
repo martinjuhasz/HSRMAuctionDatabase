@@ -13,6 +13,10 @@ public class CategoryComboModel extends AbstractListModel<String> implements Com
 		this.categoryList = categoryList;
 	}
 	
+	public DatabaseModel getDatabaseModel() {
+		return this.categoryList;
+	}
+	
 	@Override
 	public int getSize() {
 		return this.categoryList.size();

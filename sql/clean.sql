@@ -1,6 +1,7 @@
 DROP RULE "user_insert" ON "user_view";
 DROP RULE "user_update" ON "user_view";
 DROP RULE "user_delete" ON "user_view";
+DROP RULE "auction_insert" ON "auction";
 DROP VIEW "user_view";
 DROP VIEW "auction_view";
 DROP VIEW "closed_auctions_view";

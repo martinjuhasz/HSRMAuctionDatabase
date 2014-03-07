@@ -130,7 +130,7 @@ INSERT INTO "auction" VALUES(27, '2014-02-04 10:13:00.00', '2014-02-11 10:13:00.
 INSERT INTO "auction" VALUES(28, '2014-03-05 14:13:00.00', '2014-03-12 14:13:00.00', 'Battlefield 4 Premium', 'Battlefield 4 Premium für PC', null, 11, 25, 35, true);
 INSERT INTO "auction" VALUES(29, '2014-03-01 10:55:00.00', '2014-03-08 10:55:00.00', 'Die Sims 3', 'Die Sims 3 Playstation 3', null, 11, 16, 1, false);
 INSERT INTO "auction" VALUES(30, '2014-02-06 10:13:00.00', '2014-02-13 10:13:00.00', 'Donkey Kong Country', 'Donkey Kong Country für die Super Nintendo', null, 11, 19, 1, false);
-
+SELECT SETVAL((SELECT pg_get_serial_sequence('auction', 'id')), 31, false);
 
 INSERT INTO "bid" VALUES(7, 1, '2013-12-03 12:13:00.00', 55);
 INSERT INTO "bid" VALUES(7, 3, '2013-12-03 12:13:00.00', 65);

@@ -17,6 +17,8 @@ public abstract class ModelManagerAdapter implements ModelManagerListener {
 
 	@Override
 	public void userDidLogout(ModelManager manager) {}
-
+	
+	@Override
+	public void didUpdateAuction(ModelManager manager){}
 	
 }
