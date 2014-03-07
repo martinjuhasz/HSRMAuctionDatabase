@@ -40,3 +40,57 @@ END;
 $BODY$ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER keepOldPasswordTrigger BEFORE UPDATE ON "user" FOR EACH ROW EXECUTE PROCEDURE keepOldPassword();
+
+-- Supress rating, when the auction is not completed or a another user than the buyer tries to rate
+CREATE FUNCTION supressRatingBeforeEnd() RETURNS TRIGGER AS
+$BODY$
+DECLARE openAuction boolean;
+DECLARE buyer integer;
+BEGIN
+SELECT coalesce((SELECT TRUE FROM "auction" a WHERE a.id=NEW.auction AND a.end_time > now()), FALSE) INTO openAuction;
+IF openAuction THEN
+	RETURN NULL;
+END IF;
+
+SELECT max_bidder(NEW.auction) INTO buyer;
+IF buyer != NEW.rater THEN
+	RETURN NULL;
+END IF;
+
+RETURN NEW;
+END;
+$BODY$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER supressRatingBeforeEndTrigger BEFORE INSERT ON "rating" FOR EACH ROW EXECUTE PROCEDURE supressRatingBeforeEnd();
+
+-- supress bidding if auction is finished
+CREATE FUNCTION supressBiddingAfterEnd() RETURNS TRIGGER AS
+$BODY$
+DECLARE openAuction boolean;
+DECLARE maxBid integer;
+DECLARE maxBidder integer;
+DECLARE maxBidTime TIMESTAMP;
+BEGIN
+SELECT coalesce((SELECT TRUE FROM "auction" a WHERE a.id=NEW.auction AND a.end_time > now()), FALSE) INTO openAuction;
+IF NOT openAuction THEN
+	RETURN NULL;
+END IF;
+
+SELECT max_bid(NEW.auction) INTO maxBid;
+IF NEW.price < maxBid THEN
+	RAISE EXCEPTION 'Das Gebot muss größer sein, als das aktuelle Höchstgebot.';
+	RETURN NULL;
+END IF;
+
+SELECT max_bidder(NEW.auction) INTO maxBidder;
+IF maxBidder = NEW.uid THEN
+	SELECT time FROM "bid" WHERE "bid".uid = NEW.uid AND "bid".auction =  NEW.auction AND "bid".price >= maxBid INTO maxBidTime;
+	UPDATE "bid" SET price=NEW.price WHERE "bid".uid = NEW.uid AND "bid".auction = NEW.auction AND "bid".time = maxBidTime;
+	RETURN NULL;
+END IF;
+
+RETURN NEW;
+END;
+$BODY$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER supressBiddingAfterEndTrigger BEFORE INSERT ON "bid" FOR EACH ROW EXECUTE PROCEDURE supressBiddingAfterEnd();

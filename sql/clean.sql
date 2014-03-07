@@ -10,6 +10,8 @@ DROP VIEW "auctions_won_view";
 DROP TRIGGER setStartEndDateToAuctionTrigger ON "auction";
 DROP TRIGGER setEndDateToNowOnBidTrigger ON "bid";
 DROP TRIGGER keepOldPasswordTrigger ON "user";
+DROP TRIGGER supressRatingBeforeEndTrigger ON "rating";
+DROP TRIGGER supressBiddingAfterEndTrigger ON "bid";
 
 DROP TABLE "bid";
 DROP TABLE "comment";
@@ -25,9 +27,14 @@ DROP TABLE "city";
 DROP DOMAIN "EMAIL";
 DROP DOMAIN "BLZ";
 DROP DOMAIN "KTNR";
+DROP DOMAIN "NOT_EMPTY_VARCHAR";
+DROP DOMAIN "NOT_EMPTY_TEXT";
 
 DROP FUNCTION max_bid(integer);
 DROP FUNCTION max_bidder(integer);
 DROP FUNCTION setStartEndDateToAuction();
 DROP FUNCTION setEndDateToNowOnBid();
 DROP FUNCTION keepOldPassword();
+DROP FUNCTION supressRatingBeforeEnd();
+DROP FUNCTION supressBiddingAfterEnd();
+DROP FUNCTION date_format(TIMESTAMP);
