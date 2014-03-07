@@ -12,7 +12,7 @@ public class CategoryList extends DatabaseModel {
 		super(db);
 		
 		try {
-			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\"");
+			selectStmt = db.prepareStatement("SELECT name,id FROM \"category\" ORDER BY name");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
