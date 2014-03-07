@@ -137,9 +137,9 @@ AS '
 ' LANGUAGE 'SQL';
 
 CREATE FUNCTION max_bidder(integer)
-RETURNS text
+RETURNS integer
 AS '
-	SELECT u.username FROM "user" u, "bid" b1 
+	SELECT u.id FROM "user" u, "bid" b1 
 	WHERE u.id = b1.uid AND b1.price >= (SELECT MAX(bb.price) 
 	FROM "bid" bb WHERE bb.auction = $1) AND b1.auction = $1;
 ' LANGUAGE 'SQL';
@@ -157,7 +157,8 @@ CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 
 CREATE VIEW "auction_detail_view" AS
 	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
-	max_bid(a.id), max_bidder(a.id), coalesce((SELECT TRUE WHERE a.end_time > now()), FALSE) AS open
+	max_bid(a.id), (SELECT u2.username FROM "user" u2 WHERE u2.id=max_bidder(a.id)) AS max_bidder, 
+	coalesce((SELECT TRUE WHERE a.end_time > now()), FALSE) AS open, max_bidder(a.id) AS max_bidder_id
 	FROM "auction" a JOIN "category" c ON a.category=c.id JOIN "user" u ON a.offerer=u.id;
 
 CREATE VIEW "auction_comment_view" AS
