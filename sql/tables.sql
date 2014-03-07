@@ -118,13 +118,39 @@ CREATE RULE "user_delete" AS ON DELETE TO "user_view" DO INSTEAD (
   	UPDATE "user" SET deleted=TRUE WHERE id=OLD.id;
 );
 
+CREATE FUNCTION max_bid(integer)
+RETURNS integer
+AS '
+	SELECT coalesce((SELECT MAX(price) FROM "bid" b 
+					 WHERE a.id = b.auction AND price < (SELECT MAX(price) 
+					 FROM "bid" b WHERE a.id = b.auction)), 
+					 a.price) + 
+		   coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy), 0)
+	FROM auction a WHERE a.id=$1;
+' LANGUAGE 'SQL';
+
+CREATE FUNCTION max_bidder(integer)
+RETURNS text
+AS '
+	SELECT u.username FROM "user" u, "bid" b1 
+	WHERE u.id = b1.uid AND b1.price >= (SELECT MAX(bb.price) 
+	FROM "bid" bb WHERE bb.auction = $1) AND b1.auction = $1;
+' LANGUAGE 'SQL';
+
 -- max_bid sollte nicht höchster sein, sondern 2t höchster + 1
 CREATE VIEW "auction_view" (title, end_time, max_bid, category) AS
 	SELECT	a.title,
 			CASE WHEN (a.end_time >= now()::date AND a.end_time < (now()::date + interval '24h')) THEN 'Heute' ELSE to_char(a.end_time, 'DD.MM.YYYY') END AS end_time,
-			(coalesce((SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction AND price < (SELECT MAX(price) FROM "bid" b WHERE a.id = b.auction)), a.price) + coalesce((SELECT 1 FROM auction c WHERE c.id=a.id AND NOT a.is_directbuy),0)) AS max_bid,
+			max_bid(a.id) AS max_bid,
 			a.category
 	FROM "auction" a;
+
+CREATE VIEW "auction_detail_view" AS
+	SELECT a.id, a.start_time, a.end_time, a.title, a.description, a.image, c.name AS category, u.username AS offerer, a.price, a.is_directbuy,
+	max_bid(a.id), max_bidder(a.id)
+	FROM "auction" a JOIN "category" c ON a.category=c.id JOIN "user" u ON a.offerer=u.id;
+
+
 
 
 CREATE VIEW "closed_auctions_view" AS
