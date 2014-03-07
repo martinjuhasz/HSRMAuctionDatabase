@@ -28,6 +28,7 @@ import model.ClosedAuctionsList;
 import model.SearchListModel;
 import model.UserList;
 import model.UserModel;
+import model.WonAuctionsListModel;
 
 public class ModelManager {
 
@@ -109,6 +110,12 @@ public class ModelManager {
 		AuctionList auctionList = new AuctionList(connection);
 		auctionList.setSearchTerm(term);
 		return auctionList;
+	}
+	
+	public WonAuctionsListModel getWonAuctionsListModel() {
+		WonAuctionsListModel listModel = new WonAuctionsListModel(connection);
+		listModel.setUser(loginUserID);
+		return listModel;
 	}
 
 	public CategoryList getCategoriesList() {
