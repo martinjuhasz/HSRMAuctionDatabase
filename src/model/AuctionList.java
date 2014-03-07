@@ -58,7 +58,7 @@ public class AuctionList extends DatabaseModel {
 	public void setSearchTerm(String searchTerm) {
 		searchTerm = "%"+searchTerm+"%";
 		try {
-			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE title LIKE ? OR description LIKE ?");
+			selectStmt = db.prepareStatement("SELECT * FROM \"auction_view\" WHERE title ILIKE ? OR description ILIKE ?");
 			selectStmt.setString(1, searchTerm);
 			selectStmt.setString(2, searchTerm);
 		} catch (SQLException e) {

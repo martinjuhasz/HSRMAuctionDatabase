@@ -16,17 +16,6 @@ $BODY$ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER setStartEndDateToAuctionTrigger BEFORE INSERT ON "auction" FOR EACH ROW EXECUTE PROCEDURE setStartEndDateToAuction();
 
--- end auction if a bid was made to a direct buy auction
-CREATE FUNCTION setEndDateToNowOnBid() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-UPDATE auction SET end_time=now() WHERE id=NEW.auction AND is_directbuy=TRUE;
-RETURN NEW;
-END;
-$BODY$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER setEndDateToNowOnBidTrigger BEFORE INSERT ON "bid" FOR EACH ROW EXECUTE PROCEDURE setEndDateToNowOnBid();
-
 -- if password is blank on update, keep old password
 CREATE FUNCTION keepOldPassword() RETURNS TRIGGER AS
 $BODY$
@@ -66,6 +55,7 @@ CREATE TRIGGER supressRatingBeforeEndTrigger BEFORE INSERT ON "rating" FOR EACH 
 -- supress bidding if auction is finished
 -- supress bidding if bid is lower than the max bid
 -- update the bid if a user bids for an auctions where he's currently the highest bidder
+-- end auction if a bid was made to a direct buy auction
 CREATE FUNCTION supressBiddingAfterEnd() RETURNS TRIGGER AS
 $BODY$
 DECLARE openAuction boolean;
@@ -91,6 +81,7 @@ IF maxBidder = NEW.uid THEN
 	RETURN NULL;
 END IF;
 
+UPDATE auction SET end_time=now() WHERE id=NEW.auction AND is_directbuy=TRUE;
 RETURN NEW;
 END;
 $BODY$ LANGUAGE 'plpgsql';

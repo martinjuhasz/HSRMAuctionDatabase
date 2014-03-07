@@ -564,10 +564,7 @@ public class ModelManager {
 		insertBidStmt.setInt(2, auction);
 		insertBidStmt.setInt(3, price);
 		
-		int bidnWasInserted = insertBidStmt.executeUpdate();
-		if (bidnWasInserted <= 0) {
-			throw new ModelManagerException("unable to insert bid. bad arguments?");
-		}
+		insertBidStmt.executeUpdate();
 
 		for (ModelManagerListener listener : modelManagerListeners) {
 			listener.didUpdate(this);

@@ -169,7 +169,7 @@ public class AuctionDetailPane extends JDialog {
 		pane.add(new JScrollPane(commentTable), "spanx, growx, wrap, gapleft 20, gapright 20, gaptop 10, h 150");
 		
 		commentField = new JTextField();
-		pane.add(commentField, "growx, gapleft 20");
+		pane.add(commentField, "growx, gapleft 20, gapbottom 20");
 		
 		commentButton = new JButton("Kommentieren");
 		pane.add(commentButton, "gapright 20");
