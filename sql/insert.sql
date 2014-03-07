@@ -1,4 +1,4 @@
-
+-- SQL file to insert dummy data
 
 INSERT INTO "city" VALUES('65195', 'Wiesbaden');
 INSERT INTO "city" VALUES('10115', 'Berlin');

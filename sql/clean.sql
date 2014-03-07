@@ -1,3 +1,5 @@
+-- SQL file to delete all possible existing tables, contens, views, rules, etc
+
 DROP RULE "user_insert" ON "user_view";
 DROP RULE "user_update" ON "user_view";
 DROP RULE "user_delete" ON "user_view";

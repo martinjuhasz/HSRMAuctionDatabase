@@ -64,6 +64,8 @@ $BODY$ LANGUAGE 'plpgsql';
 CREATE TRIGGER supressRatingBeforeEndTrigger BEFORE INSERT ON "rating" FOR EACH ROW EXECUTE PROCEDURE supressRatingBeforeEnd();
 
 -- supress bidding if auction is finished
+-- supress bidding if bid is lower than the max bid
+-- update the bid if a user bids for an auctions where he's currently the highest bidder
 CREATE FUNCTION supressBiddingAfterEnd() RETURNS TRIGGER AS
 $BODY$
 DECLARE openAuction boolean;
