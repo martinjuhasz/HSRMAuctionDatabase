@@ -14,10 +14,10 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		/*try {
+		try {
 			UIManager.setLookAndFeel(new WebLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
-		}*/
+		}
 
 		MainFrame mf = new MainFrame(new ModelManager());
 		mf.setVisible(true);
