@@ -217,7 +217,6 @@ public class AuctionDetailPane extends JDialog {
 		}
 		
 		titleLabel.setText((String)auctionData[AuctionDetailModel.COLUMN_TITLE]);
-		System.out.println(Arrays.toString(auctionData));
 		highestBidLabel.setText((int) auctionData[AuctionDetailModel.COLUMN_MAX_BID] + " €");
 		String maxBidder = (String)auctionData[AuctionDetailModel.COLUMN_MAX_BIDDER];
 		if (maxBidder != null) {
