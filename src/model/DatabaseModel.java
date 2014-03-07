@@ -28,6 +28,10 @@ public class DatabaseModel {
 		}
 	}
 	
+	public void refresh() {
+		loadData();
+	}
+	
 	private List<Object[]> queryResults() {
 		if(selectStmt == null) return null;
 		try {
