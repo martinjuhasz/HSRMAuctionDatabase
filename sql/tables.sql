@@ -165,7 +165,7 @@ CREATE FUNCTION date_format(TIMESTAMP)
 RETURNS VARCHAR
 AS
 $BODY$
-	SELECT CASE WHEN ($1 >= now()::date AND $1< (now()::date + interval '24h')) THEN ('Heute ' || to_char($1, 'HH24:MM')) ELSE to_char($1, 'DD.MM.YYYY HH24:MM') END;
+	SELECT CASE WHEN ($1 >= now()::date AND $1< (now()::date + interval '24h')) THEN ('Heute ' || to_char($1, 'HH24:MI')) ELSE to_char($1, 'DD.MM.YYYY HH24:MI') END;
 $BODY$ LANGUAGE 'SQL';
 
 -- bundles the currently running auctions into a view with max bid and formatted date
