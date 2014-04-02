@@ -2,7 +2,7 @@ HSRMAuctionDatabase
 ===================
 
 HSRMAuctionDatabase is a Java Application that simulates a small auction house system.
-The focus of this project was to provid as much logic as possible inside the database itself, not inside the application.
+The focus of this project was to provide as much logic as possible inside the database itself, not inside the application.
 The application itself was not part of the grade, only the database design.
 
 
