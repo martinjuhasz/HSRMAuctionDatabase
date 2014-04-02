@@ -11,9 +11,9 @@ SQL
 
 the `sql` directory contains all needed files.
 run them in the following order:
-tables.sql
-insert.sql
-trigger.sql
+* tables.sql
+* insert.sql
+* trigger.sql
 
 
 Other
