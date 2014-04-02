@@ -16,6 +16,13 @@ run them in the following order:
 * trigger.sql
 
 
+Screenshots
+===================
+![Screenshot 1](https://raw.githubusercontent.com/martinjuhasz/HSRMAuctionDatabase/master/screenshots/screenshot_01.png)
+![Screenshot 2](https://raw.githubusercontent.com/martinjuhasz/HSRMAuctionDatabase/master/screenshots/screenshot_02.png)
+
+
+
 Other
 ===================
 
